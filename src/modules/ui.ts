@@ -1,4 +1,4 @@
-import type { CSStatsResult } from "./csstats";
+import type { PlayerStats } from "./csstats";
 import { populateStatsBlock } from "./showcase";
 
 type InsertMode = "prepend" | "append" | "after";
@@ -45,7 +45,7 @@ export function insertElement(element: HTMLElement): boolean {
 	return true;
 }
 
-export function createShowcaseElement(stats: CSStatsResult): HTMLElement {
+export function createShowcaseElement(stats: PlayerStats): HTMLElement {
 	const el = document.createElement("div");
 	el.className = "profile_customization";
 	el.style.marginBottom = "12px";

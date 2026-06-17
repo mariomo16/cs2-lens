@@ -1,7 +1,7 @@
-import { type CSStatsResponse, fetchCSStats } from "./modules/csstats";
+import { fetchPlayerStats, type StatsResponse } from "./modules/csstats";
 import { createShowcaseElement, insertElement } from "./modules/ui";
 
-function getSteamId64(): string | null {
+function extractSteamId64(): string | null {
 	const scripts = document.querySelectorAll("script");
 	for (const script of scripts) {
 		const match = script.textContent?.match(
@@ -13,10 +13,10 @@ function getSteamId64(): string | null {
 }
 
 async function init() {
-	const steamId64 = getSteamId64();
+	const steamId64 = extractSteamId64();
 	if (!steamId64) return;
 
-	const result: CSStatsResponse = await fetchCSStats(steamId64);
+	const result: StatsResponse = await fetchPlayerStats(steamId64);
 	if (!result.ok) return;
 
 	const el = createShowcaseElement(result.data);

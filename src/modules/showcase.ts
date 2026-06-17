@@ -1,8 +1,8 @@
-import type { CSStatsResult } from "./csstats";
+import type { PlayerStats } from "./csstats";
 
 export function populateStatsBlock(
 	block: HTMLElement,
-	stats: CSStatsResult,
+	stats: PlayerStats,
 ): void {
 	block.style.display = "flex";
 	block.style.flexDirection = "column";
@@ -19,26 +19,26 @@ export function populateStatsBlock(
 		return { color: "#e4a51c", file: "gold.svg" };
 	};
 
-	if (stats.premier_ratings && stats.premier_ratings.length > 0) {
+	if (stats.premierRatings && stats.premierRatings.length > 0) {
 		const premierContainer = document.createElement("div");
 		premierContainer.style.display = "flex";
 		premierContainer.style.justifyContent = "space-around";
 		premierContainer.style.textAlign = "center";
 
-		const sortedBySeason = [...stats.premier_ratings].sort(
+		const sortedBySeason = [...stats.premierRatings].sort(
 			(a, b) => b.season - a.season,
 		);
 		const currentPremier = sortedBySeason[0];
 
-		const bestPremier = stats.premier_ratings.reduce((max, current) => {
-			const maxVal = max.best_rating ?? 0;
-			const currentVal = current.best_rating ?? 0;
+		const bestPremier = stats.premierRatings.reduce((max, current) => {
+			const maxVal = max.bestRating ?? 0;
+			const currentVal = current.bestRating ?? 0;
 			return currentVal > maxVal ? current : max;
-		}, stats.premier_ratings[0]);
+		}, stats.premierRatings[0]);
 
 		const displayRatings = [
-			{ title: "Current Rating", rating: currentPremier.latest_rating },
-			{ title: "Best Rating", rating: bestPremier.best_rating },
+			{ title: "Current Rating", rating: currentPremier.latestRating },
+			{ title: "Best Rating", rating: bestPremier.bestRating },
 		];
 
 		displayRatings.forEach((data) => {
@@ -114,12 +114,12 @@ export function populateStatsBlock(
 	generalStatsContainer.style.padding = "4px 0";
 
 	const generalStats = [
-		{ label: "K/D Ratio", value: stats.kd_ratio?.toFixed(2) ?? "0.00" },
-		{ label: "HLTV Rating", value: stats.hltv_rating?.toFixed(2) ?? "0.00" },
+		{ label: "K/D Ratio", value: stats.kdRatio?.toFixed(2) ?? "0.00" },
+		{ label: "HLTV Rating", value: stats.hltvRating?.toFixed(2) ?? "0.00" },
 		{ label: "Matches", value: stats.matches ?? 0 },
 		{
 			label: "Win Rate",
-			value: stats.win_rate ? `${stats.win_rate.toFixed(1)}%` : "0.0%",
+			value: stats.winRate ? `${stats.winRate.toFixed(1)}%` : "0.0%",
 		},
 	];
 
