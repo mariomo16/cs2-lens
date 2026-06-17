@@ -14,7 +14,7 @@
 		"service_worker": "dist/background.js",
 		"type": "module"
 	},
-	"host_permissions": [],
+	"host_permissions": ["https://csstats.gg/*"],
 	"content_scripts": [
 		{
 			"matches": [

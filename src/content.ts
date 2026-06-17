@@ -1,3 +1,4 @@
+import { type CSStatsResponse, fetchCSStats } from "./modules/csstats";
 import { createShowcaseElement, insertElement } from "./modules/ui";
 
 function getSteamId64(): string | null {
@@ -15,7 +16,10 @@ async function init() {
 	const steamId64 = getSteamId64();
 	if (!steamId64) return;
 
-	const el = createShowcaseElement();
+	const result: CSStatsResponse = await fetchCSStats(steamId64);
+	if (!result.ok) return;
+
+	const el = createShowcaseElement(result.data);
 	insertElement(el);
 }
 
