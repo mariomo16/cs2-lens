@@ -28,7 +28,7 @@
 	],
 	"web_accessible_resources": [
 		{
-			"resources": ["index.html"],
+			"resources": [],
 			"matches": ["https://steamcommunity.com/*"]
 		}
 	]
