@@ -7,10 +7,6 @@ export function populateStatsBlock(
 	block.style.display = "flex";
 	block.style.flexDirection = "column";
 	block.style.gap = "20px";
-	block.style.padding = "20px 16px";
-	block.style.backgroundColor = "rgba(0, 0, 0, 0.25)";
-	block.style.borderRadius = "5px";
-	block.style.boxShadow = "inset 0px 2px 8px rgba(0, 0, 0, 0.6)";
 
 	const getPremierTier = (rating: number | null) => {
 		if (!rating) return { color: "#7a8289", file: "grey.svg" };
