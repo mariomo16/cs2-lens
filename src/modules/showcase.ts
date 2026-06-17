@@ -6,7 +6,11 @@ export function populateStatsBlock(
 ): void {
 	block.style.display = "flex";
 	block.style.flexDirection = "column";
-	block.style.gap = "16px";
+	block.style.gap = "20px";
+	block.style.padding = "20px 16px";
+	block.style.backgroundColor = "rgba(0, 0, 0, 0.25)";
+	block.style.borderRadius = "5px";
+	block.style.boxShadow = "inset 0px 2px 8px rgba(0, 0, 0, 0.6)";
 
 	const getPremierTier = (rating: number | null) => {
 		if (!rating) return { color: "#7a8289", file: "grey.svg" };
@@ -22,8 +26,8 @@ export function populateStatsBlock(
 	if (stats.premier_ratings && stats.premier_ratings.length > 0) {
 		const premierContainer = document.createElement("div");
 		premierContainer.style.display = "flex";
-		premierContainer.style.gap = "12px";
-		premierContainer.style.flexWrap = "wrap";
+		premierContainer.style.justifyContent = "space-around";
+		premierContainer.style.textAlign = "center";
 
 		const sortedBySeason = [...stats.premier_ratings].sort(
 			(a, b) => b.season - a.season,
@@ -42,33 +46,18 @@ export function populateStatsBlock(
 		];
 
 		displayRatings.forEach((data) => {
-			const card = document.createElement("div");
-			card.style.flex = "1";
-			card.style.minWidth = "140px";
-			card.style.height = "95px";
-			card.style.backgroundColor = "rgba(0, 0, 0, 0.2)";
-			card.style.border = "1px solid rgba(255, 255, 255, 0.05)";
-			card.style.borderRadius = "4px";
-			card.style.display = "flex";
-			card.style.flexDirection = "column";
-			card.style.justifyContent = "center";
-			card.style.alignItems = "center";
-			card.style.fontFamily = '"Motiva Sans", Sans-Serif';
+			const statBlock = document.createElement("div");
+			statBlock.style.flex = "1";
+			statBlock.style.display = "flex";
+			statBlock.style.flexDirection = "column";
+			statBlock.style.alignItems = "center";
 
 			const tier = getPremierTier(data.rating);
-
-			const titleLabel = document.createElement("div");
-			titleLabel.style.fontSize = "11px";
-			titleLabel.style.color = "#8b929a";
-			titleLabel.style.textTransform = "uppercase";
-			titleLabel.style.letterSpacing = "0.5px";
-			titleLabel.style.marginBottom = "6px";
-			titleLabel.textContent = data.title;
 
 			const ratingWrapper = document.createElement("div");
 			ratingWrapper.style.position = "relative";
 			ratingWrapper.style.width = "100px";
-			ratingWrapper.style.height = "45px";
+			ratingWrapper.style.height = "32px";
 			ratingWrapper.style.display = "flex";
 			ratingWrapper.style.justifyContent = "center";
 			ratingWrapper.style.alignItems = "center";
@@ -88,26 +77,37 @@ export function populateStatsBlock(
 			const ratingVal = document.createElement("div");
 			ratingVal.style.position = "relative";
 			ratingVal.style.zIndex = "2";
-			ratingVal.style.fontSize = "22px";
-			ratingVal.style.fontWeight = "bold";
+			ratingVal.style.fontSize = "18px";
+			ratingVal.style.fontWeight = "800";
 			ratingVal.style.color = tier.color;
+			ratingVal.style.textShadow = "0px 2px 4px rgba(0, 0, 0, 0.8)";
 			ratingVal.textContent = data.rating
 				? data.rating.toLocaleString()
 				: "N/A";
 
-			ratingVal.style.paddingLeft = "12px";
+			ratingVal.style.paddingLeft = "10px";
 
 			ratingWrapper.append(svgBg, ratingVal);
 
-			card.append(titleLabel, ratingWrapper);
-			premierContainer.append(card);
+			// Título debajo
+			const lblEl = document.createElement("div");
+			lblEl.style.fontSize = "10px";
+			lblEl.style.color = "#76808c";
+			lblEl.style.textTransform = "uppercase";
+			lblEl.style.marginTop = "8px";
+			lblEl.style.letterSpacing = "1px";
+			lblEl.textContent = data.title;
+
+			statBlock.append(ratingWrapper, lblEl);
+			premierContainer.append(statBlock);
 		});
 
 		block.append(premierContainer);
 
 		const divider = document.createElement("div");
 		divider.style.height = "1px";
-		divider.style.backgroundColor = "rgba(255, 255, 255, 0.08)";
+		divider.style.background =
+			"linear-gradient(90deg, rgba(255,255,255,0.01) 0%, rgba(255,255,255,0.08) 50%, rgba(255,255,255,0.01) 100%)";
 		block.append(divider);
 	}
 
@@ -115,6 +115,7 @@ export function populateStatsBlock(
 	generalStatsContainer.style.display = "flex";
 	generalStatsContainer.style.justifyContent = "space-around";
 	generalStatsContainer.style.textAlign = "center";
+	generalStatsContainer.style.padding = "4px 0";
 
 	const generalStats = [
 		{ label: "K/D Ratio", value: stats.kd_ratio?.toFixed(2) ?? "0.00" },
@@ -134,13 +135,17 @@ export function populateStatsBlock(
 		valEl.style.fontSize = "24px";
 		valEl.style.color = "#eceff1";
 		valEl.style.fontWeight = "300";
+		valEl.style.height = "28px";
+		valEl.style.display = "flex";
+		valEl.style.justifyContent = "center";
+		valEl.style.alignItems = "center";
 		valEl.textContent = String(stat.value);
 
 		const lblEl = document.createElement("div");
-		lblEl.style.fontSize = "11px";
-		lblEl.style.color = "#969696";
+		lblEl.style.fontSize = "10px";
+		lblEl.style.color = "#76808c";
 		lblEl.style.textTransform = "uppercase";
-		lblEl.style.marginTop = "4px";
+		lblEl.style.marginTop = "8px";
 		lblEl.style.letterSpacing = "1px";
 		lblEl.textContent = stat.label;
 
