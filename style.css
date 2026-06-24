@@ -138,8 +138,11 @@
 }
 
 .csl-steamid-container {
+	font-size: 14px;
+}
+
+.csl-steamid-container:not(:last-child) {
 	margin-bottom: 12px;
-	font-size: 13px;
 }
 
 .csl-steamid-label {
