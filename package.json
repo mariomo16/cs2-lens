@@ -1,0 +1,22 @@
+{
+	"name": "cs2-lens",
+	"version": "0.1.0",
+	"description": "Chrome extension for CS2 stats and inventory value on Steam profiles",
+	"scripts": {
+		"build": "node build.js"
+	},
+	"keywords": [
+		"chrome-extension",
+		"steam",
+		"cs2"
+	],
+	"author": "Mario Ortega",
+	"license": "MIT",
+	"packageManager": "pnpm@11.9.0",
+	"devDependencies": {
+		"@types/chrome": "^0.2.0",
+		"esbuild": "^0.28.1",
+		"typescript": "^6.0.3"
+	},
+	"type": "module"
+}
