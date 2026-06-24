@@ -71,6 +71,7 @@ export function populateStatsBlock(
 			svgBg.style.zIndex = "1";
 
 			const ratingVal = document.createElement("div");
+			ratingVal.className = "cs2-lens-premier-rating";
 			ratingVal.style.position = "relative";
 			ratingVal.style.zIndex = "2";
 			ratingVal.style.fontSize = "18px";
