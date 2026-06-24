@@ -93,3 +93,22 @@ export function createShowcaseElement(
 
 	return el;
 }
+
+export function insertSteamId(steamId64: string): void {
+	const rightCol = document.querySelector(".profile_rightcol");
+	if (!rightCol) return;
+
+	const container = document.createElement("div");
+	container.className = "csl-steamid-container";
+
+	const labelSpan = document.createElement("span");
+	labelSpan.className = "csl-steamid-label";
+	labelSpan.textContent = "SteamID64";
+
+	const valueSpan = document.createElement("span");
+	valueSpan.className = "csl-steamid-value";
+	valueSpan.textContent = steamId64;
+
+	container.append(labelSpan, valueSpan);
+	rightCol.prepend(container);
+}

@@ -128,3 +128,17 @@
 	justify-content: center;
 	align-items: center;
 }
+
+.csl-steamid-container {
+	margin-bottom: 12px;
+	font-size: 13px;
+}
+
+.csl-steamid-label {
+	color: #eceff1;
+}
+
+.csl-steamid-value {
+	color: #eceff1;
+	margin-left: 6px;
+}

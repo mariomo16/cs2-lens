@@ -1,5 +1,9 @@
 import { fetchPlayerStats, type StatsResponse } from "./modules/csstats";
-import { createShowcaseElement, insertElement } from "./modules/ui";
+import {
+	createShowcaseElement,
+	insertElement,
+	insertSteamId,
+} from "./modules/ui";
 
 function extractSteamId64(): string | null {
 	const scripts = document.querySelectorAll("script");
@@ -20,6 +24,8 @@ async function init() {
 
 	const steamId64 = extractSteamId64();
 	if (!steamId64) return;
+
+	insertSteamId(steamId64);
 
 	const result: StatsResponse = await fetchPlayerStats(steamId64);
 	if (!result.ok) return;
