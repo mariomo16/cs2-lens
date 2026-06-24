@@ -4,10 +4,6 @@ export function populateStatsBlock(
 	block: HTMLElement,
 	stats: PlayerStats,
 ): void {
-	block.style.display = "flex";
-	block.style.flexDirection = "column";
-	block.style.gap = "20px";
-
 	const getPremierTier = (rating: number | null) => {
 		if (!rating) return { color: "#ded6cc", file: "grey.svg" };
 		if (rating < 5000) return { color: "#b0c3d9", file: "grey.svg" };
@@ -21,9 +17,7 @@ export function populateStatsBlock(
 
 	if (stats.premierRatings && stats.premierRatings.length > 0) {
 		const premierContainer = document.createElement("div");
-		premierContainer.style.display = "flex";
-		premierContainer.style.justifyContent = "space-around";
-		premierContainer.style.textAlign = "center";
+		premierContainer.className = "csl-premier-container";
 
 		const sortedBySeason = [...stats.premierRatings].sort(
 			(a, b) => b.season - a.season,
@@ -43,47 +37,27 @@ export function populateStatsBlock(
 
 		displayRatings.forEach((data) => {
 			const statBlock = document.createElement("div");
-			statBlock.style.flex = "1";
-			statBlock.style.display = "flex";
-			statBlock.style.flexDirection = "column";
-			statBlock.style.alignItems = "center";
+			statBlock.className = "csl-premier-stat-block";
 
 			const tier = getPremierTier(data.rating);
 
 			const ratingWrapper = document.createElement("div");
-			ratingWrapper.style.position = "relative";
-			ratingWrapper.style.width = "100px";
-			ratingWrapper.style.height = "32px";
-			ratingWrapper.style.display = "flex";
-			ratingWrapper.style.justifyContent = "center";
-			ratingWrapper.style.alignItems = "center";
+			ratingWrapper.className = "csl-rating-wrapper";
 
 			const svgBg = document.createElement("div");
-			svgBg.style.position = "absolute";
-			svgBg.style.top = "0";
-			svgBg.style.left = "0";
-			svgBg.style.width = "100%";
-			svgBg.style.height = "100%";
+			svgBg.className = "csl-svg-bg";
 			svgBg.style.backgroundImage = `url("${chrome.runtime.getURL(`assets/premier/${tier.file}`)}")`;
-			svgBg.style.backgroundSize = "contain";
-			svgBg.style.backgroundPosition = "center";
-			svgBg.style.backgroundRepeat = "no-repeat";
-			svgBg.style.zIndex = "1";
 
 			const ratingVal = document.createElement("div");
-			ratingVal.className = "cs2-lens-premier-rating";
-			ratingVal.style.position = "relative";
-			ratingVal.style.zIndex = "2";
-			ratingVal.style.fontSize = "18px";
-			ratingVal.style.fontWeight = "800";
+			ratingVal.className = "cs2-lens-premier-rating csl-premier-rating";
 			ratingVal.style.color = tier.color;
-			ratingVal.style.textShadow = "0px 2px 4px rgba(0, 0, 0, 0.8)";
+
 			if (data.rating) {
 				const ratingStr = data.rating.toLocaleString();
 				if (data.rating >= 1000) {
 					const last3 = ratingStr.slice(-4);
 					const prefix = ratingStr.slice(0, -4);
-					ratingVal.innerHTML = `${prefix}<span style="font-size: 0.9em;">${last3}</span>`;
+					ratingVal.innerHTML = `${prefix}<span class="csl-premier-rating-small">${last3}</span>`;
 				} else {
 					ratingVal.textContent = ratingStr;
 				}
@@ -91,17 +65,11 @@ export function populateStatsBlock(
 				ratingVal.textContent = "N/A";
 			}
 
-			ratingVal.style.paddingLeft = "10px";
-
 			ratingWrapper.append(svgBg, ratingVal);
 
 			// Título debajo
 			const lblEl = document.createElement("div");
-			lblEl.style.fontSize = "10px";
-			lblEl.style.color = "#96a8c1";
-			lblEl.style.textTransform = "uppercase";
-			lblEl.style.marginTop = "8px";
-			lblEl.style.letterSpacing = "1px";
+			lblEl.className = "csl-stat-label";
 			lblEl.textContent = data.title;
 
 			statBlock.append(ratingWrapper, lblEl);
@@ -111,17 +79,12 @@ export function populateStatsBlock(
 		block.append(premierContainer);
 
 		const divider = document.createElement("div");
-		divider.style.height = "1px";
-		divider.style.background =
-			"linear-gradient(90deg, rgba(255,255,255,0.01) 0%, rgba(255,255,255,0.08) 50%, rgba(255,255,255,0.01) 100%)";
+		divider.className = "csl-divider";
 		block.append(divider);
 	}
 
 	const generalStatsContainer = document.createElement("div");
-	generalStatsContainer.style.display = "flex";
-	generalStatsContainer.style.justifyContent = "space-around";
-	generalStatsContainer.style.textAlign = "center";
-	generalStatsContainer.style.padding = "4px 0";
+	generalStatsContainer.className = "csl-general-stats-container";
 
 	const generalStats = [
 		{ label: "K/D Ratio", value: stats.kdRatio?.toFixed(2) ?? "0.00" },
@@ -135,24 +98,14 @@ export function populateStatsBlock(
 
 	generalStats.forEach((stat) => {
 		const statBlock = document.createElement("div");
-		statBlock.style.flex = "1";
+		statBlock.className = "csl-general-stat-block";
 
 		const valEl = document.createElement("div");
-		valEl.style.fontSize = "24px";
-		valEl.style.color = "#eceff1";
-		valEl.style.fontWeight = "300";
-		valEl.style.height = "28px";
-		valEl.style.display = "flex";
-		valEl.style.justifyContent = "center";
-		valEl.style.alignItems = "center";
+		valEl.className = "csl-general-stat-value";
 		valEl.textContent = String(stat.value);
 
 		const lblEl = document.createElement("div");
-		lblEl.style.fontSize = "10px";
-		lblEl.style.color = "#96a8c1";
-		lblEl.style.textTransform = "uppercase";
-		lblEl.style.marginTop = "8px";
-		lblEl.style.letterSpacing = "1px";
+		lblEl.className = "csl-stat-label";
 		lblEl.textContent = stat.label;
 
 		statBlock.append(valEl, lblEl);

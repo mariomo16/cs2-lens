@@ -50,14 +50,10 @@ export function createShowcaseElement(
 	steamId64: string,
 ): HTMLElement {
 	const el = document.createElement("div");
-	el.className = "profile_customization";
-	el.style.marginBottom = "12px";
+	el.className = "profile_customization csl-showcase-container";
 
 	const header = document.createElement("div");
-	header.className = "profile_customization_header";
-	header.style.display = "flex";
-	header.style.justifyContent = "space-between";
-	header.style.alignItems = "center";
+	header.className = "profile_customization_header csl-showcase-header";
 
 	const titleSpan = document.createElement("span");
 	titleSpan.textContent = "Official Matchmaking Stats";
@@ -66,7 +62,7 @@ export function createShowcaseElement(
 	const logoLink = document.createElement("a");
 	logoLink.href = `https://csstats.gg/player/${steamId64}`;
 	logoLink.target = "_blank";
-	logoLink.className = "cs2-lens-logo-link";
+	logoLink.className = "csstats-logo-link";
 
 	const csText = document.createElement("span");
 	csText.textContent = "CS";
@@ -87,7 +83,7 @@ export function createShowcaseElement(
 	block.className = "profile_customization_block";
 
 	const bg = document.createElement("div");
-	bg.className = "showcase_content_bg";
+	bg.className = "showcase_content_bg csl-showcase-content-bg";
 
 	populateStatsBlock(bg, stats);
 
