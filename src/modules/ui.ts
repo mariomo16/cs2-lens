@@ -57,7 +57,12 @@ export function createShowcaseElement(stats: PlayerStats): HTMLElement {
 	const block = document.createElement("div");
 	block.className = "profile_customization_block";
 
-	populateStatsBlock(block, stats);
+	const bg = document.createElement("div");
+	bg.className = "showcase_content_bg";
+
+	populateStatsBlock(bg, stats);
+
+	block.append(bg);
 
 	el.append(header, block);
 
