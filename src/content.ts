@@ -13,6 +13,11 @@ function extractSteamId64(): string | null {
 }
 
 async function init() {
+	const pathRegex = /^\/(id|profiles)\/[^/]+\/?$/i;
+	if (!pathRegex.test(window.location.pathname)) {
+		return;
+	}
+
 	const steamId64 = extractSteamId64();
 	if (!steamId64) return;
 
