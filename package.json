@@ -6,7 +6,7 @@
 		"build": "node build.js"
 	},
 	"keywords": [
-		"crhome-extension",
+		"chrome-extension",
 		"steam",
 		"cs2"
 	],

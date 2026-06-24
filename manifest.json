@@ -9,7 +9,6 @@
 		"128": "assets/icons/icon128.png"
 	},
 	"permissions": [],
-	"action": {},
 	"background": {
 		"service_worker": "dist/background.js",
 		"type": "module"
