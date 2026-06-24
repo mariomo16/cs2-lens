@@ -4,7 +4,7 @@
 	font-family: "Roboto Condensed", "Roboto", sans-serif;
 }
 
-.csstats-logo-link {
+.cs2-lens-logo-link {
 	font-family: "Cairo", sans-serif;
 	font-weight: 800;
 	text-decoration: none;
@@ -12,18 +12,18 @@
 	display: inline-flex;
 }
 
-.csstats-logo-link .logo-cs,
-.csstats-logo-link .logo-gg {
+.cs2-lens-logo-link .logo-cs,
+.cs2-lens-logo-link .logo-gg {
 	color: #ffffff;
 	transition: color 0.2s ease;
 }
 
-.csstats-logo-link .logo-stats {
+.cs2-lens-logo-link .logo-stats {
 	color: rgb(74, 125, 255);
 	transition: color 0.2s ease;
 }
 
-.csstats-logo-link:hover .logo-stats {
+.cs2-lens-logo-link:hover .logo-stats {
 	color: rgb(235, 75, 75);
 }
 
@@ -135,10 +135,10 @@
 }
 
 .csl-steamid-label {
-	color: #eceff1;
+	color: #898989;
 }
 
 .csl-steamid-value {
-	color: #eceff1;
+	color: #ffffff;
 	margin-left: 6px;
 }
