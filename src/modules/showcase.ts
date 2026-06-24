@@ -78,9 +78,18 @@ export function populateStatsBlock(
 			ratingVal.style.fontWeight = "800";
 			ratingVal.style.color = tier.color;
 			ratingVal.style.textShadow = "0px 2px 4px rgba(0, 0, 0, 0.8)";
-			ratingVal.textContent = data.rating
-				? data.rating.toLocaleString()
-				: "N/A";
+			if (data.rating) {
+				const ratingStr = data.rating.toLocaleString();
+				if (data.rating >= 1000) {
+					const last3 = ratingStr.slice(-4);
+					const prefix = ratingStr.slice(0, -4);
+					ratingVal.innerHTML = `${prefix}<span style="font-size: 0.9em;">${last3}</span>`;
+				} else {
+					ratingVal.textContent = ratingStr;
+				}
+			} else {
+				ratingVal.textContent = "N/A";
+			}
 
 			ratingVal.style.paddingLeft = "10px";
 
