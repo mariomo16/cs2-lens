@@ -1,17 +1,21 @@
+/* cairo-800 - latin */
 @font-face {
+	font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
 	font-family: "Cairo";
+	font-style: normal;
 	font-weight: 800;
-	src: url("chrome-extension://__MSG_@@extension_id__/assets/fonts/cairo-v31-latin-regular.woff2")
+	src: url("chrome-extension://__MSG_@@extension_id__/assets/fonts/cairo-v31-latin-800.woff2")
 		format("woff2");
-	font-display: swap;
 }
 
+/* roboto-condensed-regular - latin */
 @font-face {
+	font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
 	font-family: "Roboto Condensed";
-	font-weight: 300 800;
+	font-style: normal;
+	font-weight: 400;
 	src: url("chrome-extension://__MSG_@@extension_id__/assets/fonts/roboto-condensed-v31-latin-regular.woff2")
 		format("woff2");
-	font-display: swap;
 }
 
 .csstats-premier-rating {
@@ -20,7 +24,6 @@
 
 .csstats-logo-link {
 	font-family: "Cairo", sans-serif;
-	font-weight: bold;
 	font-style: italic;
 	text-decoration: none;
 	font-size: 1rem;
