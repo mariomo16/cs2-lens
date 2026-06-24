@@ -1,4 +1,4 @@
-import type { PlayerStats } from "./csstats";
+import type { PlayerStats, StatsResponse } from "./csstats";
 import { populateStatsBlock } from "./showcase";
 
 type InsertMode = "prepend" | "append" | "after";
@@ -45,10 +45,10 @@ export function insertElement(element: HTMLElement): boolean {
 	return true;
 }
 
-export function createShowcaseElement(
-	stats: PlayerStats,
-	steamId64: string,
-): HTMLElement {
+function buildShowcaseShell(steamId64: string): {
+	el: HTMLElement;
+	bg: HTMLElement;
+} {
 	const el = document.createElement("div");
 	el.className = "profile_customization csl-showcase-container";
 
@@ -85,11 +85,34 @@ export function createShowcaseElement(
 	const bg = document.createElement("div");
 	bg.className = "showcase_content_bg csl-showcase-content-bg";
 
-	populateStatsBlock(bg, stats);
-
 	block.append(bg);
-
 	el.append(header, block);
+
+	return { el, bg };
+}
+
+const ERROR_MESSAGES: Record<string, string> = {
+	private: "This profile has been set to private",
+	not_found: "No matches have been added for this player",
+	fetch_failed:
+		"Couldn't load stats from csstats.gg right now. Try refreshing the page.",
+};
+
+export function createShowcaseElement(
+	result: StatsResponse,
+	steamId64: string,
+): HTMLElement {
+	const { el, bg } = buildShowcaseShell(steamId64);
+
+	if (result.ok) {
+		populateStatsBlock(bg, result.data);
+	} else {
+		const msg = document.createElement("p");
+		msg.className = "csl-stats-unavailable";
+		msg.textContent =
+			ERROR_MESSAGES[result.error] ?? "Stats are currently unavailable.";
+		bg.append(msg);
+	}
 
 	return el;
 }

@@ -129,6 +129,14 @@
 	align-items: center;
 }
 
+.csl-stats-unavailable {
+	margin: 0;
+	padding: 12px 0;
+	text-align: center;
+	color: #96a8c1;
+	font-size: 14px;
+}
+
 .csl-steamid-container {
 	margin-bottom: 12px;
 	font-size: 13px;
