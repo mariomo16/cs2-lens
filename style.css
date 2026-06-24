@@ -1,12 +1,27 @@
-@import url("https://fonts.googleapis.com/css2?family=Cairo:wght@800&family=Roboto+Condensed:wght@300;400;700;800&family=Roboto:wght@300;400;700;800&display=swap");
+@font-face {
+	font-family: "Cairo";
+	font-weight: 800;
+	src: url("chrome-extension://__MSG_@@extension_id__/assets/fonts/cairo-v31-latin-regular.woff2")
+		format("woff2");
+	font-display: swap;
+}
+
+@font-face {
+	font-family: "Roboto Condensed";
+	font-weight: 300 800;
+	src: url("chrome-extension://__MSG_@@extension_id__/assets/fonts/roboto-condensed-v31-latin-regular.woff2")
+		format("woff2");
+	font-display: swap;
+}
 
 .csstats-premier-rating {
-	font-family: "Roboto Condensed", "Roboto", sans-serif;
+	font-family: "Roboto Condensed", sans-serif;
 }
 
 .csstats-logo-link {
 	font-family: "Cairo", sans-serif;
-	font-weight: 800;
+	font-weight: bold;
+	font-style: italic;
 	text-decoration: none;
 	font-size: 1rem;
 	display: inline-flex;

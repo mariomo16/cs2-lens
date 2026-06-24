@@ -27,7 +27,11 @@
 	],
 	"web_accessible_resources": [
 		{
-			"resources": ["assets/premier/*.svg", "assets/faceit/*.svg"],
+			"resources": [
+				"assets/fonts/*.woff2",
+				"assets/premier/*.svg",
+				"assets/faceit/*.svg"
+			],
 			"matches": ["https://steamcommunity.com/*"]
 		}
 	]
