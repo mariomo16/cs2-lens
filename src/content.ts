@@ -24,7 +24,7 @@ async function init() {
 	const result: StatsResponse = await fetchPlayerStats(steamId64);
 	if (!result.ok) return;
 
-	const el = createShowcaseElement(result.data);
+	const el = createShowcaseElement(result.data, steamId64);
 	insertElement(el);
 }
 

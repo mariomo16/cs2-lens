@@ -45,14 +45,43 @@ export function insertElement(element: HTMLElement): boolean {
 	return true;
 }
 
-export function createShowcaseElement(stats: PlayerStats): HTMLElement {
+export function createShowcaseElement(
+	stats: PlayerStats,
+	steamId64: string,
+): HTMLElement {
 	const el = document.createElement("div");
 	el.className = "profile_customization";
 	el.style.marginBottom = "12px";
 
 	const header = document.createElement("div");
 	header.className = "profile_customization_header";
-	header.append("CS2 Lens");
+	header.style.display = "flex";
+	header.style.justifyContent = "space-between";
+	header.style.alignItems = "center";
+
+	const titleSpan = document.createElement("span");
+	titleSpan.textContent = "Official Matchmaking Stats";
+	header.append(titleSpan);
+
+	const logoLink = document.createElement("a");
+	logoLink.href = `https://csstats.gg/player/${steamId64}`;
+	logoLink.target = "_blank";
+	logoLink.className = "cs2-lens-logo-link";
+
+	const csText = document.createElement("span");
+	csText.textContent = "CS";
+	csText.className = "logo-cs";
+
+	const statsText = document.createElement("span");
+	statsText.textContent = "STATS";
+	statsText.className = "logo-stats";
+
+	const ggText = document.createElement("span");
+	ggText.textContent = ".GG";
+	ggText.className = "logo-gg";
+
+	logoLink.append(csText, statsText, ggText);
+	header.append(logoLink);
 
 	const block = document.createElement("div");
 	block.className = "profile_customization_block";

@@ -1,5 +1,28 @@
-@import url("https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@300;400;700;800&family=Roboto:wght@300;400;700;800&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Cairo:wght@800&family=Roboto+Condensed:wght@300;400;700;800&family=Roboto:wght@300;400;700;800&display=swap");
 
 .cs2-lens-premier-rating {
 	font-family: "Roboto Condensed", "Roboto", sans-serif;
+}
+
+.cs2-lens-logo-link {
+	font-family: "Cairo", sans-serif;
+	font-weight: 800;
+	text-decoration: none;
+	font-size: 1rem;
+	display: inline-flex;
+}
+
+.cs2-lens-logo-link .logo-cs,
+.cs2-lens-logo-link .logo-gg {
+	color: #ffffff;
+	transition: color 0.2s ease;
+}
+
+.cs2-lens-logo-link .logo-stats {
+	color: rgb(74, 125, 255);
+	transition: color 0.2s ease;
+}
+
+.cs2-lens-logo-link:hover .logo-stats {
+	color: rgb(235, 75, 75);
 }
