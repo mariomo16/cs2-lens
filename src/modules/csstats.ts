@@ -15,6 +15,7 @@ export interface PlayerStats {
 	winRate: number | null;
 	headshotPercentage: number | null;
 	adr: number | null;
+	trackingDisabled: boolean;
 }
 
 export type StatsResponse =
@@ -60,6 +61,10 @@ export async function fetchPlayerStats(
 	if (!statsHtml) return { ok: false, error: "fetch_failed" };
 
 	const statsDoc = parser.parseFromString(statsHtml, "text/html");
+
+	const trackingDisabled = [profileHtml, statsHtml].some((html) =>
+		html?.toLowerCase().includes("tracking not enabled"),
+	);
 
 	if (!statsDoc.querySelector(".content-sub-nav-outer")) {
 		return { ok: false, error: "not_found" };
@@ -156,6 +161,7 @@ export async function fetchPlayerStats(
 			winRate,
 			headshotPercentage,
 			adr,
+			trackingDisabled,
 		},
 	};
 }
