@@ -92,7 +92,7 @@ export function populateStatsBlock(
 		{ label: "Matches", value: stats.matches ?? 0 },
 		{
 			label: "Win Rate",
-			value: stats.winRate ? `${stats.winRate.toFixed(1)}%` : "0.0%",
+			value: stats.winRate ? `${stats.winRate.toFixed(0)}%` : "0%",
 		},
 	];
 
