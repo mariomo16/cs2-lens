@@ -88,7 +88,7 @@ export function populateStatsBlock(
 			// Título debajo
 			const lblEl = document.createElement("div");
 			lblEl.style.fontSize = "10px";
-			lblEl.style.color = "#76808c";
+			lblEl.style.color = "#96a8c1";
 			lblEl.style.textTransform = "uppercase";
 			lblEl.style.marginTop = "8px";
 			lblEl.style.letterSpacing = "1px";
@@ -139,7 +139,7 @@ export function populateStatsBlock(
 
 		const lblEl = document.createElement("div");
 		lblEl.style.fontSize = "10px";
-		lblEl.style.color = "#76808c";
+		lblEl.style.color = "#96a8c1";
 		lblEl.style.textTransform = "uppercase";
 		lblEl.style.marginTop = "8px";
 		lblEl.style.letterSpacing = "1px";
