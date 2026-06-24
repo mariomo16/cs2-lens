@@ -32,4 +32,4 @@ async function init() {
 	insertElement(el);
 }
 
-init();
+void init();
