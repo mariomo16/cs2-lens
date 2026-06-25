@@ -11,6 +11,7 @@ export interface PremierRating {
 export interface FaceitStats {
 	level: number | null;
 	elo: number | null;
+	global_rank: number | null;
 }
 
 export interface PlayerStats {
@@ -55,7 +56,8 @@ export async function fetchFaceitStats(
 		const data = JSON.parse(json);
 		const level = data?.profile?.cs2_level ?? null;
 		const elo = data?.profile?.cs2_elo ?? null;
-		if (level !== null || elo !== null) return { level, elo };
+		const global_rank = data?.profile?.global_rank ?? null;
+		if (level !== null || elo !== null) return { level, elo, global_rank };
 	} catch {}
 
 	return null;
