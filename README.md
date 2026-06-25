@@ -69,10 +69,6 @@ Output goes to `dist/` (content.js, background.js).
 
 Load `dist/` as an unpacked extension in `chrome://extensions/` (developer mode).
 
-## Upcoming
-
-- **Inventory value** — Fetch and display the total Steam inventory price of the profile owner using CSFloat prices
-
 ## License
 
 MIT
