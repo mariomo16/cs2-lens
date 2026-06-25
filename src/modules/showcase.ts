@@ -121,6 +121,12 @@ export function populateStatsBlock(
 		notice.textContent =
 			"This player has not set up match tracking. Stats may be incomplete.";
 		block.append(notice);
+	} else if (stats.trackingInactive) {
+		const notice = document.createElement("p");
+		notice.className = "csl-tracking-notice";
+		notice.textContent =
+			"A Valve match from the past 30 days is required to reactivate. Stats may be incomplete.";
+		block.append(notice);
 	}
 }
 

@@ -23,6 +23,7 @@ export interface PlayerStats {
 	headshotPercentage: number | null;
 	adr: number | null;
 	trackingDisabled: boolean;
+	trackingInactive: boolean;
 }
 
 export type StatsResponse =
@@ -87,6 +88,10 @@ export async function fetchPlayerStats(
 
 	const trackingDisabled = [profileHtml, statsHtml].some((html) =>
 		html?.toLowerCase().includes("tracking not enabled"),
+	);
+
+	const trackingInactive = [profileHtml, statsHtml].some((html) =>
+		html?.toLowerCase().includes("tracking inactive"),
 	);
 
 	if (!statsDoc.querySelector(".content-sub-nav-outer")) {
@@ -186,6 +191,7 @@ export async function fetchPlayerStats(
 			headshotPercentage,
 			adr,
 			trackingDisabled,
+			trackingInactive,
 		},
 	};
 }
