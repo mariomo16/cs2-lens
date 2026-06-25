@@ -1,4 +1,5 @@
 const CSSTATS_BASE_URL = "https://csstats.gg/player";
+const FACITSTATS_API = "https://faceitstats.gg/api/player/details";
 
 export interface PremierRating {
 	season: number;
@@ -7,8 +8,18 @@ export interface PremierRating {
 	wins: number;
 }
 
+export interface FaceitStats {
+	level: number | null;
+	elo: number | null;
+	global_rank: number | null;
+	nickname: string | null;
+	player_id: string | null;
+	country: string | null;
+}
+
 export interface PlayerStats {
 	premierRatings: PremierRating[];
+	faceit: FaceitStats | null;
 	kdRatio: number | null;
 	hltvRating: number | null;
 	matches: number | null;
@@ -16,6 +27,7 @@ export interface PlayerStats {
 	headshotPercentage: number | null;
 	adr: number | null;
 	trackingDisabled: boolean;
+	trackingInactive: boolean;
 }
 
 export type StatsResponse =
@@ -35,6 +47,27 @@ function sendFetchMessage(url: string): Promise<string | null> {
 			},
 		);
 	});
+}
+
+export async function fetchFaceitStats(
+	steamId64: string,
+): Promise<FaceitStats | null> {
+	const json = await sendFetchMessage(`${FACITSTATS_API}/${steamId64}`);
+	if (!json) return null;
+
+	try {
+		const data = JSON.parse(json);
+		const level = data?.profile?.cs2_level ?? null;
+		const elo = data?.profile?.cs2_elo ?? null;
+		const global_rank = data?.profile?.global_rank ?? null;
+		const nickname = data?.profile?.nickname ?? null;
+		const player_id = data?.profile?.player_id ?? null;
+		const country = data?.profile?.country ?? null;
+		if (level !== null || elo !== null)
+			return { level, elo, global_rank, nickname, player_id, country };
+	} catch {}
+
+	return null;
 }
 
 export async function fetchPlayerStats(
@@ -64,6 +97,10 @@ export async function fetchPlayerStats(
 
 	const trackingDisabled = [profileHtml, statsHtml].some((html) =>
 		html?.toLowerCase().includes("tracking not enabled"),
+	);
+
+	const trackingInactive = [profileHtml, statsHtml].some((html) =>
+		html?.toLowerCase().includes("tracking inactive"),
 	);
 
 	if (!statsDoc.querySelector(".content-sub-nav-outer")) {
@@ -155,6 +192,7 @@ export async function fetchPlayerStats(
 		ok: true,
 		data: {
 			premierRatings,
+			faceit: null,
 			kdRatio,
 			hltvRating,
 			matches,
@@ -162,6 +200,7 @@ export async function fetchPlayerStats(
 			headshotPercentage,
 			adr,
 			trackingDisabled,
+			trackingInactive,
 		},
 	};
 }

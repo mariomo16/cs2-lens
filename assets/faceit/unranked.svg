@@ -1,0 +1,28 @@
+<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <title>Skill level ?</title>
+  <defs>
+    <radialGradient id="bar-bg-gradient" cx="0.5" cy="0.5" r="0.55">
+      <stop offset="0.4" stop-color="#5D5D5D"></stop>
+      <stop offset="1" stop-color="#242424"></stop>
+    </radialGradient>
+    <linearGradient id="fill-gradient" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0.5" stop-color="var(--fill-start, #A6A6A6)"></stop>
+      <stop offset="1" stop-color="var(--fill-end, #A6A6A6)"></stop>
+    </linearGradient>
+  </defs>
+  <circle r="50%" cx="50%" cy="50%" fill="#060606"></circle>
+  <path d="
+        M 6.5, 18.4
+        A 8.4, 8.4 0 1 1 17.5, 18.4
+      "
+    stroke="url(#bar-bg-gradient)" stroke-width="2.4"></path>
+  <path d="
+        M 6.5, 18.4
+        A 8.4, 8.4 0 1 1 17.5, 18.4
+      "
+    stroke="url(#fill-gradient)" stroke-width="2.4" pathLength="10"
+    stroke-dasharray="0, 10000"></path>
+  <text x="51%" y="49%" text-anchor="middle" dominant-baseline="central"
+    font-size="8" font-family="sans-serif" font-weight="bold"
+    fill="url(#fill-gradient)">?</text>
+</svg>

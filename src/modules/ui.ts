@@ -56,8 +56,13 @@ function buildShowcaseShell(steamId64: string): {
 	header.className = "profile_customization_header csl-showcase-header";
 
 	const titleSpan = document.createElement("span");
-	titleSpan.textContent = "Official Matchmaking Stats";
-	header.append(titleSpan);
+	titleSpan.textContent = "CS2 Lens";
+
+	const faceitInfo = document.createElement("span");
+	faceitInfo.className = "csl-faceit-header-info";
+	faceitInfo.style.display = "none";
+
+	header.append(titleSpan, faceitInfo);
 
 	const logoLink = document.createElement("a");
 	logoLink.href = `https://csstats.gg/player/${steamId64}`;
@@ -77,7 +82,34 @@ function buildShowcaseShell(steamId64: string): {
 	ggText.className = "logo-gg";
 
 	logoLink.append(csText, statsText, ggText);
-	header.append(logoLink);
+
+	const logosWrapper = document.createElement("div");
+	logosWrapper.style.display = "inline-flex";
+	logosWrapper.style.alignItems = "center";
+	logosWrapper.append(logoLink);
+
+	const separator = document.createElement("span");
+	separator.textContent = "|";
+	separator.style.cssText =
+		"color: rgba(255,255,255,0.3); margin: 0 10px; font-size: 1rem;";
+	logosWrapper.append(separator);
+
+	const fsggLink = document.createElement("a");
+	fsggLink.href = `https://faceitstats.gg/?player=${steamId64}`;
+	fsggLink.target = "_blank";
+	fsggLink.className = "csl-fsgg-logo";
+
+	const fText = document.createElement("span");
+	fText.textContent = "F";
+	fText.className = "logo-f";
+
+	const sggText = document.createElement("span");
+	sggText.textContent = "S.gg";
+	sggText.className = "logo-sgg";
+
+	fsggLink.append(fText, sggText);
+	logosWrapper.append(fsggLink);
+	header.append(logosWrapper);
 
 	const block = document.createElement("div");
 	block.className = "profile_customization_block";

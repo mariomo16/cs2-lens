@@ -2,7 +2,7 @@
 	"manifest_version": 3,
 	"name": "CS2 Lens",
 	"description": "CS2 Lens enhances any Steam profile page with detailed CS2 stats and inventory value, giving you instant insights without leaving the page.",
-	"version": "0.0.0",
+	"version": "0.2.0",
 	"icons": {
 		"16": "assets/icons/icon512.png",
 		"48": "assets/icons/icon512.png",
@@ -13,7 +13,7 @@
 		"service_worker": "dist/background.js",
 		"type": "module"
 	},
-	"host_permissions": ["https://csstats.gg/*"],
+	"host_permissions": ["https://csstats.gg/*", "https://faceitstats.gg/*"],
 	"content_scripts": [
 		{
 			"matches": [
