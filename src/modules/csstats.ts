@@ -65,10 +65,9 @@ export async function fetchPlayerStats(
 ): Promise<StatsResponse> {
 	const parser = new DOMParser();
 
-	const [profileHtml, statsHtml, faceitResult] = await Promise.all([
+	const [profileHtml, statsHtml] = await Promise.all([
 		sendFetchMessage(`${CSSTATS_BASE_URL}/${steamId64}`),
 		sendFetchMessage(`${CSSTATS_BASE_URL}/${steamId64}/stats`),
-		fetchFaceitStats(steamId64),
 	]);
 
 	if (!profileHtml) return { ok: false, error: "fetch_failed" };
@@ -179,7 +178,7 @@ export async function fetchPlayerStats(
 		ok: true,
 		data: {
 			premierRatings,
-			faceit: faceitResult,
+			faceit: null,
 			kdRatio,
 			hltvRating,
 			matches,

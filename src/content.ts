@@ -1,4 +1,9 @@
-import { fetchPlayerStats, type StatsResponse } from "./modules/csstats";
+import {
+	fetchFaceitStats,
+	fetchPlayerStats,
+	type StatsResponse,
+} from "./modules/csstats";
+import { appendFaceitBlock } from "./modules/showcase";
 import {
 	createShowcaseElement,
 	insertElement,
@@ -30,6 +35,14 @@ async function init() {
 
 	insertSteamId(steamId64);
 	insertElement(el);
+
+	fetchFaceitStats(steamId64).then((faceit) => {
+		if (!faceit) return;
+		const bg = el.querySelector(
+			".csl-showcase-content-bg",
+		) as HTMLElement | null;
+		if (bg) appendFaceitBlock(bg, faceit);
+	});
 }
 
 void init();

@@ -1,4 +1,4 @@
-import type { PlayerStats } from "./csstats";
+import type { FaceitStats, PlayerStats } from "./csstats";
 
 export function populateStatsBlock(
 	block: HTMLElement,
@@ -78,33 +78,6 @@ export function populateStatsBlock(
 		});
 	}
 
-	const faceitData = stats.faceit;
-	if (faceitData) {
-		const faceitLevel = faceitData.level ?? 0;
-		const faceitBlock = document.createElement("div");
-		faceitBlock.className = "csl-premier-stat-block";
-
-		const ratingWrapper = document.createElement("div");
-		ratingWrapper.className = "csl-rating-wrapper";
-
-		const svgBg = document.createElement("div");
-		svgBg.className = "csl-svg-bg csl-faceit-svg-bg";
-		const svgFile = `${Math.max(1, faceitLevel)}.svg`;
-		svgBg.style.backgroundImage = `url("${chrome.runtime.getURL(`assets/faceit/${svgFile}`)}")`;
-
-		ratingWrapper.append(svgBg);
-
-		if (faceitData.elo) {
-			const lblEl = document.createElement("div");
-			lblEl.className = "csl-stat-label";
-			lblEl.textContent = `${faceitData.elo?.toLocaleString()} ELO`;
-
-			faceitBlock.append(ratingWrapper, lblEl);
-		} else faceitBlock.append(ratingWrapper);
-
-		container.append(faceitBlock);
-	}
-
 	block.append(container);
 
 	const divider = document.createElement("div");
@@ -149,4 +122,49 @@ export function populateStatsBlock(
 			"This player has not set up match tracking. Stats may be incomplete.";
 		block.append(notice);
 	}
+}
+
+export function appendFaceitBlock(
+	block: HTMLElement,
+	faceit: FaceitStats,
+): void {
+	const faceitLevel = faceit.level ?? 0;
+	let container = block.querySelector(".csl-premier-container");
+
+	if (!container) {
+		container = document.createElement("div");
+		container.className = "csl-premier-container";
+		block.insertBefore(container, block.querySelector(".csl-divider"));
+		if (!block.querySelector(".csl-divider")) {
+			const divider = document.createElement("div");
+			divider.className = "csl-divider";
+			block.insertBefore(
+				divider,
+				block.querySelector(".csl-general-stats-container"),
+			);
+		}
+	}
+
+	const faceitBlock = document.createElement("div");
+	faceitBlock.className = "csl-premier-stat-block";
+
+	const ratingWrapper = document.createElement("div");
+	ratingWrapper.className = "csl-rating-wrapper";
+
+	const svgBg = document.createElement("div");
+	svgBg.className = "csl-svg-bg csl-faceit-svg-bg";
+	const svgFile = `${Math.max(1, faceitLevel)}.svg`;
+	svgBg.style.backgroundImage = `url("${chrome.runtime.getURL(`assets/faceit/${svgFile}`)}")`;
+
+	ratingWrapper.append(svgBg);
+
+	if (faceit.elo) {
+		const lblEl = document.createElement("div");
+		lblEl.className = "csl-stat-label";
+		lblEl.textContent = `${faceit.elo?.toLocaleString()} ELO`;
+
+		faceitBlock.append(ratingWrapper, lblEl);
+	} else faceitBlock.append(ratingWrapper);
+
+	container.append(faceitBlock);
 }
