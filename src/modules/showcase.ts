@@ -192,8 +192,16 @@ export function appendFaceitBlock(
 
 	const svgBg = document.createElement("div");
 	svgBg.className = "csl-svg-bg csl-faceit-svg-bg";
-	const isChallenger = faceitLevel === 10 && faceit.global_rank != null && faceit.global_rank <= 1000;
-	const svgFile = isChallenger ? "challenger.svg" : `${Math.max(1, faceitLevel)}.svg`;
+	const isChallenger =
+		faceitLevel === 10 &&
+		faceit.global_rank != null &&
+		faceit.global_rank <= 1000;
+	let svgFile: string;
+	if (faceit.global_rank === 1) svgFile = "challenger1.svg";
+	else if (faceit.global_rank === 2) svgFile = "challenger2.svg";
+	else if (faceit.global_rank === 3) svgFile = "challenger3.svg";
+	else if (isChallenger) svgFile = "challenger.svg";
+	else svgFile = `${Math.max(1, faceitLevel)}.svg`;
 	svgBg.style.backgroundImage = `url("${chrome.runtime.getURL(`assets/faceit/${svgFile}`)}")`;
 
 	ratingWrapper.append(svgBg);
