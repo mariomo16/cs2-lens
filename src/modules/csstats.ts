@@ -1,4 +1,5 @@
 const CSSTATS_BASE_URL = "https://csstats.gg/player";
+const FACITSTATS_API = "https://faceitstats.gg/api/player/details";
 
 export interface PremierRating {
 	season: number;
@@ -7,8 +8,14 @@ export interface PremierRating {
 	wins: number;
 }
 
+export interface FaceitStats {
+	level: number | null;
+	elo: number | null;
+}
+
 export interface PlayerStats {
 	premierRatings: PremierRating[];
+	faceit: FaceitStats | null;
 	kdRatio: number | null;
 	hltvRating: number | null;
 	matches: number | null;
@@ -37,14 +44,31 @@ function sendFetchMessage(url: string): Promise<string | null> {
 	});
 }
 
+export async function fetchFaceitStats(
+	steamId64: string,
+): Promise<FaceitStats | null> {
+	const json = await sendFetchMessage(`${FACITSTATS_API}/${steamId64}`);
+	if (!json) return null;
+
+	try {
+		const data = JSON.parse(json);
+		const level = data?.profile?.cs2_level ?? null;
+		const elo = data?.profile?.cs2_elo ?? null;
+		if (level !== null || elo !== null) return { level, elo };
+	} catch {}
+
+	return null;
+}
+
 export async function fetchPlayerStats(
 	steamId64: string,
 ): Promise<StatsResponse> {
 	const parser = new DOMParser();
 
-	const [profileHtml, statsHtml] = await Promise.all([
+	const [profileHtml, statsHtml, faceitResult] = await Promise.all([
 		sendFetchMessage(`${CSSTATS_BASE_URL}/${steamId64}`),
 		sendFetchMessage(`${CSSTATS_BASE_URL}/${steamId64}/stats`),
+		fetchFaceitStats(steamId64),
 	]);
 
 	if (!profileHtml) return { ok: false, error: "fetch_failed" };
@@ -155,6 +179,7 @@ export async function fetchPlayerStats(
 		ok: true,
 		data: {
 			premierRatings,
+			faceit: faceitResult,
 			kdRatio,
 			hltvRating,
 			matches,

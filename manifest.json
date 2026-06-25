@@ -13,7 +13,7 @@
 		"service_worker": "dist/background.js",
 		"type": "module"
 	},
-	"host_permissions": ["https://csstats.gg/*"],
+	"host_permissions": ["https://csstats.gg/*", "https://faceitstats.gg/*"],
 	"content_scripts": [
 		{
 			"matches": [
