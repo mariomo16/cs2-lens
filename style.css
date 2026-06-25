@@ -8,6 +8,16 @@
 		format("woff2");
 }
 
+/* poppins-800 - latin */
+@font-face {
+	font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+	font-family: "Poppins";
+	font-style: normal;
+	font-weight: 800;
+	src: url("chrome-extension://__MSG_@@extension_id__/assets/fonts/poppins-v24-latin-800.woff2")
+		format("woff2");
+}
+
 /* roboto-condensed-regular - latin */
 @font-face {
 	font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
@@ -28,6 +38,21 @@
 	text-decoration: none;
 	font-size: 1rem;
 	display: inline-flex;
+}
+
+.csl-fsgg-logo {
+	font-family: "Poppins", sans-serif;
+	font-size: 1rem;
+	display: inline-flex;
+	margin-left: 10px;
+}
+
+.csl-fsgg-logo .logo-f {
+	color: rgb(66, 153, 225);
+}
+
+.csl-fsgg-logo .logo-sgg {
+	color: #ffffff;
 }
 
 .csstats-logo-link .logo-cs,

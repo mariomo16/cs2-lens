@@ -78,7 +78,26 @@ function buildShowcaseShell(steamId64: string): {
 	ggText.className = "logo-gg";
 
 	logoLink.append(csText, statsText, ggText);
-	header.append(logoLink);
+
+	const logosWrapper = document.createElement("div");
+	logosWrapper.style.display = "inline-flex";
+	logosWrapper.style.alignItems = "center";
+	logosWrapper.append(logoLink);
+
+	const fsggLogo = document.createElement("span");
+	fsggLogo.className = "csl-fsgg-logo";
+
+	const fText = document.createElement("span");
+	fText.textContent = "F";
+	fText.className = "logo-f";
+
+	const sggText = document.createElement("span");
+	sggText.textContent = "S.gg";
+	sggText.className = "logo-sgg";
+
+	fsggLogo.append(fText, sggText);
+	logosWrapper.append(fsggLogo);
+	header.append(logosWrapper);
 
 	const block = document.createElement("div");
 	block.className = "profile_customization_block";
