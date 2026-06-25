@@ -3,7 +3,11 @@ import {
 	fetchPlayerStats,
 	type StatsResponse,
 } from "./modules/csstats";
-import { appendFaceitBlock, appendFaceitPlaceholder } from "./modules/showcase";
+import {
+	appendFaceitBlock,
+	appendFaceitPlaceholder,
+	updateFaceitHeader,
+} from "./modules/showcase";
 import {
 	createShowcaseElement,
 	insertElement,
@@ -49,6 +53,7 @@ async function init() {
 			".csl-showcase-content-bg",
 		) as HTMLElement | null;
 		if (bg) appendFaceitBlock(bg, faceit);
+		updateFaceitHeader(el, faceit);
 	});
 }
 

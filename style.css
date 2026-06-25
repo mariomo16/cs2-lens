@@ -78,6 +78,34 @@
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
+	gap: 8px;
+}
+
+.csl-faceit-header-info {
+	display: inline-flex;
+	align-items: center;
+	font-size: 14px;
+}
+
+.csl-faceit-player-link {
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+	text-decoration: none;
+	color: #ffffff;
+	font-weight: 500;
+	transition: color 0.1s ease;
+}
+
+.csl-faceit-player-link:hover {
+	color: rgb(66, 153, 225);
+}
+
+.csl-faceit-flag {
+	width: 16px;
+	height: 12px;
+	border-radius: 2px;
+	vertical-align: middle;
 }
 
 .csl-showcase-content-bg {

@@ -12,6 +12,9 @@ export interface FaceitStats {
 	level: number | null;
 	elo: number | null;
 	global_rank: number | null;
+	nickname: string | null;
+	player_id: string | null;
+	country: string | null;
 }
 
 export interface PlayerStats {
@@ -57,7 +60,11 @@ export async function fetchFaceitStats(
 		const level = data?.profile?.cs2_level ?? null;
 		const elo = data?.profile?.cs2_elo ?? null;
 		const global_rank = data?.profile?.global_rank ?? null;
-		if (level !== null || elo !== null) return { level, elo, global_rank };
+		const nickname = data?.profile?.nickname ?? null;
+		const player_id = data?.profile?.player_id ?? null;
+		const country = data?.profile?.country ?? null;
+		if (level !== null || elo !== null)
+			return { level, elo, global_rank, nickname, player_id, country };
 	} catch {}
 
 	return null;

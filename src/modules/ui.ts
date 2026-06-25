@@ -57,7 +57,12 @@ function buildShowcaseShell(steamId64: string): {
 
 	const titleSpan = document.createElement("span");
 	titleSpan.textContent = "CS2 Lens";
-	header.append(titleSpan);
+
+	const faceitInfo = document.createElement("span");
+	faceitInfo.className = "csl-faceit-header-info";
+	faceitInfo.style.display = "none";
+
+	header.append(titleSpan, faceitInfo);
 
 	const logoLink = document.createElement("a");
 	logoLink.href = `https://csstats.gg/player/${steamId64}`;

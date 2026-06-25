@@ -130,6 +130,36 @@ export function populateStatsBlock(
 	}
 }
 
+export function updateFaceitHeader(
+	container: HTMLElement,
+	faceit: FaceitStats,
+): void {
+	const infoEl = container.querySelector(
+		".csl-faceit-header-info",
+	) as HTMLElement | null;
+	if (!infoEl || !faceit.nickname) return;
+
+	const link = document.createElement("a");
+	link.href = `https://www.faceit.com/en/players/${encodeURIComponent(faceit.nickname)}`;
+	link.target = "_blank";
+	link.className = "csl-faceit-player-link";
+
+	if (faceit.country) {
+		const flag = document.createElement("img");
+		flag.className = "csl-faceit-flag";
+		flag.src = `https://flagcdn.com/16x12/${faceit.country.toLowerCase()}.png`;
+		flag.alt = faceit.country;
+		link.append(flag);
+	}
+
+	const nameSpan = document.createElement("span");
+	nameSpan.textContent = faceit.nickname;
+	link.append(nameSpan);
+
+	infoEl.append(link);
+	infoEl.style.display = "";
+}
+
 export function appendFaceitPlaceholder(block: HTMLElement): void {
 	const container = block.querySelector(".csl-premier-container");
 	if (!container) return;
