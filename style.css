@@ -190,8 +190,12 @@
 	text-align: center;
 	color: #eceff1;
 	font-size: 12px;
-	background: rgba(208, 65, 67, 0.12);
+	background: #3e1d26;
 	border-radius: 4px;
+}
+
+.csl-tracking-notice--inactive {
+	background: #462c20;
 }
 
 .csl-steamid-container {
