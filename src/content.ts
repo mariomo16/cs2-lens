@@ -3,7 +3,7 @@ import {
 	fetchPlayerStats,
 	type StatsResponse,
 } from "./modules/csstats";
-import { appendFaceitBlock } from "./modules/showcase";
+import { appendFaceitBlock, appendFaceitPlaceholder } from "./modules/showcase";
 import {
 	createShowcaseElement,
 	insertElement,
@@ -35,6 +35,13 @@ async function init() {
 
 	insertSteamId(steamId64);
 	insertElement(el);
+
+	if (result.ok) {
+		const bg = el.querySelector(
+			".csl-showcase-content-bg",
+		) as HTMLElement | null;
+		if (bg) appendFaceitPlaceholder(bg);
+	}
 
 	fetchFaceitStats(steamId64).then((faceit) => {
 		if (!faceit) return;

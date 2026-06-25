@@ -124,6 +124,31 @@ export function populateStatsBlock(
 	}
 }
 
+export function appendFaceitPlaceholder(block: HTMLElement): void {
+	const container = block.querySelector(".csl-premier-container");
+	if (!container) return;
+	if (container.querySelector(".csl-faceit-block")) return;
+
+	const faceitBlock = document.createElement("div");
+	faceitBlock.className = "csl-premier-stat-block csl-faceit-block";
+
+	const ratingWrapper = document.createElement("div");
+	ratingWrapper.className = "csl-rating-wrapper";
+
+	const svgBg = document.createElement("div");
+	svgBg.className = "csl-svg-bg csl-faceit-svg-bg";
+	svgBg.style.backgroundImage = `url("${chrome.runtime.getURL("assets/faceit/unranked.svg")}")`;
+
+	ratingWrapper.append(svgBg);
+
+	const lblEl = document.createElement("div");
+	lblEl.className = "csl-stat-label";
+	lblEl.textContent = "Unranked";
+
+	faceitBlock.append(ratingWrapper, lblEl);
+	container.append(faceitBlock);
+}
+
 export function appendFaceitBlock(
 	block: HTMLElement,
 	faceit: FaceitStats,
@@ -145,8 +170,16 @@ export function appendFaceitBlock(
 		}
 	}
 
-	const faceitBlock = document.createElement("div");
-	faceitBlock.className = "csl-premier-stat-block";
+	let faceitBlock = container.querySelector(
+		".csl-faceit-block",
+	) as HTMLElement | null;
+	if (!faceitBlock) {
+		faceitBlock = document.createElement("div");
+		faceitBlock.className = "csl-premier-stat-block csl-faceit-block";
+		container.append(faceitBlock);
+	}
+
+	faceitBlock.innerHTML = "";
 
 	const ratingWrapper = document.createElement("div");
 	ratingWrapper.className = "csl-rating-wrapper";
@@ -165,6 +198,4 @@ export function appendFaceitBlock(
 
 		faceitBlock.append(ratingWrapper, lblEl);
 	} else faceitBlock.append(ratingWrapper);
-
-	container.append(faceitBlock);
 }
