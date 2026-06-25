@@ -84,8 +84,16 @@ function buildShowcaseShell(steamId64: string): {
 	logosWrapper.style.alignItems = "center";
 	logosWrapper.append(logoLink);
 
-	const fsggLogo = document.createElement("span");
-	fsggLogo.className = "csl-fsgg-logo";
+	const separator = document.createElement("span");
+	separator.textContent = "|";
+	separator.style.cssText =
+		"color: rgba(255,255,255,0.3); margin: 0 10px; font-size: 1rem;";
+	logosWrapper.append(separator);
+
+	const fsggLink = document.createElement("a");
+	fsggLink.href = `https://faceitstats.gg/player/${steamId64}`;
+	fsggLink.target = "_blank";
+	fsggLink.className = "csl-fsgg-logo";
 
 	const fText = document.createElement("span");
 	fText.textContent = "F";
@@ -95,8 +103,8 @@ function buildShowcaseShell(steamId64: string): {
 	sggText.textContent = "S.gg";
 	sggText.className = "logo-sgg";
 
-	fsggLogo.append(fText, sggText);
-	logosWrapper.append(fsggLogo);
+	fsggLink.append(fText, sggText);
+	logosWrapper.append(fsggLink);
 	header.append(logosWrapper);
 
 	const block = document.createElement("div");
