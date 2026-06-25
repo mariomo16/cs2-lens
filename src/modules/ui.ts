@@ -56,7 +56,7 @@ function buildShowcaseShell(steamId64: string): {
 	header.className = "profile_customization_header csl-showcase-header";
 
 	const titleSpan = document.createElement("span");
-	titleSpan.textContent = "CS2 Lens - Official Matchmaking and Faceit stats";
+	titleSpan.textContent = "CS2 Lens";
 	header.append(titleSpan);
 
 	const logoLink = document.createElement("a");
