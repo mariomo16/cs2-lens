@@ -91,7 +91,7 @@ function buildShowcaseShell(steamId64: string): {
 	const separator = document.createElement("span");
 	separator.textContent = "|";
 	separator.style.cssText =
-		"color: rgba(255,255,255,0.3); margin: 0 10px; font-size: 1rem;";
+		"color: rgba(255,255,255,0.3); margin: 0 10px; font-size: 1rem; user-select: none;";
 	logosWrapper.append(separator);
 
 	const fsggLink = document.createElement("a");
