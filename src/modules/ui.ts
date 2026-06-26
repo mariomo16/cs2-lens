@@ -149,7 +149,7 @@ export function createShowcaseElement(
 	return el;
 }
 
-export function insertSteamId(steamId64: string): HTMLElement | undefined {
+export function insertSteamId(steamId64: string): void {
 	const rightCol = document.querySelector(".profile_rightcol");
 	if (!rightCol) return;
 
@@ -166,5 +166,4 @@ export function insertSteamId(steamId64: string): HTMLElement | undefined {
 
 	container.append(labelSpan, valueSpan);
 	rightCol.prepend(container);
-	return container;
 }
