@@ -36,23 +36,18 @@ async function init() {
 
 	const result: StatsResponse = await fetchPlayerStats(steamId64);
 	const el = createShowcaseElement(result, steamId64);
+	const bg = el.querySelector(".csl-showcase-content-bg") as HTMLElement;
 
 	insertSteamId(steamId64);
 	insertElement(el);
 
 	if (result.ok) {
-		const bg = el.querySelector(
-			".csl-showcase-content-bg",
-		) as HTMLElement | null;
-		if (bg) appendFaceitPlaceholder(bg);
+		appendFaceitPlaceholder(bg);
 	}
 
 	fetchFaceitStats(steamId64).then((faceit) => {
 		if (!faceit) return;
-		const bg = el.querySelector(
-			".csl-showcase-content-bg",
-		) as HTMLElement | null;
-		if (bg) appendFaceitBlock(bg, faceit);
+		appendFaceitBlock(bg, faceit);
 		updateFaceitHeader(el, faceit);
 	});
 }
