@@ -5,6 +5,25 @@ export interface InventoryValue {
 	totalItems: number;
 }
 
+function parseEuros(text: string): number | null {
+	const cleaned = text.replace(/[^\d.,-]/g, "").replace(",", ".");
+	const dotIdx = cleaned.lastIndexOf(".");
+	if (dotIdx >= 0) {
+		const before = cleaned.slice(0, dotIdx).replace(/\./g, "");
+		const after = cleaned.slice(dotIdx + 1);
+		const num = parseFloat(before + "." + after);
+		return isNaN(num) ? null : num;
+	}
+	const num = parseFloat(cleaned);
+	return isNaN(num) ? null : num;
+}
+
+function formatEuros(total: number): string {
+	const [intStr, decStr = "00"] = total.toFixed(2).split(".");
+	const intPart = parseInt(intStr, 10).toLocaleString("de-DE");
+	return `${intPart},${decStr}€`;
+}
+
 export async function fetchInventoryValue(
 	steamId64: string,
 ): Promise<InventoryValue> {
@@ -39,7 +58,7 @@ export async function fetchInventoryValue(
 
 		const items = Array.from(counts.entries());
 		if (items.length === 0) {
-			return { ok: true, totalValue: 0, valueText: "$0.00", totalItems: 0 };
+			return { ok: true, totalValue: 0, valueText: "0,00€", totalItems: 0 };
 		}
 
 		const prices = new Map<string, number>();
@@ -47,13 +66,13 @@ export async function fetchInventoryValue(
 		for (let i = 0; i < items.length; i += BATCH) {
 			await Promise.allSettled(
 				items.slice(i, i + BATCH).map(async ([name]) => {
-					const priceUrl = `https://steamcommunity.com/market/priceoverview/?appid=730&currency=1&market_hash_name=${encodeURIComponent(name)}`;
+					const priceUrl = `https://steamcommunity.com/market/priceoverview/?appid=730&currency=3&market_hash_name=${encodeURIComponent(name)}`;
 					const priceRes = await fetch(priceUrl);
 					if (!priceRes.ok) return;
 					const json = await priceRes.json();
 					if (json.success && json.lowest_price) {
-						const num = parseFloat(json.lowest_price.replace(/[^0-9.]/g, ""));
-						if (!Number.isNaN(num)) prices.set(name, num);
+						const num = parseEuros(json.lowest_price);
+						if (num !== null) prices.set(name, num);
 					}
 				}),
 			);
@@ -73,7 +92,7 @@ export async function fetchInventoryValue(
 		return {
 			ok: true,
 			totalValue: total,
-			valueText: `$${total.toFixed(2)}`,
+			valueText: formatEuros(total),
 			totalItems,
 		};
 	} catch {

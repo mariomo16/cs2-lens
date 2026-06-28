@@ -170,8 +170,8 @@ export function insertSteamId(steamId64: string): void {
 }
 
 export function insertInventoryValue(inv: InventoryValue): void {
-	const rightCol = document.querySelector(".profile_rightcol");
-	if (!rightCol) return;
+	const steamIdEl = document.querySelector(".csl-steamid-container");
+	if (!steamIdEl?.parentElement) return;
 
 	const container = document.createElement("div");
 	container.className = "csl-inv-container";
@@ -185,5 +185,5 @@ export function insertInventoryValue(inv: InventoryValue): void {
 	valueSpan.textContent = inv.valueText;
 
 	container.append(labelSpan, valueSpan);
-	rightCol.prepend(container);
+	steamIdEl.after(container);
 }
