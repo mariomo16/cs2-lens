@@ -5,23 +5,27 @@ export interface InventoryValue {
 	totalItems: number;
 }
 
-function parseEuros(text: string): number | null {
-	const cleaned = text.replace(/[^\d.,-]/g, "").replace(",", ".");
-	const dotIdx = cleaned.lastIndexOf(".");
-	if (dotIdx >= 0) {
-		const before = cleaned.slice(0, dotIdx).replace(/\./g, "");
-		const after = cleaned.slice(dotIdx + 1);
-		const num = parseFloat(before + "." + after);
-		return isNaN(num) ? null : num;
-	}
-	const num = parseFloat(cleaned);
-	return isNaN(num) ? null : num;
-}
-
 function formatEuros(total: number): string {
 	const [intStr, decStr = "00"] = total.toFixed(2).split(".");
 	const intPart = parseInt(intStr, 10).toLocaleString("de-DE");
 	return `${intPart},${decStr}€`;
+}
+
+function fetchBulkPrices(
+	names: string[],
+): Promise<Record<string, number> | null> {
+	return new Promise((resolve) => {
+		chrome.runtime.sendMessage(
+			{ type: "BULK_PRICES", names },
+			(response: { ok: boolean; prices?: Record<string, number> }) => {
+				if (chrome.runtime.lastError || !response?.ok) {
+					resolve(null);
+				} else {
+					resolve(response.prices ?? null);
+				}
+			},
+		);
+	});
 }
 
 export async function fetchInventoryValue(
@@ -61,30 +65,21 @@ export async function fetchInventoryValue(
 			return { ok: true, totalValue: 0, valueText: "0,00€", totalItems: 0 };
 		}
 
-		const prices = new Map<string, number>();
-		const BATCH = 5;
-		for (let i = 0; i < items.length; i += BATCH) {
-			await Promise.allSettled(
-				items.slice(i, i + BATCH).map(async ([name]) => {
-					const priceUrl = `https://steamcommunity.com/market/priceoverview/?appid=730&currency=3&market_hash_name=${encodeURIComponent(name)}`;
-					const priceRes = await fetch(priceUrl);
-					if (!priceRes.ok) return;
-					const json = await priceRes.json();
-					if (json.success && json.lowest_price) {
-						const num = parseEuros(json.lowest_price);
-						if (num !== null) prices.set(name, num);
-					}
-				}),
-			);
+		const names = items.map(([n]) => n);
+		const prices = await fetchBulkPrices(names);
 
-			if (i + BATCH < items.length) {
-				await new Promise((r) => setTimeout(r, 100));
-			}
+		if (!prices) {
+			return {
+				ok: false,
+				totalValue: 0,
+				valueText: "N/A",
+				totalItems: 0,
+			};
 		}
 
 		let total = 0;
 		for (const [name, count] of items) {
-			total += (prices.get(name) || 0) * count;
+			total += (prices[name] || 0) * count;
 		}
 
 		const totalItems = items.reduce((s, [, c]) => s + c, 0);
