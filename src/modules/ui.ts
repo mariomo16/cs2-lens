@@ -176,33 +176,14 @@ export function insertInventoryValue(inv: InventoryValue): void {
 	const container = document.createElement("div");
 	container.className = "csl-inv-container";
 
-	const steamRow = document.createElement("div");
-	steamRow.className = "csl-inv-row";
+	const labelSpan = document.createElement("span");
+	labelSpan.className = "csl-inv-label";
+	labelSpan.textContent = "Inventory Value";
 
-	const steamLabel = document.createElement("span");
-	steamLabel.className = "csl-inv-label";
-	steamLabel.textContent = "Steam Market";
+	const valueSpan = document.createElement("span");
+	valueSpan.className = "csl-inv-value";
+	valueSpan.textContent = inv.valueText;
 
-	const steamValue = document.createElement("span");
-	steamValue.className = "csl-inv-value";
-	steamValue.textContent = inv.steamText;
-
-	steamRow.append(steamLabel, steamValue);
-	container.append(steamRow);
-
-	const csfloatRow = document.createElement("div");
-	csfloatRow.className = "csl-inv-row";
-
-	const csfloatLabel = document.createElement("span");
-	csfloatLabel.className = "csl-inv-label";
-	csfloatLabel.textContent = "CSFloat";
-
-	const csfloatValue = document.createElement("span");
-	csfloatValue.className = "csl-inv-value csl-inv-csfloat";
-	csfloatValue.textContent = inv.csfloatText;
-
-	csfloatRow.append(csfloatLabel, csfloatValue);
-	container.append(csfloatRow);
-
+	container.append(labelSpan, valueSpan);
 	steamIdEl.after(container);
 }
