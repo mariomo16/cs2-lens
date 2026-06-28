@@ -178,7 +178,7 @@ export function insertInventoryValue(inv: InventoryValue): void {
 
 	const labelSpan = document.createElement("span");
 	labelSpan.className = "csl-inv-label";
-	labelSpan.textContent = "Inventory Value";
+	labelSpan.textContent = "Steam Market";
 
 	const valueSpan = document.createElement("span");
 	valueSpan.className = "csl-inv-value";
