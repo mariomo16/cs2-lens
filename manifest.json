@@ -16,7 +16,8 @@
 	"host_permissions": [
 		"https://csstats.gg/*",
 		"https://faceitstats.gg/*",
-		"https://api.skinport.com/*"
+		"https://api.skinport.com/*",
+		"https://csfloat.com/*"
 	],
 	"content_scripts": [
 		{

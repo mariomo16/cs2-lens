@@ -224,6 +224,12 @@
 	font-size: 14px;
 }
 
+.csl-inv-row {
+	display: flex;
+	align-items: center;
+	line-height: 1.6;
+}
+
 .csl-steamid-container:not(:last-child),
 .csl-inv-container:not(:last-child) {
 	margin-bottom: 12px;

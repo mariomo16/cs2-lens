@@ -37,7 +37,13 @@ async function init() {
 	if (!steamId64) return;
 
 	const [result, invValue]: [StatsResponse, InventoryValue] = await Promise.all(
-		[fetchPlayerStats(steamId64), fetchInventoryValue(steamId64)],
+		[
+			fetchPlayerStats(steamId64),
+			fetchInventoryValue(steamId64, (csfloatText) => {
+				const el = document.querySelector(".csl-inv-csfloat");
+				if (el) el.textContent = csfloatText;
+			}),
+		],
 	);
 
 	const el = createShowcaseElement(result, steamId64);
