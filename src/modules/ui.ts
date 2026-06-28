@@ -1,4 +1,5 @@
 import type { StatsResponse } from "./csstats";
+import type { InventoryValue } from "./inventory";
 import { populateStatsBlock } from "./showcase";
 
 type InsertMode = "prepend" | "append" | "after";
@@ -163,6 +164,25 @@ export function insertSteamId(steamId64: string): void {
 	const valueSpan = document.createElement("span");
 	valueSpan.className = "csl-steamid-value";
 	valueSpan.textContent = steamId64;
+
+	container.append(labelSpan, valueSpan);
+	rightCol.prepend(container);
+}
+
+export function insertInventoryValue(inv: InventoryValue): void {
+	const rightCol = document.querySelector(".profile_rightcol");
+	if (!rightCol) return;
+
+	const container = document.createElement("div");
+	container.className = "csl-inv-container";
+
+	const labelSpan = document.createElement("span");
+	labelSpan.className = "csl-inv-label";
+	labelSpan.textContent = "Inventory Value";
+
+	const valueSpan = document.createElement("span");
+	valueSpan.className = "csl-inv-value";
+	valueSpan.textContent = inv.valueText;
 
 	container.append(labelSpan, valueSpan);
 	rightCol.prepend(container);
