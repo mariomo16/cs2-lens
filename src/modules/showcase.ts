@@ -207,7 +207,7 @@ export function appendFaceitPlaceholder(block: HTMLElement): void {
 	ratingWrapper.className = "csl-rating-wrapper";
 
 	const svgBg = document.createElement("div");
-	svgBg.className = "csl-svg-bg csl-faceit-svg-bg";
+	svgBg.className = "csl-svg-bg";
 	svgBg.style.backgroundImage = `url("${chrome.runtime.getURL("assets/faceit/unranked.svg")}")`;
 
 	ratingWrapper.append(svgBg);

@@ -162,10 +162,6 @@
 	font-size: 0.9em;
 }
 
-.csl-faceit-svg-bg {
-	filter: drop-shadow(0px 2px 4px rgba(0, 0, 0, 0.6));
-}
-
 .csl-stat-label {
 	font-size: 10px;
 	color: #96a8c1;
