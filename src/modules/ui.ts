@@ -222,9 +222,11 @@ export function insertSteamId(steamId64: string): void {
 		navigator.clipboard.writeText(steamId64).catch(() => {});
 		copyImg.src = chrome.runtime.getURL("assets/check.svg");
 		copyImg.alt = "Copied";
+		copyBtn.classList.add("csl-steamid-copy--done");
 		setTimeout(() => {
 			copyImg.src = chrome.runtime.getURL("assets/clipboard-document.svg");
 			copyImg.alt = "Copy";
+			copyBtn.classList.remove("csl-steamid-copy--done");
 		}, 1500);
 	});
 
