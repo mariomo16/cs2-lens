@@ -262,7 +262,11 @@ export function appendFaceitBlock(
 
 	faceitBlock.innerHTML = "";
 
-	if (faceit.regional_rank != null && faceit.regional_rank <= 1000) {
+	if (
+		faceit.regional_rank != null &&
+		faceit.regional_rank >= 1 &&
+		faceit.regional_rank <= 1000
+	) {
 		const svgFile = resolveFaceitSvgFile(faceitLevel, faceit.regional_rank);
 
 		const rankEl = document.createElement("div");
