@@ -33,7 +33,9 @@
 			"resources": [
 				"assets/fonts/*.woff2",
 				"assets/premier/*.svg",
-				"assets/faceit/*.svg"
+				"assets/faceit/*.svg",
+				"assets/clipboard-document.svg",
+				"assets/check.svg"
 			],
 			"matches": ["https://steamcommunity.com/*"]
 		}
