@@ -223,6 +223,18 @@
 	background: #462c20;
 }
 
+.csl-loading-container {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	min-height: 60px;
+}
+
+.csl-loading-spinner {
+	width: 48px;
+	height: 48px;
+}
+
 .csl-faceit-rank {
 	display: inline-flex;
 	align-items: center;
