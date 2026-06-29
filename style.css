@@ -80,10 +80,14 @@
 	justify-content: space-between;
 	align-items: center;
 	gap: 8px;
+	position: relative;
 }
 
 .csl-faceit-header-info {
-	display: inline-flex;
+	position: absolute;
+	left: 50%;
+	transform: translateX(-50%);
+	display: flex;
 	align-items: center;
 	font-size: 14px;
 }
