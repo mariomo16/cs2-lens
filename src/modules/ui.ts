@@ -208,6 +208,26 @@ export function insertSteamId(steamId64: string): void {
 	valueSpan.className = "csl-steamid-value";
 	valueSpan.textContent = steamId64;
 
-	container.append(labelSpan, valueSpan);
+	const copyBtn = document.createElement("button");
+	copyBtn.className = "csl-steamid-copy";
+	copyBtn.title = "Copy SteamID64";
+
+	const copyImg = document.createElement("img");
+	copyImg.src = chrome.runtime.getURL("assets/clipboard-document.svg");
+	copyImg.alt = "Copy";
+	copyImg.className = "csl-steamid-copy-icon";
+	copyBtn.append(copyImg);
+
+	copyBtn.addEventListener("click", () => {
+		navigator.clipboard.writeText(steamId64).catch(() => {});
+		copyImg.src = chrome.runtime.getURL("assets/check.svg");
+		copyImg.alt = "Copied";
+		setTimeout(() => {
+			copyImg.src = chrome.runtime.getURL("assets/clipboard-document.svg");
+			copyImg.alt = "Copy";
+		}, 1500);
+	});
+
+	container.append(labelSpan, valueSpan, copyBtn);
 	rightCol.prepend(container);
 }
