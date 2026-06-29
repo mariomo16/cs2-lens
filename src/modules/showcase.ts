@@ -23,7 +23,12 @@ const resolveFaceitSvgFile = (
 	if (regionalRank === 1) return "challenger1.svg";
 	if (regionalRank === 2) return "challenger2.svg";
 	if (regionalRank === 3) return "challenger3.svg";
-	if (level === 10 && regionalRank != null && regionalRank <= 1000)
+	if (
+		level === 10 &&
+		regionalRank != null &&
+		regionalRank > 3 &&
+		regionalRank <= 1000
+	)
 		return "challenger.svg";
 	return `${Math.max(1, level)}.svg`;
 };
