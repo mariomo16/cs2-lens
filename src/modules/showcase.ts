@@ -63,7 +63,7 @@ function createRatingDisplay(data: {
 
 	const svgBg = document.createElement("div");
 	svgBg.className = "csl-svg-bg";
-	svgBg.style.backgroundImage = `url("${chrome.runtime.getURL(`assets/premier/${tier.file}`)}")`;
+	svgBg.style.backgroundImage = `url("${chrome.runtime.getURL(`public/assets/premier/${tier.file}`)}")`;
 
 	const ratingVal = document.createElement("div");
 	ratingVal.className = "cs2-lens-premier-rating csl-premier-rating";
@@ -194,7 +194,9 @@ export function updateFaceitHeader(
 	if (faceit.verified) {
 		const verifiedImg = document.createElement("img");
 		verifiedImg.className = "csl-faceit-verified";
-		verifiedImg.src = chrome.runtime.getURL("assets/faceit/verified.svg");
+		verifiedImg.src = chrome.runtime.getURL(
+			"public/assets/faceit/verified.svg",
+		);
 		verifiedImg.alt = "Verified";
 		link.append(verifiedImg);
 	}
@@ -216,7 +218,7 @@ export function appendFaceitPlaceholder(block: HTMLElement): void {
 
 	const svgBg = document.createElement("div");
 	svgBg.className = "csl-svg-bg";
-	svgBg.style.backgroundImage = `url("${chrome.runtime.getURL("assets/faceit/unranked.svg")}")`;
+	svgBg.style.backgroundImage = `url("${chrome.runtime.getURL("public/assets/faceit/unranked.svg")}")`;
 
 	ratingWrapper.append(svgBg);
 
@@ -283,7 +285,7 @@ export function appendFaceitBlock(
 
 		const svgImg = document.createElement("img");
 		svgImg.className = "csl-faceit-rank-svg";
-		svgImg.src = chrome.runtime.getURL(`assets/faceit/${svgFile}`);
+		svgImg.src = chrome.runtime.getURL(`public/assets/faceit/${svgFile}`);
 		svgImg.alt = `Challenger ${faceit.regional_rank}`;
 		rankEl.append(svgImg);
 
@@ -294,7 +296,7 @@ export function appendFaceitBlock(
 
 		const svgBg = document.createElement("div");
 		svgBg.className = "csl-svg-bg csl-faceit-svg-bg";
-		svgBg.style.backgroundImage = `url("${chrome.runtime.getURL(`assets/faceit/${resolveFaceitSvgFile(faceitLevel, faceit.regional_rank)}`)}")`;
+		svgBg.style.backgroundImage = `url("${chrome.runtime.getURL(`public/assets/faceit/${resolveFaceitSvgFile(faceitLevel, faceit.regional_rank)}`)}")`;
 
 		ratingWrapper.append(svgBg);
 		faceitBlock.append(ratingWrapper);

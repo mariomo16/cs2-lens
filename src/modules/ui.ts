@@ -100,7 +100,7 @@ export function buildShowcaseShell(steamId64: string): {
 	fsggLink.className = "csl-fsgg-logo";
 
 	const faceitLogo = document.createElement("img");
-	faceitLogo.src = chrome.runtime.getURL("assets/faceit/faceit.svg");
+	faceitLogo.src = chrome.runtime.getURL("public/assets/faceit/faceit.svg");
 	faceitLogo.className = "csl-faceit-logo";
 	faceitLogo.alt = "Faceit";
 
@@ -213,7 +213,9 @@ export function insertSteamId(steamId64: string): void {
 	copyBtn.title = "Copy SteamID64";
 
 	const copyImg = document.createElement("img");
-	copyImg.src = chrome.runtime.getURL("assets/clipboard-document.svg");
+	copyImg.src = chrome.runtime.getURL(
+		"public/assets/ui/clipboard-document.svg",
+	);
 	copyImg.alt = "Copy";
 	copyImg.className = "csl-steamid-copy-icon";
 	copyBtn.append(copyImg);
@@ -221,12 +223,14 @@ export function insertSteamId(steamId64: string): void {
 	copyBtn.addEventListener("click", () => {
 		navigator.clipboard.writeText(steamId64).catch(() => {});
 		copyBtn.disabled = true;
-		copyImg.src = chrome.runtime.getURL("assets/check.svg");
+		copyImg.src = chrome.runtime.getURL("public/assets/ui/check.svg");
 		copyImg.alt = "Copied";
 		copyBtn.classList.add("csl-steamid-copy--done");
 		setTimeout(() => {
 			copyBtn.disabled = false;
-			copyImg.src = chrome.runtime.getURL("assets/clipboard-document.svg");
+			copyImg.src = chrome.runtime.getURL(
+				"public/assets/ui/clipboard-document.svg",
+			);
 			copyImg.alt = "Copy";
 			copyBtn.classList.remove("csl-steamid-copy--done");
 		}, 1500);

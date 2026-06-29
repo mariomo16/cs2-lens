@@ -1,17 +1,17 @@
-import { fetchPlayerStats, type StatsResponse } from "./modules/csstats";
-import { fetchFaceitStats } from "./modules/faceit";
+import { fetchPlayerStats, type StatsResponse } from "../modules/csstats";
+import { fetchFaceitStats } from "../modules/faceit";
 import {
 	appendFaceitBlock,
 	appendFaceitPlaceholder,
 	populateStatsBlock,
 	updateFaceitHeader,
-} from "./modules/showcase";
+} from "../modules/showcase";
 import {
 	buildShowcaseShell,
 	createLoadingSpinner,
 	insertElement,
 	insertSteamId,
-} from "./modules/ui";
+} from "../modules/ui";
 
 function extractSteamId64(): string | null {
 	const scripts = document.querySelectorAll("script");
