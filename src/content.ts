@@ -31,12 +31,13 @@ async function init() {
 	const steamId64 = extractSteamId64();
 	if (!steamId64) return;
 
+	insertSteamId(steamId64);
+
 	const result: StatsResponse = await fetchPlayerStats(steamId64);
 
 	const el = createShowcaseElement(result, steamId64);
 	const bg = el.querySelector(".csl-showcase-content-bg") as HTMLElement;
 
-	insertSteamId(steamId64);
 	insertElement(el);
 
 	if (result.ok) {
