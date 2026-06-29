@@ -15,7 +15,7 @@ Enhance any Steam Community profile with CS2 stats, FACEIT rankings, and (soon) 
 - **Placeholder UX** — FACEIT block shows "Unranked" until stats load, preventing layout shift
 - **Tracking Status** — Detects disabled or inactive match tracking with contextual warnings
 - **SteamID64 Display** — Auto-detected and shown below the profile info
-- **Data Sources** — Pulls from csstats.gg (MM/Premier) and faceitstats.gg (FACEIT)
+- **Data Sources** — Pulls from csstats.gg (Competitive/Premier/FACEIT) and faceit.com (FACEIT)
 
 ## Tech Stack
 
