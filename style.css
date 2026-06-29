@@ -203,7 +203,7 @@
 
 .csl-stats-unavailable {
 	margin: 0;
-	padding: 12px 0;
+	padding: 10px 0;
 	text-align: center;
 	color: #96a8c1;
 	font-size: 14px;
@@ -229,8 +229,8 @@
 }
 
 .csl-loading-spinner {
-	width: 16px;
-	height: 16px;
+	width: 20px;
+	height: 20px;
 }
 
 .csl-faceit-rank {
