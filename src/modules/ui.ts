@@ -45,7 +45,7 @@ export function insertElement(element: HTMLElement): boolean {
 	return true;
 }
 
-function buildShowcaseShell(steamId64: string): {
+export function buildShowcaseShell(steamId64: string): {
 	el: HTMLElement;
 	bg: HTMLElement;
 } {
@@ -91,23 +91,20 @@ function buildShowcaseShell(steamId64: string): {
 	const separator = document.createElement("span");
 	separator.textContent = "|";
 	separator.style.cssText =
-		"color: rgba(255,255,255,0.3); margin: 0 10px; font-size: 1rem;";
+		"color: rgba(255,255,255,0.3); margin: 0 10px; font-size: 1rem; user-select: none;";
 	logosWrapper.append(separator);
 
 	const fsggLink = document.createElement("a");
-	fsggLink.href = `https://faceitstats.gg/?player=${steamId64}`;
+	fsggLink.href = `https://www.faceit.com`;
 	fsggLink.target = "_blank";
 	fsggLink.className = "csl-fsgg-logo";
 
-	const fText = document.createElement("span");
-	fText.textContent = "F";
-	fText.className = "logo-f";
+	const faceitLogo = document.createElement("img");
+	faceitLogo.src = chrome.runtime.getURL("public/assets/faceit/faceit.svg");
+	faceitLogo.className = "csl-faceit-logo";
+	faceitLogo.alt = "Faceit";
 
-	const sggText = document.createElement("span");
-	sggText.textContent = "S.gg";
-	sggText.className = "logo-sgg";
-
-	fsggLink.append(fText, sggText);
+	fsggLink.append(faceitLogo);
 	logosWrapper.append(fsggLink);
 	header.append(logosWrapper);
 
@@ -149,7 +146,54 @@ export function createShowcaseElement(
 	return el;
 }
 
-export function insertSteamId(steamId64: string): HTMLElement | undefined {
+export function createLoadingSpinner(): HTMLElement {
+	const container = document.createElement("p");
+	container.className = "csl-stats-unavailable";
+
+	const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+	svg.setAttribute("fill", "currentColor");
+	svg.setAttribute("viewBox", "0 0 24 24");
+	svg.setAttribute("class", "csl-loading-spinner");
+	svg.setAttribute("role", "img");
+	svg.setAttribute("aria-label", "Loading");
+
+	const c1 = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+	c1.setAttribute("cx", "4");
+	c1.setAttribute("cy", "12");
+	c1.setAttribute("r", "0");
+	c1.innerHTML = `<animate begin="0;spinner_z0Or.end" attributeName="r" calcMode="spline" dur="0.5s" keySplines=".36,.6,.31,1" values="0;3" fill="freeze"/><animate begin="spinner_OLMs.end" attributeName="cx" calcMode="spline" dur="0.5s" keySplines=".36,.6,.31,1" values="4;12" fill="freeze"/><animate begin="spinner_UHR2.end" attributeName="cx" calcMode="spline" dur="0.5s" keySplines=".36,.6,.31,1" values="12;20" fill="freeze"/><animate id="spinner_lo66" begin="spinner_Aguh.end" attributeName="r" calcMode="spline" dur="0.5s" keySplines=".36,.6,.31,1" values="3;0" fill="freeze"/><animate id="spinner_z0Or" begin="spinner_lo66.end" attributeName="cx" dur="0.001s" values="20;4" fill="freeze"/>`;
+	svg.append(c1);
+
+	const c2 = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+	c2.setAttribute("cx", "4");
+	c2.setAttribute("cy", "12");
+	c2.setAttribute("r", "3");
+	c2.innerHTML = `<animate begin="0;spinner_z0Or.end" attributeName="cx" calcMode="spline" dur="0.5s" keySplines=".36,.6,.31,1" values="4;12" fill="freeze"/><animate begin="spinner_OLMs.end" attributeName="cx" calcMode="spline" dur="0.5s" keySplines=".36,.6,.31,1" values="12;20" fill="freeze"/><animate id="spinner_JsnR" begin="spinner_UHR2.end" attributeName="r" calcMode="spline" dur="0.5s" keySplines=".36,.6,.31,1" values="3;0" fill="freeze"/><animate id="spinner_Aguh" begin="spinner_JsnR.end" attributeName="cx" dur="0.001s" values="20;4" fill="freeze"/><animate begin="spinner_Aguh.end" attributeName="r" calcMode="spline" dur="0.5s" keySplines=".36,.6,.31,1" values="0;3" fill="freeze"/>`;
+	svg.append(c2);
+
+	const c3 = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+	c3.setAttribute("cx", "12");
+	c3.setAttribute("cy", "12");
+	c3.setAttribute("r", "3");
+	c3.innerHTML = `<animate begin="0;spinner_z0Or.end" attributeName="cx" calcMode="spline" dur="0.5s" keySplines=".36,.6,.31,1" values="12;20" fill="freeze"/><animate id="spinner_hSjk" begin="spinner_OLMs.end" attributeName="r" calcMode="spline" dur="0.5s" keySplines=".36,.6,.31,1" values="3;0" fill="freeze"/><animate id="spinner_UHR2" begin="spinner_hSjk.end" attributeName="cx" dur="0.001s" values="20;4" fill="freeze"/><animate begin="spinner_UHR2.end" attributeName="r" calcMode="spline" dur="0.5s" keySplines=".36,.6,.31,1" values="0;3" fill="freeze"/><animate begin="spinner_Aguh.end" attributeName="cx" calcMode="spline" dur="0.5s" keySplines=".36,.6,.31,1" values="4;12" fill="freeze"/>`;
+	svg.append(c3);
+
+	const c4 = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+	c4.setAttribute("cx", "20");
+	c4.setAttribute("cy", "12");
+	c4.setAttribute("r", "3");
+	c4.innerHTML = `<animate id="spinner_4v5M" begin="0;spinner_z0Or.end" attributeName="r" calcMode="spline" dur="0.5s" keySplines=".36,.6,.31,1" values="3;0" fill="freeze"/><animate id="spinner_OLMs" begin="spinner_4v5M.end" attributeName="cx" dur="0.001s" values="20;4" fill="freeze"/><animate begin="spinner_OLMs.end" attributeName="r" calcMode="spline" dur="0.5s" keySplines=".36,.6,.31,1" values="0;3" fill="freeze"/><animate begin="spinner_UHR2.end" attributeName="cx" calcMode="spline" dur="0.5s" keySplines=".36,.6,.31,1" values="4;12" fill="freeze"/><animate begin="spinner_Aguh.end" attributeName="cx" calcMode="spline" dur="0.5s" keySplines=".36,.6,.31,1" values="12;20" fill="freeze"/>`;
+	svg.append(c4);
+
+	const title = document.createElementNS("http://www.w3.org/2000/svg", "title");
+	title.textContent = "Cargando";
+	svg.prepend(title);
+
+	container.append(svg);
+	return container;
+}
+
+export function insertSteamId(steamId64: string): void {
 	const rightCol = document.querySelector(".profile_rightcol");
 	if (!rightCol) return;
 
@@ -164,7 +208,34 @@ export function insertSteamId(steamId64: string): HTMLElement | undefined {
 	valueSpan.className = "csl-steamid-value";
 	valueSpan.textContent = steamId64;
 
-	container.append(labelSpan, valueSpan);
+	const copyBtn = document.createElement("button");
+	copyBtn.className = "csl-steamid-copy";
+	copyBtn.title = "Copy SteamID64";
+
+	const copyImg = document.createElement("img");
+	copyImg.src = chrome.runtime.getURL(
+		"public/assets/ui/clipboard-document.svg",
+	);
+	copyImg.alt = "Copy";
+	copyImg.className = "csl-steamid-copy-icon";
+	copyBtn.append(copyImg);
+
+	copyBtn.addEventListener("click", () => {
+		navigator.clipboard.writeText(steamId64).catch(() => {});
+		copyBtn.disabled = true;
+		copyImg.src = chrome.runtime.getURL("public/assets/ui/check.svg");
+		copyImg.alt = "Copied";
+		copyBtn.classList.add("csl-steamid-copy--done");
+		setTimeout(() => {
+			copyBtn.disabled = false;
+			copyImg.src = chrome.runtime.getURL(
+				"public/assets/ui/clipboard-document.svg",
+			);
+			copyImg.alt = "Copy";
+			copyBtn.classList.remove("csl-steamid-copy--done");
+		}, 1500);
+	});
+
+	container.append(labelSpan, valueSpan, copyBtn);
 	rightCol.prepend(container);
-	return container;
 }

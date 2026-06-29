@@ -9,12 +9,12 @@ const sharedConfig = {
 await Promise.all([
 	esbuild.build({
 		...sharedConfig,
-		entryPoints: { content: "src/content.ts" },
+		entryPoints: { content: "src/content/content.ts" },
 		format: "iife",
 	}),
 	esbuild.build({
 		...sharedConfig,
-		entryPoints: { background: "src/background.ts" },
+		entryPoints: { background: "src/background/background.ts" },
 		format: "esm",
 	}),
 ]);

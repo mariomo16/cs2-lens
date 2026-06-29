@@ -2,18 +2,24 @@
 	"manifest_version": 3,
 	"name": "CS2 Lens",
 	"description": "Chrome extension for CS2 stats and inventory value on Steam profiles",
-	"version": "0.2.0",
+	"version": "0.3.0",
 	"icons": {
-		"16": "assets/icons/icon512.png",
-		"48": "assets/icons/icon512.png",
-		"128": "assets/icons/icon512.png"
+		"16": "public/assets/icons/icon512.png",
+		"48": "public/assets/icons/icon512.png",
+		"128": "public/assets/icons/icon512.png"
+	},
+	"action": {
+		"default_popup": "src/popup/popup.html"
 	},
 	"permissions": [],
 	"background": {
 		"service_worker": "dist/background.js",
 		"type": "module"
 	},
-	"host_permissions": ["https://csstats.gg/*", "https://faceitstats.gg/*"],
+	"host_permissions": [
+		"https://csstats.gg/*",
+		"https://cs2-lens-proxy.vercel.app/*"
+	],
 	"content_scripts": [
 		{
 			"matches": [
@@ -21,16 +27,18 @@
 				"https://steamcommunity.com/profiles/*"
 			],
 			"js": ["dist/content.js"],
-			"css": ["style.css"],
+			"css": ["src/content/content.css"],
 			"run_at": "document_end"
 		}
 	],
 	"web_accessible_resources": [
 		{
 			"resources": [
-				"assets/fonts/*.woff2",
-				"assets/premier/*.svg",
-				"assets/faceit/*.svg"
+				"src/assets/fonts/*.woff2",
+				"public/assets/premier/*.svg",
+				"public/assets/faceit/*.svg",
+				"public/assets/ui/clipboard-document.svg",
+				"public/assets/ui/check.svg"
 			],
 			"matches": ["https://steamcommunity.com/*"]
 		}

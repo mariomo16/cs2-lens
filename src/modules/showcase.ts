@@ -1,26 +1,105 @@
-import type { FaceitStats, PlayerStats } from "./csstats";
+import type { PlayerStats } from "./csstats";
+import type { FaceitStats } from "./faceit";
+
+interface PremierTier {
+	color: string;
+	file: string;
+}
+
+const getPremierTier = (rating: number | null): PremierTier => {
+	if (!rating) return { color: "#ded6cc", file: "grey.svg" };
+	if (rating < 5000) return { color: "#b0c3d9", file: "grey.svg" };
+	if (rating < 10000) return { color: "#5e98d9", file: "lightblue.svg" };
+	if (rating < 15000) return { color: "#4b69ff", file: "blue.svg" };
+	if (rating < 20000) return { color: "#8847ff", file: "purple.svg" };
+	if (rating < 25000) return { color: "#d32ce6", file: "pink.svg" };
+	if (rating < 30000) return { color: "#eb4b4b", file: "red.svg" };
+	return { color: "#e4ae39", file: "gold.svg" };
+};
+
+const resolveFaceitSvgFile = (
+	level: number,
+	regionalRank: number | null,
+): string => {
+	if (regionalRank === 1) return "challenger1.svg";
+	if (regionalRank === 2) return "challenger2.svg";
+	if (regionalRank === 3) return "challenger3.svg";
+	if (
+		level === 10 &&
+		regionalRank != null &&
+		regionalRank > 3 &&
+		regionalRank <= 1000
+	)
+		return "challenger.svg";
+	return `${Math.max(1, level)}.svg`;
+};
+
+const createTrackingNotice = (
+	type: "disabled" | "inactive",
+): HTMLParagraphElement => {
+	const notice = document.createElement("p");
+	notice.className =
+		type === "disabled"
+			? "csl-tracking-notice"
+			: "csl-tracking-notice csl-tracking-notice--inactive";
+	notice.textContent =
+		type === "disabled"
+			? "This player has not set up match tracking. Stats may be incomplete."
+			: "A Valve match from the past 30 days is required to reactivate. Stats may be incomplete.";
+	return notice;
+};
+
+function createRatingDisplay(data: {
+	title: string;
+	rating: number | null;
+}): HTMLDivElement {
+	const statBlock = document.createElement("div");
+	statBlock.className = "csl-premier-stat-block";
+
+	const tier = getPremierTier(data.rating);
+
+	const ratingWrapper = document.createElement("div");
+	ratingWrapper.className = "csl-rating-wrapper";
+
+	const svgBg = document.createElement("div");
+	svgBg.className = "csl-svg-bg";
+	svgBg.style.backgroundImage = `url("${chrome.runtime.getURL(`public/assets/premier/${tier.file}`)}")`;
+
+	const ratingVal = document.createElement("div");
+	ratingVal.className = "cs2-lens-premier-rating csl-premier-rating";
+	ratingVal.style.color = tier.color;
+
+	if (data.rating) {
+		const ratingStr = data.rating.toLocaleString("en-US");
+		if (data.rating >= 1000) {
+			const last3 = ratingStr.slice(-4);
+			const prefix = ratingStr.slice(0, -4);
+			ratingVal.innerHTML = `${prefix}<span class="csl-premier-rating-small">${last3}</span>`;
+		} else {
+			ratingVal.textContent = ratingStr;
+		}
+	} else {
+		ratingVal.textContent = "---";
+	}
+
+	ratingWrapper.append(svgBg, ratingVal);
+
+	const lblEl = document.createElement("div");
+	lblEl.className = "csl-stat-label";
+	lblEl.textContent = data.title;
+
+	statBlock.append(ratingWrapper, lblEl);
+	return statBlock;
+}
 
 export function populateStatsBlock(
 	block: HTMLElement,
 	stats: PlayerStats,
 ): void {
-	const getPremierTier = (rating: number | null) => {
-		if (!rating) return { color: "#ded6cc", file: "grey.svg" };
-		if (rating < 5000) return { color: "#b0c3d9", file: "grey.svg" };
-		if (rating < 10000) return { color: "#5e98d9", file: "lightblue.svg" };
-		if (rating < 15000) return { color: "#4b69ff", file: "blue.svg" };
-		if (rating < 20000) return { color: "#8847ff", file: "purple.svg" };
-		if (rating < 25000) return { color: "#d32ce6", file: "pink.svg" };
-		if (rating < 30000) return { color: "#eb4b4b", file: "red.svg" };
-		return { color: "#e4ae39", file: "gold.svg" };
-	};
-
-	const hasPremier = stats.premierRatings && stats.premierRatings.length > 0;
-
 	const container = document.createElement("div");
 	container.className = "csl-premier-container";
 
-	if (hasPremier) {
+	if (stats.premierRatings.length > 0) {
 		const sortedBySeason = [...stats.premierRatings].sort(
 			(a, b) => b.season - a.season,
 		);
@@ -38,43 +117,7 @@ export function populateStatsBlock(
 		];
 
 		displayRatings.forEach((data) => {
-			const statBlock = document.createElement("div");
-			statBlock.className = "csl-premier-stat-block";
-
-			const tier = getPremierTier(data.rating);
-
-			const ratingWrapper = document.createElement("div");
-			ratingWrapper.className = "csl-rating-wrapper";
-
-			const svgBg = document.createElement("div");
-			svgBg.className = "csl-svg-bg";
-			svgBg.style.backgroundImage = `url("${chrome.runtime.getURL(`assets/premier/${tier.file}`)}")`;
-
-			const ratingVal = document.createElement("div");
-			ratingVal.className = "cs2-lens-premier-rating csl-premier-rating";
-			ratingVal.style.color = tier.color;
-
-			if (data.rating) {
-				const ratingStr = data.rating.toLocaleString();
-				if (data.rating >= 1000) {
-					const last3 = ratingStr.slice(-4);
-					const prefix = ratingStr.slice(0, -4);
-					ratingVal.innerHTML = `${prefix}<span class="csl-premier-rating-small">${last3}</span>`;
-				} else {
-					ratingVal.textContent = ratingStr;
-				}
-			} else {
-				ratingVal.textContent = "---";
-			}
-
-			ratingWrapper.append(svgBg, ratingVal);
-
-			const lblEl = document.createElement("div");
-			lblEl.className = "csl-stat-label";
-			lblEl.textContent = data.title;
-
-			statBlock.append(ratingWrapper, lblEl);
-			container.append(statBlock);
+			container.append(createRatingDisplay(data));
 		});
 	}
 
@@ -116,17 +159,9 @@ export function populateStatsBlock(
 	block.append(generalStatsContainer);
 
 	if (stats.trackingDisabled) {
-		const notice = document.createElement("p");
-		notice.className = "csl-tracking-notice";
-		notice.textContent =
-			"This player has not set up match tracking. Stats may be incomplete.";
-		block.append(notice);
+		block.append(createTrackingNotice("disabled"));
 	} else if (stats.trackingInactive) {
-		const notice = document.createElement("p");
-		notice.className = "csl-tracking-notice csl-tracking-notice--inactive";
-		notice.textContent =
-			"A Valve match from the past 30 days is required to reactivate. Stats may be incomplete.";
-		block.append(notice);
+		block.append(createTrackingNotice("inactive"));
 	}
 }
 
@@ -156,6 +191,16 @@ export function updateFaceitHeader(
 	nameSpan.textContent = faceit.nickname;
 	link.append(nameSpan);
 
+	if (faceit.verified) {
+		const verifiedImg = document.createElement("img");
+		verifiedImg.className = "csl-faceit-verified";
+		verifiedImg.src = chrome.runtime.getURL(
+			"public/assets/faceit/verified.svg",
+		);
+		verifiedImg.alt = "Verified";
+		link.append(verifiedImg);
+	}
+
 	infoEl.append(link);
 	infoEl.style.display = "";
 }
@@ -172,8 +217,8 @@ export function appendFaceitPlaceholder(block: HTMLElement): void {
 	ratingWrapper.className = "csl-rating-wrapper";
 
 	const svgBg = document.createElement("div");
-	svgBg.className = "csl-svg-bg csl-faceit-svg-bg";
-	svgBg.style.backgroundImage = `url("${chrome.runtime.getURL("assets/faceit/unranked.svg")}")`;
+	svgBg.className = "csl-svg-bg";
+	svgBg.style.backgroundImage = `url("${chrome.runtime.getURL("public/assets/faceit/unranked.svg")}")`;
 
 	ratingWrapper.append(svgBg);
 
@@ -217,30 +262,54 @@ export function appendFaceitBlock(
 
 	faceitBlock.innerHTML = "";
 
-	const ratingWrapper = document.createElement("div");
-	ratingWrapper.className = "csl-rating-wrapper";
+	if (
+		faceit.regional_rank != null &&
+		faceit.regional_rank >= 1 &&
+		faceit.regional_rank <= 1000
+	) {
+		const svgFile = resolveFaceitSvgFile(faceitLevel, faceit.regional_rank);
 
-	const svgBg = document.createElement("div");
-	svgBg.className = "csl-svg-bg csl-faceit-svg-bg";
-	const isChallenger =
-		faceitLevel === 10 &&
-		faceit.global_rank != null &&
-		faceit.global_rank <= 1000;
-	let svgFile: string;
-	if (faceit.global_rank === 1) svgFile = "challenger1.svg";
-	else if (faceit.global_rank === 2) svgFile = "challenger2.svg";
-	else if (faceit.global_rank === 3) svgFile = "challenger3.svg";
-	else if (isChallenger) svgFile = "challenger.svg";
-	else svgFile = `${Math.max(1, faceitLevel)}.svg`;
-	svgBg.style.backgroundImage = `url("${chrome.runtime.getURL(`assets/faceit/${svgFile}`)}")`;
+		const rankEl = document.createElement("div");
+		rankEl.className = "csl-faceit-rank";
 
-	ratingWrapper.append(svgBg);
+		if (faceit.regional_rank === 1) {
+			rankEl.style.backgroundColor = "#FFD336";
+		} else if (faceit.regional_rank === 2) {
+			rankEl.style.backgroundColor = "#DEF5FF";
+		} else if (faceit.regional_rank === 3) {
+			rankEl.style.backgroundColor = "#FF7236";
+		} else {
+			rankEl.style.backgroundColor = "#E80128";
+		}
+		rankEl.style.color = "#000";
+
+		const numSpan = document.createElement("span");
+		numSpan.textContent = `#${faceit.regional_rank}`;
+		rankEl.append(numSpan);
+
+		const svgImg = document.createElement("img");
+		svgImg.className = "csl-faceit-rank-svg";
+		svgImg.src = chrome.runtime.getURL(`public/assets/faceit/${svgFile}`);
+		svgImg.alt = `Challenger ${faceit.regional_rank}`;
+		rankEl.append(svgImg);
+
+		faceitBlock.append(rankEl);
+	} else {
+		const ratingWrapper = document.createElement("div");
+		ratingWrapper.className = "csl-rating-wrapper";
+
+		const svgBg = document.createElement("div");
+		svgBg.className = "csl-svg-bg csl-faceit-svg-bg";
+		svgBg.style.backgroundImage = `url("${chrome.runtime.getURL(`public/assets/faceit/${resolveFaceitSvgFile(faceitLevel, faceit.regional_rank)}`)}")`;
+
+		ratingWrapper.append(svgBg);
+		faceitBlock.append(ratingWrapper);
+	}
 
 	if (faceit.elo) {
 		const lblEl = document.createElement("div");
 		lblEl.className = "csl-stat-label";
-		lblEl.textContent = `${faceit.elo?.toLocaleString()} ELO`;
-
-		faceitBlock.append(ratingWrapper, lblEl);
-	} else faceitBlock.append(ratingWrapper);
+		lblEl.textContent = `${faceit.elo.toLocaleString()} ELO`;
+		faceitBlock.append(lblEl);
+	}
 }

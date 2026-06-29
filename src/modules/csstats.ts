@@ -1,5 +1,4 @@
 const CSSTATS_BASE_URL = "https://csstats.gg/player";
-const FACITSTATS_API = "https://faceitstats.gg/api/player/details";
 
 export interface PremierRating {
 	season: number;
@@ -8,24 +7,12 @@ export interface PremierRating {
 	wins: number;
 }
 
-export interface FaceitStats {
-	level: number | null;
-	elo: number | null;
-	global_rank: number | null;
-	nickname: string | null;
-	player_id: string | null;
-	country: string | null;
-}
-
 export interface PlayerStats {
 	premierRatings: PremierRating[];
-	faceit: FaceitStats | null;
 	kdRatio: number | null;
 	hltvRating: number | null;
 	matches: number | null;
 	winRate: number | null;
-	headshotPercentage: number | null;
-	adr: number | null;
 	trackingDisabled: boolean;
 	trackingInactive: boolean;
 }
@@ -47,27 +34,6 @@ function sendFetchMessage(url: string): Promise<string | null> {
 			},
 		);
 	});
-}
-
-export async function fetchFaceitStats(
-	steamId64: string,
-): Promise<FaceitStats | null> {
-	const json = await sendFetchMessage(`${FACITSTATS_API}/${steamId64}`);
-	if (!json) return null;
-
-	try {
-		const data = JSON.parse(json);
-		const level = data?.profile?.cs2_level ?? null;
-		const elo = data?.profile?.cs2_elo ?? null;
-		const global_rank = data?.profile?.global_rank ?? null;
-		const nickname = data?.profile?.nickname ?? null;
-		const player_id = data?.profile?.player_id ?? null;
-		const country = data?.profile?.country ?? null;
-		if (level !== null || elo !== null)
-			return { level, elo, global_rank, nickname, player_id, country };
-	} catch {}
-
-	return null;
 }
 
 export async function fetchPlayerStats(
@@ -121,13 +87,10 @@ export async function fetchPlayerStats(
 
 	let winRate: number | null = null;
 	let matches: number | null = null;
-	let headshotPercentage: number | null = null;
-	let adr: number | null = null;
-
 	const parsePanelValue = (panel: Element): number | null => {
-		const text = panel
-			.querySelector("[style*='font-size:34px']")
-			?.childNodes[0]?.textContent?.trim();
+		const el = panel.querySelector("[style*='font-size:34px']");
+		if (!el) return null;
+		const text = el.childNodes[0]?.textContent?.trim();
 		return text ? parseInt(text, 10) : null;
 	};
 
@@ -142,10 +105,6 @@ export async function fetchPlayerStats(
 					panel.querySelector(".total-value")?.textContent?.trim() ?? "",
 					10,
 				) || null;
-		} else if (heading.includes("HS") && headshotPercentage === null) {
-			headshotPercentage = parsePanelValue(panel);
-		} else if (heading.includes("ADR")) {
-			adr = parsePanelValue(panel);
 		}
 	});
 
@@ -154,7 +113,7 @@ export async function fetchPlayerStats(
 		const span = container.querySelector(".cs2rating span");
 		if (!span) return null;
 		const main = span.childNodes[0]?.textContent?.trim() ?? "";
-		if (main === "---") return 0;
+		if (!main || main === "---") return 0;
 		const decimal =
 			(span.querySelector("small") as HTMLElement | null)?.textContent
 				?.trim()
@@ -192,13 +151,10 @@ export async function fetchPlayerStats(
 		ok: true,
 		data: {
 			premierRatings,
-			faceit: null,
 			kdRatio,
 			hltvRating,
 			matches,
 			winRate,
-			headshotPercentage,
-			adr,
 			trackingDisabled,
 			trackingInactive,
 		},
