@@ -48,6 +48,14 @@
 	color: #ffffff;
 }
 
+.csl-faceit-logo {
+	height: 16px;
+	width: auto;
+	background: #121212;
+	border-radius: 3px;
+	padding: 2px;
+}
+
 .csstats-logo-link .logo-cs,
 .csstats-logo-link .logo-gg {
 	color: #ffffff;

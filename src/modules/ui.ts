@@ -100,15 +100,12 @@ function buildShowcaseShell(steamId64: string): {
 	fsggLink.target = "_blank";
 	fsggLink.className = "csl-fsgg-logo";
 
-	const fText = document.createElement("span");
-	fText.textContent = "F";
-	fText.className = "logo-f";
+	const faceitLogo = document.createElement("img");
+	faceitLogo.src = chrome.runtime.getURL("assets/faceit/faceit.svg");
+	faceitLogo.className = "csl-faceit-logo";
+	faceitLogo.alt = "Faceit";
 
-	const sggText = document.createElement("span");
-	sggText.textContent = "aceit";
-	sggText.className = "logo-sgg";
-
-	fsggLink.append(fText, sggText);
+	fsggLink.append(faceitLogo);
 	logosWrapper.append(fsggLink);
 	header.append(logosWrapper);
 
