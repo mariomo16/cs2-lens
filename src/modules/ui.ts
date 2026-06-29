@@ -220,10 +220,12 @@ export function insertSteamId(steamId64: string): void {
 
 	copyBtn.addEventListener("click", () => {
 		navigator.clipboard.writeText(steamId64).catch(() => {});
+		copyBtn.disabled = true;
 		copyImg.src = chrome.runtime.getURL("assets/check.svg");
 		copyImg.alt = "Copied";
 		copyBtn.classList.add("csl-steamid-copy--done");
 		setTimeout(() => {
+			copyBtn.disabled = false;
 			copyImg.src = chrome.runtime.getURL("assets/clipboard-document.svg");
 			copyImg.alt = "Copy";
 			copyBtn.classList.remove("csl-steamid-copy--done");

@@ -293,6 +293,10 @@
 	transition: opacity 0.1s ease;
 }
 
+.csl-steamid-copy:disabled {
+	cursor: default;
+}
+
 .csl-steamid-copy:hover:not(.csl-steamid-copy--done) {
 	opacity: 1;
 }
