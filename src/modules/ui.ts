@@ -96,7 +96,7 @@ function buildShowcaseShell(steamId64: string): {
 	logosWrapper.append(separator);
 
 	const fsggLink = document.createElement("a");
-	fsggLink.href = `https://www.faceit.com/en/search?q=${steamId64}`;
+	fsggLink.href = `https://www.faceit.com`;
 	fsggLink.target = "_blank";
 	fsggLink.className = "csl-fsgg-logo";
 
