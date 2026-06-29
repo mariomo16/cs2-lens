@@ -76,7 +76,16 @@ export async function fetchFaceitStats(
 		const elo: number | null = cs2?.faceit_elo ?? null;
 		const region: string | null = cs2?.region ?? null;
 
-		console.log("[CS2 Lens] Extracted - level:", level, "elo:", elo, "region:", region, "playerId:", playerId);
+		console.log(
+			"[CS2 Lens] Extracted - level:",
+			level,
+			"elo:",
+			elo,
+			"region:",
+			region,
+			"playerId:",
+			playerId,
+		);
 
 		if (!playerId && !elo) {
 			console.log("[CS2 Lens] No playerId and no elo, returning null");
@@ -85,7 +94,12 @@ export async function fetchFaceitStats(
 
 		let regional_rank: number | null = null;
 		if (playerId && region && level === 10) {
-			console.log("[CS2 Lens] Fetching regional rank for:", playerId, "region:", region);
+			console.log(
+				"[CS2 Lens] Fetching regional rank for:",
+				playerId,
+				"region:",
+				region,
+			);
 			const rankJson = await sendFetchMessage(
 				`${FACEIT_API_BASE}/rankings/games/cs2/regions/${region}/players/${playerId}`,
 			);
@@ -100,7 +114,14 @@ export async function fetchFaceitStats(
 				}
 			}
 		} else {
-			console.log("[CS2 Lens] Skipping rank fetch - playerId:", !!playerId, "region:", !!region, "level === 10:", level === 10);
+			console.log(
+				"[CS2 Lens] Skipping rank fetch - playerId:",
+				!!playerId,
+				"region:",
+				!!region,
+				"level === 10:",
+				level === 10,
+			);
 		}
 
 		const result = { level, elo, regional_rank, nickname, country, verified };
