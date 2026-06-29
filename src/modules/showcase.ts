@@ -18,12 +18,12 @@ const getPremierTier = (rating: number | null): PremierTier => {
 
 const resolveFaceitSvgFile = (
 	level: number,
-	globalRank: number | null,
+	regionalRank: number | null,
 ): string => {
-	if (globalRank === 1) return "challenger1.svg";
-	if (globalRank === 2) return "challenger2.svg";
-	if (globalRank === 3) return "challenger3.svg";
-	if (level === 10 && globalRank != null && globalRank <= 1000)
+	if (regionalRank === 1) return "challenger1.svg";
+	if (regionalRank === 2) return "challenger2.svg";
+	if (regionalRank === 3) return "challenger3.svg";
+	if (level === 10 && regionalRank != null && regionalRank <= 1000)
 		return "challenger.svg";
 	return `${Math.max(1, level)}.svg`;
 };
@@ -252,7 +252,7 @@ export function appendFaceitBlock(
 	const svgBg = document.createElement("div");
 	svgBg.className = "csl-svg-bg csl-faceit-svg-bg";
 
-	svgBg.style.backgroundImage = `url("${chrome.runtime.getURL(`assets/faceit/${resolveFaceitSvgFile(faceitLevel, faceit.global_rank)}`)}")`;
+	svgBg.style.backgroundImage = `url("${chrome.runtime.getURL(`assets/faceit/${resolveFaceitSvgFile(faceitLevel, faceit.regional_rank)}`)}")`;
 
 	ratingWrapper.append(svgBg);
 

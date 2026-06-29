@@ -1,5 +1,5 @@
 const CSSTATS_BASE_URL = "https://csstats.gg/player";
-const FACITSTATS_API = "https://faceitstats.gg/api/player/details";
+const FACEIT_API_BASE = "https://cs2-lens-proxy.vercel.app/api/faceit";
 
 export interface PremierRating {
 	season: number;
@@ -11,9 +11,10 @@ export interface PremierRating {
 export interface FaceitStats {
 	level: number | null;
 	elo: number | null;
-	global_rank: number | null;
+	regional_rank: number | null;
 	nickname: string | null;
 	country: string | null;
+	verified: boolean;
 }
 
 export interface PlayerStats {
@@ -49,19 +50,65 @@ function sendFetchMessage(url: string): Promise<string | null> {
 export async function fetchFaceitStats(
 	steamId64: string,
 ): Promise<FaceitStats | null> {
-	const json = await sendFetchMessage(`${FACITSTATS_API}/${steamId64}`);
-	if (!json) return null;
+	console.log("[CS2 Lens] fetchFaceitStats steamId64:", steamId64);
+
+	const playerJson = await sendFetchMessage(
+		`${FACEIT_API_BASE}/players?game=cs2&game_player_id=${steamId64}`,
+	);
+	console.log("[CS2 Lens] /players raw response:", playerJson);
+	if (!playerJson) {
+		console.log("[CS2 Lens] /players returned null");
+		return null;
+	}
 
 	try {
-		const data = JSON.parse(json);
-		const level = data?.profile?.cs2_level ?? null;
-		const elo = data?.profile?.cs2_elo ?? null;
-		const global_rank = data?.profile?.global_rank ?? null;
-		const nickname = data?.profile?.nickname ?? null;
-		const country = data?.profile?.country ?? null;
-		if (level !== null || elo !== null)
-			return { level, elo, global_rank, nickname, country };
-	} catch {}
+		const player = JSON.parse(playerJson);
+		console.log("[CS2 Lens] /players parsed:", player);
+
+		const playerId: string | undefined = player?.player_id;
+		const nickname: string | null = player?.nickname ?? null;
+		const country: string | null = player?.country ?? null;
+		const verified: boolean = !!player?.verified;
+		const cs2 = player?.games?.cs2;
+		console.log("[CS2 Lens] cs2 games object:", cs2);
+
+		const level: number | null = cs2?.skill_level ?? null;
+		const elo: number | null = cs2?.faceit_elo ?? null;
+		const region: string | null = cs2?.region ?? null;
+
+		console.log("[CS2 Lens] Extracted - level:", level, "elo:", elo, "region:", region, "playerId:", playerId);
+
+		if (!playerId && !elo) {
+			console.log("[CS2 Lens] No playerId and no elo, returning null");
+			return null;
+		}
+
+		let regional_rank: number | null = null;
+		if (playerId && region && level === 10) {
+			console.log("[CS2 Lens] Fetching regional rank for:", playerId, "region:", region);
+			const rankJson = await sendFetchMessage(
+				`${FACEIT_API_BASE}/rankings/games/cs2/regions/${region}/players/${playerId}`,
+			);
+			console.log("[CS2 Lens] /rankings raw response:", rankJson);
+			if (rankJson) {
+				try {
+					const rankData = JSON.parse(rankJson);
+					console.log("[CS2 Lens] /rankings parsed:", rankData);
+					regional_rank = rankData?.position ?? null;
+				} catch (e) {
+					console.log("[CS2 Lens] /rankings parse error:", e);
+				}
+			}
+		} else {
+			console.log("[CS2 Lens] Skipping rank fetch - playerId:", !!playerId, "region:", !!region, "level === 10:", level === 10);
+		}
+
+		const result = { level, elo, regional_rank, nickname, country, verified };
+		console.log("[CS2 Lens] Returning FaceitStats:", result);
+		return result;
+	} catch (e) {
+		console.log("[CS2 Lens] /players parse error:", e);
+	}
 
 	return null;
 }

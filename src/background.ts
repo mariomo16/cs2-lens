@@ -31,11 +31,15 @@ chrome.runtime.onMessage.addListener((message, _sender, sendResponse) => {
 	if (message.type === "FETCH" && typeof message.url === "string") {
 		(async () => {
 			try {
+				console.log("[CS2 Lens BG] FETCH:", message.url);
 				const res = await fetch(message.url);
+				console.log("[CS2 Lens BG] FETCH status:", res.status, res.statusText);
 				if (!res.ok) throw new Error(`HTTP ${res.status}`);
 				const body = await res.text();
+				console.log("[CS2 Lens BG] FETCH body length:", body.length);
 				sendResponse({ ok: true, body });
-			} catch {
+			} catch (err) {
+				console.log("[CS2 Lens BG] FETCH error:", err);
 				sendResponse({ ok: false });
 			}
 		})();
