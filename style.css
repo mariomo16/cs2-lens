@@ -237,19 +237,21 @@
 	display: inline-flex;
 	align-items: center;
 	gap: 4px;
-	height: 24px;
+	height: 28px;
 	border-radius: 99999px;
-	padding: 2px 6px 2px 10px;
+	padding: 0 4px 0 12px;
 	margin-top: 6px;
-	font-size: 13px;
+	font-size: 14px;
 	font-weight: 700;
-	line-height: 24px;
+	line-height: 28px;
+	overflow: hidden;
 }
 
 .csl-faceit-rank-svg {
-	height: 22px;
+	height: 24px;
 	width: auto;
 	border-radius: 99999px;
+	flex-shrink: 0;
 }
 
 .csl-steamid-container {
