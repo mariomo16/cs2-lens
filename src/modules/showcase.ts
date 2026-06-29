@@ -191,6 +191,14 @@ export function updateFaceitHeader(
 	nameSpan.textContent = faceit.nickname;
 	link.append(nameSpan);
 
+	if (faceit.verified) {
+		const verifiedImg = document.createElement("img");
+		verifiedImg.className = "csl-faceit-verified";
+		verifiedImg.src = chrome.runtime.getURL("assets/faceit/verified.svg");
+		verifiedImg.alt = "Verified";
+		link.append(verifiedImg);
+	}
+
 	infoEl.append(link);
 	infoEl.style.display = "";
 }

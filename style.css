@@ -102,6 +102,11 @@
 	color: rgb(66, 153, 225);
 }
 
+.csl-faceit-verified {
+	height: 16px;
+	width: auto;
+}
+
 .csl-faceit-flag {
 	width: 16px;
 	height: 12px;
