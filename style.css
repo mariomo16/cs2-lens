@@ -227,23 +227,19 @@
 	background: #462c20;
 }
 
-.csl-steamid-container,
-.csl-inv-container {
+.csl-steamid-container {
 	font-size: 14px;
 }
 
-.csl-steamid-container:not(:last-child),
-.csl-inv-container:not(:last-child) {
+.csl-steamid-container:not(:last-child) {
 	margin-bottom: 12px;
 }
 
-.csl-steamid-label,
-.csl-inv-label {
+.csl-steamid-label {
 	color: #898989;
 }
 
-.csl-steamid-value,
-.csl-inv-value {
+.csl-steamid-value {
 	color: #ffffff;
 	margin-left: 6px;
 }

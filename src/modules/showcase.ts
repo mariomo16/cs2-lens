@@ -1,4 +1,5 @@
-import type { FaceitStats, PlayerStats } from "./csstats";
+import type { PlayerStats } from "./csstats";
+import type { FaceitStats } from "./faceit";
 
 interface PremierTier {
 	color: string;

@@ -1,9 +1,5 @@
-import {
-	fetchFaceitStats,
-	fetchPlayerStats,
-	type StatsResponse,
-} from "./modules/csstats";
-import { fetchInventoryValue, type InventoryValue } from "./modules/inventory";
+import { fetchPlayerStats, type StatsResponse } from "./modules/csstats";
+import { fetchFaceitStats } from "./modules/faceit";
 import {
 	appendFaceitBlock,
 	appendFaceitPlaceholder,
@@ -12,7 +8,6 @@ import {
 import {
 	createShowcaseElement,
 	insertElement,
-	insertInventoryValue,
 	insertSteamId,
 } from "./modules/ui";
 
@@ -36,15 +31,12 @@ async function init() {
 	const steamId64 = extractSteamId64();
 	if (!steamId64) return;
 
-	const [result, invValue]: [StatsResponse, InventoryValue] = await Promise.all(
-		[fetchPlayerStats(steamId64), fetchInventoryValue(steamId64)],
-	);
+	const result: StatsResponse = await fetchPlayerStats(steamId64);
 
 	const el = createShowcaseElement(result, steamId64);
 	const bg = el.querySelector(".csl-showcase-content-bg") as HTMLElement;
 
 	insertSteamId(steamId64);
-	insertInventoryValue(invValue);
 	insertElement(el);
 
 	if (result.ok) {

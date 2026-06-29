@@ -15,7 +15,6 @@
 	},
 	"host_permissions": [
 		"https://csstats.gg/*",
-		"https://api.skinport.com/*",
 		"https://cs2-lens-proxy.vercel.app/*"
 	],
 	"content_scripts": [
