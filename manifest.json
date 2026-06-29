@@ -1,6 +1,6 @@
 {
 	"manifest_version": 3,
-	"name": "CS2 Lens Develop",
+	"name": "CS2 Lens",
 	"description": "Chrome extension for CS2 stats and inventory value on Steam profiles",
 	"version": "0.3.0",
 	"icons": {
