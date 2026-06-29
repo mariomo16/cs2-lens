@@ -37,8 +37,8 @@
 				"src/assets/fonts/*.woff2",
 				"public/assets/premier/*.svg",
 				"public/assets/faceit/*.svg",
-				"public/ui/assets/clipboard-document.svg",
-				"public/ui/assets/check.svg"
+				"public/assets/ui/clipboard-document.svg",
+				"public/assets/ui/check.svg"
 			],
 			"matches": ["https://steamcommunity.com/*"]
 		}
