@@ -3,7 +3,7 @@
 	font-family: "Cairo";
 	font-style: normal;
 	font-weight: 800;
-	src: url("chrome-extension://__MSG_@@extension_id__/assets/fonts/cairo-v31-latin-800.woff2")
+	src: url("chrome-extension://__MSG_@@extension_id__/src/assets/fonts/cairo-v31-latin-800.woff2")
 		format("woff2");
 }
 
@@ -12,7 +12,7 @@
 	font-family: "Poppins";
 	font-style: normal;
 	font-weight: 800;
-	src: url("chrome-extension://__MSG_@@extension_id__/assets/fonts/poppins-v24-latin-800.woff2")
+	src: url("chrome-extension://__MSG_@@extension_id__/src/assets/fonts/poppins-v24-latin-800.woff2")
 		format("woff2");
 }
 
@@ -21,7 +21,7 @@
 	font-family: "Roboto Condensed";
 	font-style: normal;
 	font-weight: 400;
-	src: url("chrome-extension://__MSG_@@extension_id__/assets/fonts/roboto-condensed-v31-latin-regular.woff2")
+	src: url("chrome-extension://__MSG_@@extension_id__/src/assets/fonts/roboto-condensed-v31-latin-regular.woff2")
 		format("woff2");
 }
 

@@ -4,9 +4,9 @@
 	"description": "Chrome extension for CS2 stats and inventory value on Steam profiles",
 	"version": "0.3.0",
 	"icons": {
-		"16": "assets/icons/icon512.png",
-		"48": "assets/icons/icon512.png",
-		"128": "assets/icons/icon512.png"
+		"16": "public/assets/icons/icon512.png",
+		"48": "public/assets/icons/icon512.png",
+		"128": "public/assets/icons/icon512.png"
 	},
 	"action": {
 		"default_popup": "src/popup/popup.html"
@@ -27,18 +27,18 @@
 				"https://steamcommunity.com/profiles/*"
 			],
 			"js": ["dist/content.js"],
-			"css": ["src/style.css"],
+			"css": ["src/content/content.css"],
 			"run_at": "document_end"
 		}
 	],
 	"web_accessible_resources": [
 		{
 			"resources": [
-				"assets/fonts/*.woff2",
-				"assets/premier/*.svg",
-				"assets/faceit/*.svg",
-				"assets/clipboard-document.svg",
-				"assets/check.svg"
+				"src/assets/fonts/*.woff2",
+				"public/assets/premier/*.svg",
+				"public/assets/faceit/*.svg",
+				"public/ui/assets/clipboard-document.svg",
+				"public/ui/assets/check.svg"
 			],
 			"matches": ["https://steamcommunity.com/*"]
 		}
