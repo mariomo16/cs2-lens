@@ -223,6 +223,25 @@
 	background: #462c20;
 }
 
+.csl-faceit-rank {
+	display: inline-flex;
+	align-items: center;
+	gap: 4px;
+	height: 24px;
+	border-radius: 99999px;
+	padding: 2px 6px 2px 10px;
+	margin-top: 6px;
+	font-size: 13px;
+	font-weight: 700;
+	line-height: 24px;
+}
+
+.csl-faceit-rank-svg {
+	height: 22px;
+	width: auto;
+	border-radius: 99999px;
+}
+
 .csl-steamid-container {
 	font-size: 14px;
 }

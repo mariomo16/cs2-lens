@@ -252,22 +252,50 @@ export function appendFaceitBlock(
 
 	faceitBlock.innerHTML = "";
 
-	const ratingWrapper = document.createElement("div");
-	ratingWrapper.className = "csl-rating-wrapper";
+	if (faceit.regional_rank != null && faceit.regional_rank <= 1000) {
+		const svgFile = resolveFaceitSvgFile(faceitLevel, faceit.regional_rank);
 
-	const svgBg = document.createElement("div");
-	svgBg.className = "csl-svg-bg csl-faceit-svg-bg";
+		const rankEl = document.createElement("div");
+		rankEl.className = "csl-faceit-rank";
 
-	svgBg.style.backgroundImage = `url("${chrome.runtime.getURL(`assets/faceit/${resolveFaceitSvgFile(faceitLevel, faceit.regional_rank)}`)}")`;
+		if (faceit.regional_rank === 1) {
+			rankEl.style.backgroundColor = "#FFD336";
+		} else if (faceit.regional_rank === 2) {
+			rankEl.style.backgroundColor = "#DEF5FF";
+		} else if (faceit.regional_rank === 3) {
+			rankEl.style.backgroundColor = "#FF7236";
+		} else {
+			rankEl.style.backgroundColor = "#E80128";
+		}
+		rankEl.style.color = "#000";
 
-	ratingWrapper.append(svgBg);
+		const numSpan = document.createElement("span");
+		numSpan.textContent = `#${faceit.regional_rank}`;
+		rankEl.append(numSpan);
+
+		const svgImg = document.createElement("img");
+		svgImg.className = "csl-faceit-rank-svg";
+		svgImg.src = chrome.runtime.getURL(`assets/faceit/${svgFile}`);
+		svgImg.alt = `Challenger ${faceit.regional_rank}`;
+		rankEl.append(svgImg);
+
+		faceitBlock.append(rankEl);
+	} else {
+		const ratingWrapper = document.createElement("div");
+		ratingWrapper.className = "csl-rating-wrapper";
+
+		const svgBg = document.createElement("div");
+		svgBg.className = "csl-svg-bg csl-faceit-svg-bg";
+		svgBg.style.backgroundImage = `url("${chrome.runtime.getURL(`assets/faceit/${resolveFaceitSvgFile(faceitLevel, faceit.regional_rank)}`)}")`;
+
+		ratingWrapper.append(svgBg);
+		faceitBlock.append(ratingWrapper);
+	}
 
 	if (faceit.elo) {
 		const lblEl = document.createElement("div");
 		lblEl.className = "csl-stat-label";
 		lblEl.textContent = `${faceit.elo.toLocaleString()} ELO`;
-		faceitBlock.append(ratingWrapper, lblEl);
-	} else {
-		faceitBlock.append(ratingWrapper);
+		faceitBlock.append(lblEl);
 	}
 }
