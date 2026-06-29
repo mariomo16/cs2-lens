@@ -147,8 +147,8 @@ export function createShowcaseElement(
 }
 
 export function createLoadingSpinner(): HTMLElement {
-	const container = document.createElement("div");
-	container.className = "csl-loading-container";
+	const container = document.createElement("p");
+	container.className = "csl-stats-unavailable";
 
 	const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
 	svg.setAttribute("fill", "currentColor");

@@ -207,6 +207,11 @@
 	text-align: center;
 	color: #96a8c1;
 	font-size: 14px;
+	min-height: 41px;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
 }
 
 .csl-tracking-notice {
@@ -223,16 +228,9 @@
 	background: #462c20;
 }
 
-.csl-loading-container {
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	min-height: 60px;
-}
-
 .csl-loading-spinner {
-	width: 48px;
-	height: 48px;
+	width: 16px;
+	height: 16px;
 }
 
 .csl-faceit-rank {
