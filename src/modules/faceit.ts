@@ -1,4 +1,4 @@
-const FACEIT_API_BASE = "https://cs2-lens-proxy.vercel.app/api/faceit";
+const FACEIT_API_BASE = "https://cs2-vision-proxy.vercel.app/api/faceit";
 
 export interface FaceitStats {
   level: number | null;

@@ -66,7 +66,7 @@ function createRatingDisplay(data: {
   svgBg.style.backgroundImage = `url("${chrome.runtime.getURL(`public/assets/premier/${tier.file}`)}")`;
 
   const ratingVal = document.createElement("div");
-  ratingVal.className = "cs2-lens-premier-rating csl-premier-rating";
+  ratingVal.className = "cs2-vision-premier-rating csl-premier-rating";
   ratingVal.style.color = tier.color;
 
   if (data.rating) {
