@@ -4,7 +4,7 @@
   <img src="./docs/mosaic2.png" alt="CS2 Vision preview on a Steam profile" width="720">
 </picture>
 
-View CS2 stats on Steam: K/D, HLTV rating, winrate, and total matches. Includes integrated Faceit level and Elo tracking.
+View CS2 stats on Steam: K/D, HLTV rating, matches, winrate. Includes integrated Faceit level and Elo tracking.
 
 ## Features
 
