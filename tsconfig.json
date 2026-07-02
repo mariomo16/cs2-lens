@@ -1,15 +1,15 @@
 {
-	"compilerOptions": {
-		"target": "es2022",
-		"module": "es2022",
-		"moduleResolution": "bundler",
-		"strict": true,
-		"outDir": "./dist",
-		"rootDir": "./src",
-		"sourceMap": true,
-		"noEmitOnError": true,
-		"types": ["chrome"]
-	},
-	"include": ["src/**/*.ts", "src/**/*.d.ts"],
-	"exclude": ["node_modules", "dist"]
+  "compilerOptions": {
+    "target": "es2022",
+    "module": "es2022",
+    "moduleResolution": "bundler",
+    "strict": true,
+    "outDir": "./dist",
+    "rootDir": "./src",
+    "sourceMap": true,
+    "noEmitOnError": true,
+    "types": ["chrome"]
+  },
+  "include": ["src/**/*.ts", "src/**/*.d.ts"],
+  "exclude": ["node_modules", "dist"]
 }
