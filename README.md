@@ -1,7 +1,7 @@
-# CS2 Lens
+# CS2 Vision
 
 <picture>
-  <img src="./docs/mosaic2.png" alt="CS2 Lens preview on a Steam profile" width="720">
+  <img src="./docs/mosaic2.png" alt="CS2 Vision preview on a Steam profile" width="720">
 </picture>
 
 Enhance any Steam Community profile with CS2 stats, FACEIT rankings, and (soon) inventory value — all without leaving the page.

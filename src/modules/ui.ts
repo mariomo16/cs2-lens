@@ -56,7 +56,7 @@ export function buildShowcaseShell(steamId64: string): {
 	header.className = "profile_customization_header csl-showcase-header";
 
 	const titleSpan = document.createElement("span");
-	titleSpan.textContent = "CS2 Lens";
+	titleSpan.textContent = "CS2 Vision";
 
 	const faceitInfo = document.createElement("span");
 	faceitInfo.className = "csl-faceit-header-info";
