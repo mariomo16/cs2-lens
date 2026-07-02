@@ -1,7 +1,7 @@
 {
 	"manifest_version": 3,
-	"name": "CS2 Lens",
-	"description": "CS2 Lens enhances any Steam profile page with detailed CS2 stats",
+	"name": "CS2 Vision",
+	"description": "View CS2 stats on Steam: K/D, HLTV rating, winrate, and total matches. Includes integrated Faceit level and Elo tracking.",
 	"version": "0.3.0",
 	"icons": {
 		"16": "public/assets/icons/icon512.png",
