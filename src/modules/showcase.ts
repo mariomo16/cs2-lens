@@ -14,7 +14,7 @@ const getPremierTier = (rating: number | null): PremierTier => {
   if (rating < 20000) return { color: "#8847ff", file: "purple.svg" };
   if (rating < 25000) return { color: "#d32ce6", file: "pink.svg" };
   if (rating < 30000) return { color: "#eb4b4b", file: "red.svg" };
-  return { color: "#e4ae39", file: "gold.svg" };
+  return { color: "#f4ed16", file: "gold.svg" };
 };
 
 const resolveFaceitSvgFile = (
