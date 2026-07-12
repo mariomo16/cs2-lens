@@ -11,6 +11,7 @@ export interface PlayerStats {
   premierRatings: PremierRating[];
   kdRatio: number | null;
   hltvRating: number | null;
+  hsPercent: number | null;
   matches: number | null;
   winRate: number | null;
   trackingDisabled: boolean;
@@ -87,6 +88,7 @@ export async function fetchPlayerStats(
 
   let winRate: number | null = null;
   let matches: number | null = null;
+  let hsPercent: number | null = null;
   const parsePanelValue = (panel: Element): number | null => {
     const el = panel.querySelector("[style*='font-size:34px']");
     if (!el) return null;
@@ -105,6 +107,14 @@ export async function fetchPlayerStats(
           panel.querySelector(".total-value")?.textContent?.trim() ?? "",
           10,
         ) || null;
+    }
+
+    if (heading === "Headshot %") {
+      const el = panel.querySelector("[style*='font-size:34px']");
+      if (el) {
+        const text = el.childNodes[0]?.textContent?.trim().replace("%", "");
+        hsPercent = text ? parseFloat(text) : null;
+      }
     }
   });
 
@@ -153,6 +163,7 @@ export async function fetchPlayerStats(
       premierRatings,
       kdRatio,
       hltvRating,
+      hsPercent,
       matches,
       winRate,
       trackingDisabled,

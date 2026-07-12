@@ -1,5 +1,6 @@
 import type { PlayerStats } from "./csstats";
 import type { FaceitStats } from "./faceit";
+import type { LeetifyStats } from "./leetify";
 
 interface PremierTier {
   color: string;
@@ -8,7 +9,7 @@ interface PremierTier {
 
 const getPremierTier = (rating: number | null): PremierTier => {
   if (!rating) return { color: "#ded6cc", file: "grey.svg" };
-  if (rating < 5000) return { color: "#b0c3d9", file: "grey.svg" };
+  if (rating < 5000) return { color: "#b0c3d9", file: "lightblue.svg" };
   if (rating < 10000) return { color: "#5e98d9", file: "lightblue.svg" };
   if (rating < 15000) return { color: "#4b69ff", file: "blue.svg" };
   if (rating < 20000) return { color: "#8847ff", file: "purple.svg" };
@@ -24,12 +25,7 @@ const resolveFaceitSvgFile = (
   if (regionalRank === 1) return "challenger1.svg";
   if (regionalRank === 2) return "challenger2.svg";
   if (regionalRank === 3) return "challenger3.svg";
-  if (
-    level === 10 &&
-    regionalRank != null &&
-    regionalRank > 3 &&
-    regionalRank <= 1000
-  )
+  if (regionalRank != null && regionalRank > 3 && regionalRank <= 1000)
     return "challenger.svg";
   return `${Math.max(1, level)}.svg`;
 };
@@ -92,77 +88,239 @@ function createRatingDisplay(data: {
   return statBlock;
 }
 
+function createStatValue(value: string, label: string): HTMLDivElement {
+  const block = document.createElement("div");
+  block.className = "csl-grid-stat";
+
+  const valEl = document.createElement("div");
+  valEl.className = "csl-grid-stat-value";
+  valEl.textContent = value;
+
+  const lblEl = document.createElement("div");
+  lblEl.className = "csl-stat-label";
+  lblEl.textContent = label;
+
+  block.append(valEl, lblEl);
+  return block;
+}
+
+function createSectionHeader(title: string): HTMLDivElement {
+  const header = document.createElement("div");
+  header.className = "csl-container-header";
+  header.textContent = title;
+  return header;
+}
+
+function createStatsGrid(): HTMLDivElement {
+  const grid = document.createElement("div");
+  grid.className = "csl-container-stats-grid";
+  return grid;
+}
+
 export function populateStatsBlock(
   block: HTMLElement,
-  stats: PlayerStats,
+  csstats: PlayerStats,
 ): void {
-  const container = document.createElement("div");
-  container.className = "csl-premier-container";
+  const header = createSectionHeader("CSSTATS");
+  const grid = createStatsGrid();
 
-  if (stats.premierRatings.length > 0) {
-    const sortedBySeason = [...stats.premierRatings].sort(
+  if (csstats.premierRatings.length > 0) {
+    const sortedBySeason = [...csstats.premierRatings].sort(
       (a, b) => b.season - a.season,
     );
     const currentPremier = sortedBySeason[0];
-
-    const bestPremier = stats.premierRatings.reduce((max, current) => {
+    const bestPremier = csstats.premierRatings.reduce((max, current) => {
       const maxVal = max.bestRating ?? 0;
       const currentVal = current.bestRating ?? 0;
       return currentVal > maxVal ? current : max;
-    }, stats.premierRatings[0]);
+    }, csstats.premierRatings[0]);
 
-    const displayRatings = [
-      { title: "Current", rating: currentPremier.latestRating },
-      { title: "Best", rating: bestPremier.bestRating },
-    ];
+    const premierRow = document.createElement("div");
+    premierRow.className = "csl-premier-row";
 
-    displayRatings.forEach((data) => {
-      container.append(createRatingDisplay(data));
-    });
+    if (currentPremier.latestRating) {
+      premierRow.append(
+        createRatingDisplay({
+          title: "Current",
+          rating: currentPremier.latestRating,
+        }),
+      );
+    }
+    if (bestPremier.bestRating) {
+      premierRow.append(
+        createRatingDisplay({ title: "Best", rating: bestPremier.bestRating }),
+      );
+    }
+
+    grid.append(premierRow);
   }
 
-  block.append(container);
-
-  const divider = document.createElement("div");
-  divider.className = "csl-divider";
-  block.append(divider);
-
-  const generalStatsContainer = document.createElement("div");
-  generalStatsContainer.className = "csl-general-stats-container";
-
-  const generalStats = [
-    { label: "K/D Ratio", value: stats.kdRatio?.toFixed(2) ?? "0.00" },
-    { label: "HLTV Rating", value: stats.hltvRating?.toFixed(2) ?? "0.00" },
-    { label: "Matches", value: stats.matches ?? 0 },
+  const stats = [
+    { label: "K/D", value: csstats.kdRatio?.toFixed(2) ?? "-" },
+    { label: "HLTV", value: csstats.hltvRating?.toFixed(2) ?? "-" },
+    {
+      label: "HS%",
+      value: csstats.hsPercent ? `${csstats.hsPercent.toFixed(1)}%` : "-",
+    },
+    { label: "Maps", value: csstats.matches?.toLocaleString() ?? "-" },
     {
       label: "Win Rate",
-      value: stats.winRate ? `${stats.winRate.toFixed(0)}%` : "0%",
+      value: csstats.winRate ? `${csstats.winRate.toFixed(0)}%` : "-",
     },
   ];
 
-  generalStats.forEach((stat) => {
-    const statBlock = document.createElement("div");
-    statBlock.className = "csl-general-stat-block";
-
-    const valEl = document.createElement("div");
-    valEl.className = "csl-general-stat-value";
-    valEl.textContent = String(stat.value);
-
-    const lblEl = document.createElement("div");
-    lblEl.className = "csl-stat-label";
-    lblEl.textContent = stat.label;
-
-    statBlock.append(valEl, lblEl);
-    generalStatsContainer.append(statBlock);
+  stats.forEach((s) => {
+    grid.append(createStatValue(s.value, s.label));
   });
 
-  block.append(generalStatsContainer);
+  block.append(header, grid);
 
-  if (stats.trackingDisabled) {
+  if (csstats.trackingDisabled) {
     block.append(createTrackingNotice("disabled"));
-  } else if (stats.trackingInactive) {
+  } else if (csstats.trackingInactive) {
     block.append(createTrackingNotice("inactive"));
   }
+}
+
+export function appendFaceitBlock(
+  block: HTMLElement,
+  faceit: FaceitStats,
+): void {
+  const header = createSectionHeader("FACEIT");
+  const grid = createStatsGrid();
+
+  const topRow = document.createElement("div");
+  topRow.className = "csl-premier-row";
+
+  const level = faceit.level ?? 0;
+  const svgFile =
+    level > 0
+      ? resolveFaceitSvgFile(level, faceit.regional_rank ?? null)
+      : "unranked.svg";
+
+  const statBlock = document.createElement("div");
+  statBlock.className = "csl-premier-stat-block";
+
+  const ratingWrapper = document.createElement("div");
+  ratingWrapper.className = "csl-rating-wrapper";
+
+  const svgBg = document.createElement("div");
+  svgBg.className = "csl-svg-bg";
+  svgBg.style.backgroundImage = `url("${chrome.runtime.getURL(`public/assets/faceit/${svgFile}`)}")`;
+
+  ratingWrapper.append(svgBg);
+  statBlock.append(ratingWrapper);
+
+  if (faceit.elo) {
+    const lblEl = document.createElement("div");
+    lblEl.className = "csl-stat-label";
+    lblEl.textContent = `${faceit.elo.toLocaleString()} ELO`;
+    statBlock.append(lblEl);
+  }
+
+  topRow.append(statBlock);
+
+  if (
+    faceit.regional_rank != null &&
+    faceit.regional_rank >= 1 &&
+    faceit.regional_rank <= 1000
+  ) {
+    const rankEl = document.createElement("div");
+    rankEl.className = "csl-faceit-rank";
+
+    let bgColor = "#E80128";
+    if (faceit.regional_rank === 1) bgColor = "#FFD336";
+    else if (faceit.regional_rank === 2) bgColor = "#DEF5FF";
+    else if (faceit.regional_rank === 3) bgColor = "#FF7236";
+    rankEl.style.backgroundColor = bgColor;
+    rankEl.style.color = "#000";
+
+    const numSpan = document.createElement("span");
+    numSpan.textContent = `#${faceit.regional_rank}`;
+    rankEl.append(numSpan);
+
+    const rankSvg = document.createElement("img");
+    rankSvg.className = "csl-faceit-rank-svg";
+    rankSvg.src = chrome.runtime.getURL(`public/assets/faceit/${svgFile}`);
+    rankSvg.alt = `Challenger ${faceit.regional_rank}`;
+    rankEl.append(rankSvg);
+
+    topRow.append(rankEl);
+  }
+
+  grid.append(topRow);
+
+  const faceitStats = [
+    { label: "HS%", value: "52%" },
+    { label: "K/D", value: "1.12" },
+    { label: "Win Rate", value: "54%" },
+    { label: "Maps", value: "345" },
+    { label: "ADR", value: "86.3" },
+  ];
+
+  faceitStats.forEach((s) => {
+    grid.append(createStatValue(s.value, s.label));
+  });
+
+  const last5Container = document.createElement("div");
+  last5Container.className = "csl-last5-container";
+
+  const last5Title = document.createElement("div");
+  last5Title.className = "csl-stat-label";
+  last5Title.textContent = "LAST 5";
+  last5Container.append(last5Title);
+
+  const row = document.createElement("div");
+  row.className = "csl-last5-row";
+
+  const last5 = ["W", "L", "W", "L", "W"];
+  last5.forEach((res) => {
+    const badge = document.createElement("span");
+    badge.className = `csl-last5-badge csl-last5-${res.toLowerCase()}`;
+    badge.textContent = res;
+    row.append(badge);
+  });
+
+  last5Container.append(row);
+  grid.append(last5Container);
+
+  block.append(header, grid);
+}
+
+export function appendLeetifyBlock(
+  block: HTMLElement,
+  stats: LeetifyStats,
+): void {
+  const header = createSectionHeader("LEETIFY");
+  const grid = createStatsGrid();
+
+  if (stats.name) {
+    const nameEl = document.createElement("div");
+    nameEl.className = "csl-leetify-name";
+    nameEl.textContent = stats.name;
+    block.append(nameEl);
+  }
+
+  const statsList = [
+    { label: "Aim", value: stats.aim ? stats.aim.toFixed(2) : "-" },
+    { label: "Utility", value: stats.utility ? stats.utility.toFixed(2) : "-" },
+    {
+      label: "Positioning",
+      value: stats.positioning ? stats.positioning.toFixed(2) : "-",
+    },
+    { label: "Clutch", value: stats.clutch ? stats.clutch.toFixed(2) : "-" },
+    { label: "Opening", value: stats.opening ? stats.opening.toFixed(2) : "-" },
+    {
+      label: "Rating",
+      value: stats.leetifyRating ? stats.leetifyRating.toFixed(2) : "-",
+    },
+  ];
+
+  statsList.forEach((s) => {
+    grid.append(createStatValue(s.value, s.label));
+  });
+
+  block.append(header, grid);
 }
 
 export function updateFaceitHeader(
@@ -206,110 +364,13 @@ export function updateFaceitHeader(
 }
 
 export function appendFaceitPlaceholder(block: HTMLElement): void {
-  const container = block.querySelector(".csl-premier-container");
-  if (!container) return;
-  if (container.querySelector(".csl-faceit-block")) return;
-
-  const faceitBlock = document.createElement("div");
-  faceitBlock.className = "csl-premier-stat-block csl-faceit-block";
-
-  const ratingWrapper = document.createElement("div");
-  ratingWrapper.className = "csl-rating-wrapper";
-
-  const svgBg = document.createElement("div");
-  svgBg.className = "csl-svg-bg";
-  svgBg.style.backgroundImage = `url("${chrome.runtime.getURL("public/assets/faceit/unranked.svg")}")`;
-
-  ratingWrapper.append(svgBg);
-
-  const lblEl = document.createElement("div");
-  lblEl.className = "csl-stat-label";
-  lblEl.textContent = "Unranked";
-
-  faceitBlock.append(ratingWrapper, lblEl);
-  container.append(faceitBlock);
-}
-
-export function appendFaceitBlock(
-  block: HTMLElement,
-  faceit: FaceitStats,
-): void {
-  const faceitLevel = faceit.level ?? 0;
-  let container = block.querySelector(".csl-premier-container");
-
-  if (!container) {
-    container = document.createElement("div");
-    container.className = "csl-premier-container";
-    block.insertBefore(container, block.querySelector(".csl-divider"));
-    if (!block.querySelector(".csl-divider")) {
-      const divider = document.createElement("div");
-      divider.className = "csl-divider";
-      block.insertBefore(
-        divider,
-        block.querySelector(".csl-general-stats-container"),
-      );
-    }
-  }
-
-  let faceitBlock = container.querySelector(
-    ".csl-faceit-block",
-  ) as HTMLElement | null;
-  if (!faceitBlock) {
-    faceitBlock = document.createElement("div");
-    faceitBlock.className = "csl-premier-stat-block csl-faceit-block";
-    container.append(faceitBlock);
-  }
-
-  faceitBlock.innerHTML = "";
-
-  if (
-    faceit.regional_rank != null &&
-    faceit.regional_rank >= 1 &&
-    faceit.regional_rank <= 1000
-  ) {
-    const svgFile = resolveFaceitSvgFile(faceitLevel, faceit.regional_rank);
-
-    const rankEl = document.createElement("div");
-    rankEl.className = "csl-faceit-rank";
-
-    if (faceit.regional_rank === 1) {
-      rankEl.style.backgroundColor = "#FFD336";
-    } else if (faceit.regional_rank === 2) {
-      rankEl.style.backgroundColor = "#DEF5FF";
-    } else if (faceit.regional_rank === 3) {
-      rankEl.style.backgroundColor = "#FF7236";
-    } else {
-      rankEl.style.backgroundColor = "#E80128";
-    }
-    rankEl.style.color = "#000";
-
-    const numSpan = document.createElement("span");
-    numSpan.textContent = `#${faceit.regional_rank}`;
-    rankEl.append(numSpan);
-
-    const svgImg = document.createElement("img");
-    svgImg.className = "csl-faceit-rank-svg";
-    svgImg.src = chrome.runtime.getURL(`public/assets/faceit/${svgFile}`);
-    svgImg.alt = `Challenger ${faceit.regional_rank}`;
-    rankEl.append(svgImg);
-
-    faceitBlock.append(rankEl);
-  } else {
-    const ratingWrapper = document.createElement("div");
-    ratingWrapper.className = "csl-rating-wrapper";
-
-    const svgBg = document.createElement("div");
-    svgBg.className = "csl-svg-bg csl-faceit-svg-bg";
-    svgBg.style.backgroundImage = `url("${chrome.runtime.getURL(`public/assets/faceit/${resolveFaceitSvgFile(faceitLevel, faceit.regional_rank)}`)}")`;
-
-    ratingWrapper.append(svgBg);
-    faceitBlock.append(ratingWrapper);
-  }
-
-  if (faceit.elo) {
-    const lblEl = document.createElement("div");
-    lblEl.className = "csl-stat-label";
-    lblEl.textContent = `${faceit.elo.toLocaleString()} ELO`;
-    faceitBlock.append(lblEl);
-  }
+  const header = createSectionHeader("FACEIT");
+  header.classList.add("csl-faceit-placeholder-header");
+  const grid = createStatsGrid();
+  grid.classList.add("csl-faceit-placeholder");
+  const row = document.createElement("div");
+  row.className = "csl-loading-row";
+  row.textContent = "Loading...";
+  grid.append(row);
+  block.append(header, grid);
 }

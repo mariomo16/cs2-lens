@@ -47,7 +47,9 @@ export function insertElement(element: HTMLElement): boolean {
 
 export function buildShowcaseShell(steamId64: string): {
   el: HTMLElement;
-  bg: HTMLElement;
+  bg1: HTMLElement;
+  bg2: HTMLElement;
+  bg3: HTMLElement;
 } {
   const el = document.createElement("div");
   el.className = "profile_customization csl-showcase-container";
@@ -108,16 +110,28 @@ export function buildShowcaseShell(steamId64: string): {
   logosWrapper.append(fsggLink);
   header.append(logosWrapper);
 
-  const block = document.createElement("div");
-  block.className = "profile_customization_block";
+  // Create 3 separate showcase_content_bg containers
+  const block1 = document.createElement("div");
+  block1.className = "profile_customization_block";
+  const bg1 = document.createElement("div");
+  bg1.className = "showcase_content_bg csl-showcase-content-bg";
+  block1.append(bg1);
 
-  const bg = document.createElement("div");
-  bg.className = "showcase_content_bg csl-showcase-content-bg";
+  const block2 = document.createElement("div");
+  block2.className = "profile_customization_block";
+  const bg2 = document.createElement("div");
+  bg2.className = "showcase_content_bg csl-showcase-content-bg";
+  block2.append(bg2);
 
-  block.append(bg);
-  el.append(header, block);
+  const block3 = document.createElement("div");
+  block3.className = "profile_customization_block";
+  const bg3 = document.createElement("div");
+  bg3.className = "showcase_content_bg csl-showcase-content-bg";
+  block3.append(bg3);
 
-  return { el, bg };
+  el.append(header, block1, block2, block3);
+
+  return { el, bg1, bg2, bg3 };
 }
 
 const ERROR_MESSAGES: Record<string, string> = {
@@ -131,16 +145,16 @@ export function createShowcaseElement(
   result: StatsResponse,
   steamId64: string,
 ): HTMLElement {
-  const { el, bg } = buildShowcaseShell(steamId64);
+  const { el, bg1 } = buildShowcaseShell(steamId64);
 
   if (result.ok) {
-    populateStatsBlock(bg, result.data);
+    populateStatsBlock(bg1, result.data);
   } else {
     const msg = document.createElement("p");
     msg.className = "csl-stats-unavailable";
     msg.textContent =
       ERROR_MESSAGES[result.error] ?? "Stats are currently unavailable.";
-    bg.append(msg);
+    bg1.append(msg);
   }
 
   return el;

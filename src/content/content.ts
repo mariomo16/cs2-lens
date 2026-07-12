@@ -1,8 +1,10 @@
 import { fetchPlayerStats, type StatsResponse } from "../modules/csstats";
 import { fetchFaceitStats } from "../modules/faceit";
+import { fetchLeetifyStats } from "../modules/leetify";
 import {
   appendFaceitBlock,
   appendFaceitPlaceholder,
+  appendLeetifyBlock,
   populateStatsBlock,
   updateFaceitHeader,
 } from "../modules/showcase";
@@ -35,17 +37,17 @@ async function init() {
 
   insertSteamId(steamId64);
 
-  const { el, bg } = buildShowcaseShell(steamId64);
-  bg.append(createLoadingSpinner());
+  const { el, bg1, bg2, bg3 } = buildShowcaseShell(steamId64);
+  bg1.append(createLoadingSpinner());
   insertElement(el);
 
   const result: StatsResponse = await fetchPlayerStats(steamId64);
 
-  bg.innerHTML = "";
+  bg1.innerHTML = "";
 
   if (result.ok) {
-    populateStatsBlock(bg, result.data);
-    appendFaceitPlaceholder(bg);
+    populateStatsBlock(bg1, result.data);
+    appendFaceitPlaceholder(bg2);
   } else {
     const msg = document.createElement("p");
     msg.className = "csl-stats-unavailable";
@@ -55,14 +57,26 @@ async function init() {
         : result.error === "not_found"
           ? "No matches have been added for this player"
           : "Couldn't load stats from csstats.gg right now. Try refreshing the page.";
-    bg.append(msg);
+    bg1.append(msg);
   }
 
-  fetchFaceitStats(steamId64).then((faceit) => {
-    if (!faceit) return;
-    appendFaceitBlock(bg, faceit);
-    updateFaceitHeader(el, faceit);
-  });
+  await Promise.all([
+    fetchFaceitStats(steamId64).then((faceit) => {
+      if (!faceit) return;
+      const placeholderGrid = bg2.querySelector(".csl-faceit-placeholder");
+      const placeholderHeader = bg2.querySelector(
+        ".csl-faceit-placeholder-header",
+      );
+      if (placeholderGrid) placeholderGrid.remove();
+      if (placeholderHeader) placeholderHeader.remove();
+      appendFaceitBlock(bg2, faceit);
+      updateFaceitHeader(el, faceit);
+    }),
+    fetchLeetifyStats(steamId64).then((leetify) => {
+      if (!leetify) return;
+      appendLeetifyBlock(bg3, leetify);
+    }),
+  ]);
 }
 
 void init();
