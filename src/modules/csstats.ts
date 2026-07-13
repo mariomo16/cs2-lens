@@ -92,7 +92,7 @@ export async function fetchPlayerStats(
   const parsePanelValue = (panel: Element): number | null => {
     const el = panel.querySelector("[style*='font-size:34px']");
     if (!el) return null;
-    const text = el.childNodes[0]?.textContent?.trim();
+    const text = el.textContent?.trim();
     return text ? parseInt(text, 10) : null;
   };
 
@@ -109,10 +109,10 @@ export async function fetchPlayerStats(
         ) || null;
     }
 
-    if (heading === "Headshot %") {
+    if (heading === "HS%") {
       const el = panel.querySelector("[style*='font-size:34px']");
       if (el) {
-        const text = el.childNodes[0]?.textContent?.trim().replace("%", "");
+        const text = el.textContent?.trim().replace("%", "");
         hsPercent = text ? parseFloat(text) : null;
       }
     }

@@ -162,7 +162,7 @@ export function populateStatsBlock(
     { label: "HLTV", value: csstats.hltvRating?.toFixed(2) ?? "-" },
     {
       label: "HS%",
-      value: csstats.hsPercent != null ? `${csstats.hsPercent.toFixed(1)}%` : "-",
+      value: csstats.hsPercent != null ? `${Math.round(csstats.hsPercent)}%` : "-",
     },
     { label: "Maps", value: csstats.matches?.toLocaleString() ?? "-" },
     {
