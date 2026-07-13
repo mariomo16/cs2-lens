@@ -129,10 +129,11 @@ function createStatsGrid(): HTMLDivElement {
 export function populateStatsBlock(
   block: HTMLElement,
   csstats: PlayerStats,
+  playerName?: string,
 ): void {
   const header = createSectionHeader("CSSTATS");
   const nameEl = document.createElement("span");
-  nameEl.textContent = "Player";
+  nameEl.textContent = playerName ?? "Player";
   header.prepend(nameEl);
   const grid = createStatsGrid();
 

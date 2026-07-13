@@ -42,12 +42,15 @@ async function init() {
   bg3.append(createLoadingSpinner());
   insertElement(el);
 
+  const personaName =
+    document.querySelector(".actual_persona_name")?.textContent?.trim() ?? "Player";
+
   const result: StatsResponse = await fetchPlayerStats(steamId64);
 
   bg1.innerHTML = "";
 
   if (result.ok) {
-    populateStatsBlock(bg1, result.data);
+    populateStatsBlock(bg1, result.data, personaName);
   } else {
     const msg = document.createElement("p");
     msg.className = "csl-stats-unavailable";
