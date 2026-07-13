@@ -43,7 +43,7 @@ export async function fetchLeetifyStats(
       utility: s?.utility ?? null,
       clutch: s?.clutch ?? null,
       opening: s?.opening ?? null,
-      leetifyRating: s?.ct_leetify + s?.t_leetify,
+      leetifyRating: data.ranks.leetify ?? null,
     };
   } catch {
     return null;
