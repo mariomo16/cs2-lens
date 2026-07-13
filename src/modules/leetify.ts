@@ -28,22 +28,22 @@ export interface LeetifyStats {
 export async function fetchLeetifyStats(
   steamId64: string,
 ): Promise<LeetifyStats | null> {
-  const url = `${LEETIFY_API_BASE}/v3/profile?steam_id=${steamId64}`;
+  const url = `${LEETIFY_API_BASE}/v3/profile?steam64_id=${steamId64}`;
   const json = await sendFetchMessage(url);
   if (!json) return null;
 
   try {
     const data = JSON.parse(json);
-    const s = data.stats;
+    const s = data.rating;
 
     return {
       name: data.name ?? null,
       aim: s?.aim ?? null,
-      utility: s?.utility ?? null,
       positioning: s?.positioning ?? null,
+      utility: s?.utility ?? null,
       clutch: s?.clutch ?? null,
       opening: s?.opening ?? null,
-      leetifyRating: s?.leetify_rating ?? null,
+      leetifyRating: s?.ct_leetify + s?.t_leetify,
     };
   } catch {
     return null;
