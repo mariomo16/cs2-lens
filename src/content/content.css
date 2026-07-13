@@ -251,6 +251,11 @@
   width: 20px;
   height: 20px;
   flex-shrink: 0;
+  mask-size: contain;
+  mask-repeat: no-repeat;
+  -webkit-mask-size: contain;
+  -webkit-mask-repeat: no-repeat;
+  background-color: currentColor;
 }
 
 .csl-tracking-notice--disabled .csl-tracking-icon {

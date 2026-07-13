@@ -36,17 +36,11 @@ const createTrackingNotice = (
   const notice = document.createElement("div");
   notice.className = `csl-tracking-notice csl-tracking-notice--${type}`;
 
-  const icon = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-  icon.setAttribute("viewBox", "0 0 24 24");
-  icon.setAttribute("fill", "none");
-  icon.setAttribute("stroke", "currentColor");
-  icon.setAttribute("stroke-width", "1.5");
-  icon.classList.add("csl-tracking-icon");
-  const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
-  path.setAttribute("stroke-linecap", "round");
-  path.setAttribute("stroke-linejoin", "round");
-  path.setAttribute("d", "M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0zM12 15.75h.007v.008H12z");
-  icon.append(path);
+  const icon = document.createElement("span");
+  icon.className = "csl-tracking-icon";
+  const svgUrl = chrome.runtime.getURL("public/assets/ui/exclamation-triangle.svg");
+  icon.style.maskImage = `url("${svgUrl}")`;
+  icon.style.webkitMaskImage = `url("${svgUrl}")`;
 
   const text = document.createElement("span");
   text.textContent =
