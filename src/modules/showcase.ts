@@ -146,11 +146,11 @@ export function populateStatsBlock(
   logoLink.href = `https://csstats.gg/`;
   logoLink.target = "_blank";
   logoLink.className = "csstats-logo-link";
-  logoLink.style.fontSize = "11px";
+  logoLink.style.fontSize = "14px";
   logoLink.style.letterSpacing = "normal";
   logoLink.style.textTransform = "none";
-  logoLink.style.display = "inline";
-  logoLink.style.lineHeight = "11px";
+  logoLink.style.display = "inline-block";
+  logoLink.style.lineHeight = "1";
 
   const csText = document.createElement("span");
   csText.textContent = "CS";
