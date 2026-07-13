@@ -471,7 +471,7 @@ export function appendLeetifyBlock(
           : "-",
     },
     {
-      label: "Rating",
+      label: "Leetify Rating",
       value:
         stats.leetifyRating != null
           ? `${stats.leetifyRating >= 0 ? "+" : ""}${stats.leetifyRating.toFixed(2)}`
