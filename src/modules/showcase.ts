@@ -191,17 +191,20 @@ export function appendFaceitBlock(
   const header = createSectionHeader("FACEIT");
   const grid = createStatsGrid();
 
-  const topRow = document.createElement("div");
-  topRow.className = "csl-premier-row";
-
   const level = faceit.level ?? 0;
   const svgFile =
     level > 0
       ? resolveFaceitSvgFile(level, faceit.regional_rank ?? null)
       : "unranked.svg";
 
-  const statBlock = document.createElement("div");
-  statBlock.className = "csl-premier-stat-block";
+  const badgeBlock = document.createElement("div");
+  badgeBlock.className = "csl-grid-stat";
+
+  const badgeValueWrapper = document.createElement("div");
+  badgeValueWrapper.style.display = "flex";
+  badgeValueWrapper.style.alignItems = "center";
+  badgeValueWrapper.style.justifyContent = "center";
+  badgeValueWrapper.style.minHeight = "24px";
 
   if (
     faceit.regional_rank != null &&
@@ -228,7 +231,7 @@ export function appendFaceitBlock(
     rankSvg.alt = `Challenger ${faceit.regional_rank}`;
     rankEl.append(rankSvg);
 
-    statBlock.append(rankEl);
+    badgeValueWrapper.append(rankEl);
   } else {
     const ratingWrapper = document.createElement("div");
     ratingWrapper.className = "csl-rating-wrapper";
@@ -238,19 +241,19 @@ export function appendFaceitBlock(
     svgBg.style.backgroundImage = `url("${chrome.runtime.getURL(`public/assets/faceit/${svgFile}`)}")`;
 
     ratingWrapper.append(svgBg);
-    statBlock.append(ratingWrapper);
+    badgeValueWrapper.append(ratingWrapper);
   }
 
-  if (faceit.elo) {
+  badgeBlock.append(badgeValueWrapper);
+
+  if (faceit.elo != null) {
     const lblEl = document.createElement("div");
     lblEl.className = "csl-stat-label";
     lblEl.textContent = `${faceit.elo.toLocaleString()} ELO`;
-    statBlock.append(lblEl);
+    badgeBlock.append(lblEl);
   }
 
-  topRow.append(statBlock);
-
-  grid.append(topRow);
+  grid.append(badgeBlock);
 
   const faceitStats = [
     { label: "HS%", value: "52%" },
