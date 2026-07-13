@@ -239,15 +239,26 @@
 .csl-tracking-notice {
   margin: 0;
   padding: 6px 10px;
-  text-align: center;
+  display: flex;
+  align-items: center;
+  gap: 6px;
   color: #eceff1;
-  font-size: 12px;
-  background: #3e1d26;
+  font-size: 13px;
   border-radius: 4px;
 }
 
-.csl-tracking-notice--inactive {
-  background: #462c20;
+.csl-tracking-icon {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+}
+
+.csl-tracking-notice--disabled .csl-tracking-icon {
+  color: #ef5350;
+}
+
+.csl-tracking-notice--inactive .csl-tracking-icon {
+  color: #ffca28;
 }
 
 .csl-loading-spinner {
