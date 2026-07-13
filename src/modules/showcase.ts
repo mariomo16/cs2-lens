@@ -203,25 +203,6 @@ export function appendFaceitBlock(
   const statBlock = document.createElement("div");
   statBlock.className = "csl-premier-stat-block";
 
-  const ratingWrapper = document.createElement("div");
-  ratingWrapper.className = "csl-rating-wrapper";
-
-  const svgBg = document.createElement("div");
-  svgBg.className = "csl-svg-bg";
-  svgBg.style.backgroundImage = `url("${chrome.runtime.getURL(`public/assets/faceit/${svgFile}`)}")`;
-
-  ratingWrapper.append(svgBg);
-  statBlock.append(ratingWrapper);
-
-  if (faceit.elo) {
-    const lblEl = document.createElement("div");
-    lblEl.className = "csl-stat-label";
-    lblEl.textContent = `${faceit.elo.toLocaleString()} ELO`;
-    statBlock.append(lblEl);
-  }
-
-  topRow.append(statBlock);
-
   if (
     faceit.regional_rank != null &&
     faceit.regional_rank >= 1 &&
@@ -247,8 +228,27 @@ export function appendFaceitBlock(
     rankSvg.alt = `Challenger ${faceit.regional_rank}`;
     rankEl.append(rankSvg);
 
-    topRow.append(rankEl);
+    statBlock.append(rankEl);
+  } else {
+    const ratingWrapper = document.createElement("div");
+    ratingWrapper.className = "csl-rating-wrapper";
+
+    const svgBg = document.createElement("div");
+    svgBg.className = "csl-svg-bg";
+    svgBg.style.backgroundImage = `url("${chrome.runtime.getURL(`public/assets/faceit/${svgFile}`)}")`;
+
+    ratingWrapper.append(svgBg);
+    statBlock.append(ratingWrapper);
   }
+
+  if (faceit.elo) {
+    const lblEl = document.createElement("div");
+    lblEl.className = "csl-stat-label";
+    lblEl.textContent = `${faceit.elo.toLocaleString()} ELO`;
+    statBlock.append(lblEl);
+  }
+
+  topRow.append(statBlock);
 
   grid.append(topRow);
 
