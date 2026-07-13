@@ -429,3 +429,13 @@
 .csl-faceit-header-link .csl-faceit-header-name:hover {
   filter: brightness(1.3);
 }
+
+.csl-csstats-player-link {
+  color: inherit;
+  text-decoration: none;
+  transition: filter 0.15s;
+}
+
+.csl-csstats-player-link:hover {
+  filter: brightness(1.3);
+}

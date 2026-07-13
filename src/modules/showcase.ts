@@ -136,8 +136,11 @@ export function populateStatsBlock(
 ): void {
   const header = document.createElement("div");
   header.className = "csl-container-header";
-  const nameEl = document.createElement("span");
+  const nameEl = document.createElement("a");
+  nameEl.href = `https://csstats.gg/player/${steamId64 ?? ""}`;
+  nameEl.target = "_blank";
   nameEl.textContent = playerName ?? "Player";
+  nameEl.className = "csl-csstats-player-link";
 
   const logoLink = document.createElement("a");
   logoLink.href = `https://csstats.gg/`;
