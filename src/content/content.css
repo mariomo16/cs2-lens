@@ -388,3 +388,19 @@
 .csl-last5-item-l {
   color: #ef5350;
 }
+
+.csl-faceit-header-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  color: inherit;
+  text-decoration: none;
+}
+
+.csl-faceit-header-name {
+  transition: filter 0.15s;
+}
+
+.csl-faceit-header-link .csl-faceit-header-name:hover {
+  filter: brightness(1.3);
+}
