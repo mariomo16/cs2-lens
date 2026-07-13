@@ -193,9 +193,36 @@ export function appendFaceitBlock(
 ): void {
   const header = createSectionHeader("FACEIT");
   if (faceit.nickname) {
-    const nameEl = document.createElement("span");
-    nameEl.textContent = faceit.nickname;
-    header.prepend(nameEl);
+    const link = document.createElement("a");
+    link.href = `https://www.faceit.com/en/players/${encodeURIComponent(faceit.nickname)}`;
+    link.target = "_blank";
+    link.style.display = "inline-flex";
+    link.style.alignItems = "center";
+    link.style.gap = "4px";
+    link.style.color = "inherit";
+    link.style.textDecoration = "none";
+
+    if (faceit.country) {
+      const flag = document.createElement("img");
+      flag.className = "csl-faceit-flag";
+      flag.src = `https://flagcdn.com/16x12/${faceit.country.toLowerCase()}.png`;
+      flag.alt = faceit.country;
+      link.append(flag);
+    }
+
+    const nameSpan = document.createElement("span");
+    nameSpan.textContent = faceit.nickname;
+    link.append(nameSpan);
+
+    if (faceit.verified) {
+      const verifiedImg = document.createElement("img");
+      verifiedImg.className = "csl-faceit-verified";
+      verifiedImg.src = chrome.runtime.getURL("public/assets/faceit/verified.svg");
+      verifiedImg.alt = "Verified";
+      link.append(verifiedImg);
+    }
+
+    header.prepend(link);
   }
   const grid = createStatsGrid();
 
