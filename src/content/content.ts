@@ -3,7 +3,6 @@ import { fetchFaceitStats } from "../modules/faceit";
 import { fetchLeetifyStats } from "../modules/leetify";
 import {
   appendFaceitBlock,
-  appendFaceitPlaceholder,
   appendLeetifyBlock,
   populateStatsBlock,
   updateFaceitHeader,
@@ -39,6 +38,8 @@ async function init() {
 
   const { el, bg1, bg2, bg3 } = buildShowcaseShell(steamId64);
   bg1.append(createLoadingSpinner());
+  bg2.append(createLoadingSpinner());
+  bg3.append(createLoadingSpinner());
   insertElement(el);
 
   const result: StatsResponse = await fetchPlayerStats(steamId64);
@@ -47,7 +48,6 @@ async function init() {
 
   if (result.ok) {
     populateStatsBlock(bg1, result.data);
-    appendFaceitPlaceholder(bg2);
   } else {
     const msg = document.createElement("p");
     msg.className = "csl-stats-unavailable";
@@ -62,17 +62,13 @@ async function init() {
 
   await Promise.all([
     fetchFaceitStats(steamId64).then((faceit) => {
+      bg2.innerHTML = "";
       if (!faceit) return;
-      const placeholderGrid = bg2.querySelector(".csl-faceit-placeholder");
-      const placeholderHeader = bg2.querySelector(
-        ".csl-faceit-placeholder-header",
-      );
-      if (placeholderGrid) placeholderGrid.remove();
-      if (placeholderHeader) placeholderHeader.remove();
       appendFaceitBlock(bg2, faceit);
       updateFaceitHeader(el, faceit);
     }),
     fetchLeetifyStats(steamId64).then((leetify) => {
+      bg3.innerHTML = "";
       if (!leetify) return;
       appendLeetifyBlock(bg3, leetify);
     }),
