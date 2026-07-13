@@ -369,11 +369,12 @@ export function appendFaceitBlock(
     },
     {
       label: "K/D",
-      value: faceit.kdRatio != null ? faceit.kdRatio.toFixed(2) : "-",
+      value: faceit.kdRatio != null ? Number(faceit.kdRatio).toFixed(2) : "-",
     },
     {
       label: "Win Rate",
-      value: faceit.winRate != null ? `${faceit.winRate.toFixed(0)}%` : "-",
+      value:
+        faceit.winRate != null ? `${Number(faceit.winRate).toFixed(0)}%` : "-",
     },
     { label: "Matches", value: faceit.matches?.toLocaleString() ?? "-" },
     {
