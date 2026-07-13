@@ -158,50 +158,59 @@ export function populateStatsBlock(
     );
   }
 
-  grid.style.display = "flex";
-  grid.style.flexDirection = "column";
-  grid.style.alignItems = "center";
-  grid.style.gap = "12px";
-
-  const topRow = document.createElement("div");
-  topRow.style.display = "flex";
-  topRow.style.justifyContent = "space-evenly";
-  topRow.style.alignItems = "center";
-  topRow.style.width = "100%";
+  grid.style.gridTemplateColumns = "repeat(4, 1fr)";
 
   premierRow.style.marginBottom = "0";
+  premierRow.style.gridColumn = "1 / 3";
+  grid.append(premierRow);
 
-  topRow.append(
-    premierRow,
-    createStatValue(csstats.kdRatio?.toFixed(2) ?? "-", "K/D"),
-    createStatValue(csstats.hltvRating?.toFixed(2) ?? "-", "HLTV"),
+  const kdEl = createStatValue(
+    csstats.kdRatio?.toFixed(2) ?? "-",
+    "K/D",
   );
-  grid.append(topRow);
+  kdEl.style.gridColumn = "3";
+  kdEl.style.gridRow = "1";
+  grid.append(kdEl);
 
-  const bottomRow = document.createElement("div");
-  bottomRow.style.display = "flex";
-  bottomRow.style.justifyContent = "space-evenly";
-  bottomRow.style.width = "100%";
-
-  bottomRow.append(
-    createStatValue(
-      csstats.matches?.toLocaleString() ?? "-",
-      "Matches",
-    ),
-    createStatValue(
-      csstats.winRate != null ? `${csstats.winRate.toFixed(0)}%` : "-",
-      "Win Rate",
-    ),
-    createStatValue(
-      csstats.adr != null ? csstats.adr.toFixed(1) : "-",
-      "ADR",
-    ),
-    createStatValue(
-      csstats.hsPercent != null ? `${Math.round(csstats.hsPercent)}%` : "-",
-      "HS%",
-    ),
+  const hltvEl = createStatValue(
+    csstats.hltvRating?.toFixed(2) ?? "-",
+    "HLTV",
   );
-  grid.append(bottomRow);
+  hltvEl.style.gridColumn = "4";
+  hltvEl.style.gridRow = "1";
+  grid.append(hltvEl);
+
+  const matchesEl = createStatValue(
+    csstats.matches?.toLocaleString() ?? "-",
+    "Matches",
+  );
+  matchesEl.style.gridColumn = "1";
+  matchesEl.style.gridRow = "2";
+  grid.append(matchesEl);
+
+  const winRateEl = createStatValue(
+    csstats.winRate != null ? `${csstats.winRate.toFixed(0)}%` : "-",
+    "Win Rate",
+  );
+  winRateEl.style.gridColumn = "2";
+  winRateEl.style.gridRow = "2";
+  grid.append(winRateEl);
+
+  const adrEl = createStatValue(
+    csstats.adr != null ? csstats.adr.toFixed(1) : "-",
+    "ADR",
+  );
+  adrEl.style.gridColumn = "3";
+  adrEl.style.gridRow = "2";
+  grid.append(adrEl);
+
+  const hsEl = createStatValue(
+    csstats.hsPercent != null ? `${Math.round(csstats.hsPercent)}%` : "-",
+    "HS%",
+  );
+  hsEl.style.gridColumn = "4";
+  hsEl.style.gridRow = "2";
+  grid.append(hsEl);
 
   block.append(header, grid);
 
