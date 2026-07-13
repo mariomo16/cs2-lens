@@ -12,9 +12,9 @@
   ],
   "author": "Mario Ortega",
   "license": "MIT",
-  "packageManager": "pnpm@11.9.0",
+  "packageManager": "pnpm@11.12.0",
   "devDependencies": {
-    "@biomejs/biome": "2.5.2",
+    "@biomejs/biome": "2.5.3",
     "@types/chrome": "^0.2.2",
     "esbuild": "^0.28.1",
     "typescript": "^6.0.3"
