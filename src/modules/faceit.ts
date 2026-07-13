@@ -83,7 +83,7 @@ export async function fetchFaceitStats(
           kdRatio = lifetime?.["Average K/D Ratio"] ?? null;
           winRate = lifetime?.["Win Rate %"] ?? null;
           matches = lifetime?.["Total Matches"] ?? null;
-          adr = lifetime?.adr ?? null;
+          adr = lifetime?.ADR ?? null;
           last5 = lifetime?.["Recent Results"] ?? [];
         } catch {}
       }
