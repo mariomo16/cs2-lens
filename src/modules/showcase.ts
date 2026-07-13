@@ -126,6 +126,9 @@ export function populateStatsBlock(
   const header = createSectionHeader("CSSTATS");
   const grid = createStatsGrid();
 
+  const premierRow = document.createElement("div");
+  premierRow.className = "csl-premier-row";
+
   if (csstats.premierRatings.length > 0) {
     const sortedBySeason = [...csstats.premierRatings].sort(
       (a, b) => b.season - a.season,
@@ -137,37 +140,34 @@ export function populateStatsBlock(
       return currentVal > maxVal ? current : max;
     }, csstats.premierRatings[0]);
 
-    const premierRow = document.createElement("div");
-    premierRow.className = "csl-premier-row";
-
-    if (currentPremier.latestRating) {
-      premierRow.append(
-        createRatingDisplay({
-          title: "Current",
-          rating: currentPremier.latestRating,
-        }),
-      );
-    }
-    if (bestPremier.bestRating) {
-      premierRow.append(
-        createRatingDisplay({ title: "Best", rating: bestPremier.bestRating }),
-      );
-    }
-
-    grid.append(premierRow);
+    premierRow.append(
+      createRatingDisplay({
+        title: "Current",
+        rating: currentPremier.latestRating,
+      }),
+    );
+    premierRow.append(
+      createRatingDisplay({ title: "Best", rating: bestPremier.bestRating }),
+    );
+  } else {
+    premierRow.append(
+      createRatingDisplay({ title: "Unranked", rating: null }),
+    );
   }
+
+  grid.append(premierRow);
 
   const stats = [
     { label: "K/D", value: csstats.kdRatio?.toFixed(2) ?? "-" },
     { label: "HLTV", value: csstats.hltvRating?.toFixed(2) ?? "-" },
     {
       label: "HS%",
-      value: csstats.hsPercent ? `${csstats.hsPercent.toFixed(1)}%` : "-",
+      value: csstats.hsPercent != null ? `${csstats.hsPercent.toFixed(1)}%` : "-",
     },
     { label: "Maps", value: csstats.matches?.toLocaleString() ?? "-" },
     {
       label: "Win Rate",
-      value: csstats.winRate ? `${csstats.winRate.toFixed(0)}%` : "-",
+      value: csstats.winRate != null ? `${csstats.winRate.toFixed(0)}%` : "-",
     },
   ];
 
