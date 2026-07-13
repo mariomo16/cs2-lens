@@ -197,7 +197,7 @@ export function populateStatsBlock(
   grid.append(winRateEl);
 
   const adrEl = createStatValue(
-    csstats.adr != null ? csstats.adr.toFixed(1) : "-",
+    csstats.adr != null ? Math.round(csstats.adr).toString() : "-",
     "ADR",
   );
   adrEl.style.gridColumn = "3";
