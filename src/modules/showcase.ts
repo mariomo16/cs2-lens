@@ -302,17 +302,32 @@ export function appendLeetifyBlock(
   }
 
   const statsList = [
-    { label: "Aim", value: stats.aim ? stats.aim.toFixed(2) : "-" },
-    { label: "Utility", value: stats.utility ? stats.utility.toFixed(2) : "-" },
+    {
+      label: "Aim",
+      value: stats.aim != null ? Math.round(stats.aim).toString() : "-",
+    },
+    {
+      label: "Utility",
+      value: stats.utility != null ? Math.round(stats.utility).toString() : "-",
+    },
     {
       label: "Positioning",
-      value: stats.positioning ? stats.positioning.toFixed(2) : "-",
+      value:
+        stats.positioning != null
+          ? Math.round(stats.positioning).toString()
+          : "-",
     },
-    { label: "Clutch", value: stats.clutch ? stats.clutch.toFixed(2) : "-" },
-    { label: "Opening", value: stats.opening ? stats.opening.toFixed(2) : "-" },
+    {
+      label: "Clutch",
+      value: stats.clutch != null ? (stats.clutch * 100).toFixed(2) : "-",
+    },
+    {
+      label: "Opening",
+      value: stats.opening != null ? (stats.opening * 100).toFixed(2) : "-",
+    },
     {
       label: "Rating",
-      value: stats.leetifyRating ? stats.leetifyRating.toFixed(2) : "-",
+      value: stats.leetifyRating != null ? stats.leetifyRating.toFixed(2) : "-",
     },
   ];
 
