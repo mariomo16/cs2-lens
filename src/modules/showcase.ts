@@ -124,6 +124,9 @@ export function populateStatsBlock(
   csstats: PlayerStats,
 ): void {
   const header = createSectionHeader("CSSTATS");
+  const nameEl = document.createElement("span");
+  nameEl.textContent = "Player";
+  header.prepend(nameEl);
   const grid = createStatsGrid();
 
   const premierRow = document.createElement("div");
@@ -189,6 +192,11 @@ export function appendFaceitBlock(
   faceit: FaceitStats,
 ): void {
   const header = createSectionHeader("FACEIT");
+  if (faceit.nickname) {
+    const nameEl = document.createElement("span");
+    nameEl.textContent = faceit.nickname;
+    header.prepend(nameEl);
+  }
   const grid = createStatsGrid();
 
   const level = faceit.level ?? 0;
