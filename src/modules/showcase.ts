@@ -431,9 +431,12 @@ export function appendLeetifyBlock(
   leetifyLogoLink.style.alignItems = "center";
 
   const leetifyLogo = document.createElement("img");
-  leetifyLogo.src = chrome.runtime.getURL("public/assets/leetify/leetify.svg");
+  leetifyLogo.src = chrome.runtime.getURL(
+    "public/assets/leetify/Leetify Badge White Small.png",
+  );
   leetifyLogo.alt = "Leetify";
-  leetifyLogo.style.height = "13px";
+  leetifyLogo.style.height = "40px";
+  leetifyLogo.style.display = "block";
 
   leetifyLogoLink.append(leetifyLogo);
   header.append(leetifyLogoLink);
