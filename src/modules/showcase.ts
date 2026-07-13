@@ -164,7 +164,7 @@ export function populateStatsBlock(
       label: "HS%",
       value: csstats.hsPercent != null ? `${Math.round(csstats.hsPercent)}%` : "-",
     },
-    { label: "Maps", value: csstats.matches?.toLocaleString() ?? "-" },
+    { label: "Matches", value: csstats.matches?.toLocaleString() ?? "-" },
     {
       label: "Win Rate",
       value: csstats.winRate != null ? `${csstats.winRate.toFixed(0)}%` : "-",
@@ -251,7 +251,7 @@ export function appendFaceitBlock(
     { label: "HS%", value: "52%" },
     { label: "K/D", value: "1.12" },
     { label: "Win Rate", value: "54%" },
-    { label: "Maps", value: "345" },
+    { label: "Matches", value: "345" },
     { label: "ADR", value: "86.3" },
   ];
 
