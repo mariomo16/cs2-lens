@@ -7,6 +7,12 @@ export interface FaceitStats {
   nickname: string | null;
   country: string | null;
   verified: boolean;
+  hsPercent: number | null;
+  kdRatio: number | null;
+  winRate: number | null;
+  matches: number | null;
+  adr: number | null;
+  last5: string[];
 }
 
 function sendFetchMessage(url: string): Promise<string | null> {
@@ -58,7 +64,45 @@ export async function fetchFaceitStats(
       }
     }
 
-    return { level, elo, regional_rank, nickname, country, verified };
+    let hsPercent: number | null = null;
+    let kdRatio: number | null = null;
+    let winRate: number | null = null;
+    let matches: number | null = null;
+    let adr: number | null = null;
+    let last5: string[] = [];
+
+    if (playerId) {
+      const statsJson = await sendFetchMessage(
+        `${FACEIT_API_BASE}/players/${playerId}/stats/cs2`,
+      );
+      if (statsJson) {
+        try {
+          const stats = JSON.parse(statsJson);
+          const lifetime = stats.lifetime;
+          hsPercent = lifetime?.["Average Headshots %"] ?? null;
+          kdRatio = lifetime?.["Average K/D Ratio"] ?? null;
+          winRate = lifetime?.["Win Rate %"] ?? null;
+          matches = lifetime?.["Total Matches"] ?? null;
+          adr = lifetime?.adr ?? null;
+          last5 = lifetime?.["Recent Results"] ?? [];
+        } catch {}
+      }
+    }
+
+    return {
+      level,
+      elo,
+      regional_rank,
+      nickname,
+      country,
+      verified,
+      hsPercent,
+      kdRatio,
+      winRate,
+      matches,
+      adr,
+      last5,
+    };
   } catch {}
 
   return null;
