@@ -254,7 +254,9 @@ export function appendFaceitBlock(
   block: HTMLElement,
   faceit: FaceitStats,
 ): void {
-  const header = createSectionHeader("FACEIT");
+  const header = document.createElement("div");
+  header.className = "csl-container-header";
+
   if (faceit.nickname) {
     const link = document.createElement("a");
     link.href = `https://www.faceit.com/en/players/${encodeURIComponent(faceit.nickname)}`;
@@ -284,8 +286,23 @@ export function appendFaceitBlock(
       link.append(verifiedImg);
     }
 
-    header.prepend(link);
+    header.append(link);
   }
+
+  const faceitLogoLink = document.createElement("a");
+  faceitLogoLink.href = `https://www.faceit.com/`;
+  faceitLogoLink.target = "_blank";
+  faceitLogoLink.className = "csl-fsgg-logo";
+
+  const faceitLogo = document.createElement("img");
+  faceitLogo.src = chrome.runtime.getURL("public/assets/faceit/faceit.svg");
+  faceitLogo.className = "csl-faceit-logo";
+  faceitLogo.alt = "Faceit";
+  faceitLogo.style.height = "11px";
+  faceitLogo.style.background = "none";
+
+  faceitLogoLink.append(faceitLogo);
+  header.append(faceitLogoLink);
   const grid = createStatsGrid();
 
   const level = faceit.level ?? 0;

@@ -66,19 +66,6 @@ export function buildShowcaseShell(): {
 
   header.append(titleSpan, faceitInfo);
 
-  const fsggLink = document.createElement("a");
-  fsggLink.href = `https://www.faceit.com`;
-  fsggLink.target = "_blank";
-  fsggLink.className = "csl-fsgg-logo";
-
-  const faceitLogo = document.createElement("img");
-  faceitLogo.src = chrome.runtime.getURL("public/assets/faceit/faceit.svg");
-  faceitLogo.className = "csl-faceit-logo";
-  faceitLogo.alt = "Faceit";
-
-  fsggLink.append(faceitLogo);
-  header.append(fsggLink);
-
   // Create 3 separate showcase_content_bg containers
   const block1 = document.createElement("div");
   block1.className = "profile_customization_block";
