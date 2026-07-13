@@ -158,25 +158,50 @@ export function populateStatsBlock(
     );
   }
 
-  grid.append(premierRow);
+  grid.style.display = "flex";
+  grid.style.flexDirection = "column";
+  grid.style.alignItems = "center";
+  grid.style.gap = "12px";
 
-  const stats = [
-    { label: "K/D", value: csstats.kdRatio?.toFixed(2) ?? "-" },
-    { label: "HLTV", value: csstats.hltvRating?.toFixed(2) ?? "-" },
-    {
-      label: "HS%",
-      value: csstats.hsPercent != null ? `${Math.round(csstats.hsPercent)}%` : "-",
-    },
-    { label: "Matches", value: csstats.matches?.toLocaleString() ?? "-" },
-    {
-      label: "Win Rate",
-      value: csstats.winRate != null ? `${csstats.winRate.toFixed(0)}%` : "-",
-    },
-  ];
+  const topRow = document.createElement("div");
+  topRow.style.display = "flex";
+  topRow.style.justifyContent = "space-evenly";
+  topRow.style.alignItems = "center";
+  topRow.style.width = "100%";
 
-  stats.forEach((s) => {
-    grid.append(createStatValue(s.value, s.label));
-  });
+  premierRow.style.marginBottom = "0";
+
+  topRow.append(
+    premierRow,
+    createStatValue(csstats.kdRatio?.toFixed(2) ?? "-", "K/D"),
+    createStatValue(csstats.hltvRating?.toFixed(2) ?? "-", "HLTV"),
+  );
+  grid.append(topRow);
+
+  const bottomRow = document.createElement("div");
+  bottomRow.style.display = "flex";
+  bottomRow.style.justifyContent = "space-evenly";
+  bottomRow.style.width = "100%";
+
+  bottomRow.append(
+    createStatValue(
+      csstats.matches?.toLocaleString() ?? "-",
+      "Matches",
+    ),
+    createStatValue(
+      csstats.winRate != null ? `${csstats.winRate.toFixed(0)}%` : "-",
+      "Win Rate",
+    ),
+    createStatValue(
+      csstats.adr != null ? csstats.adr.toFixed(1) : "-",
+      "ADR",
+    ),
+    createStatValue(
+      csstats.hsPercent != null ? `${Math.round(csstats.hsPercent)}%` : "-",
+      "HS%",
+    ),
+  );
+  grid.append(bottomRow);
 
   block.append(header, grid);
 

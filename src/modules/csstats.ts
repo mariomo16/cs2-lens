@@ -14,6 +14,7 @@ export interface PlayerStats {
   hsPercent: number | null;
   matches: number | null;
   winRate: number | null;
+  adr: number | null;
   trackingDisabled: boolean;
   trackingInactive: boolean;
 }
@@ -89,6 +90,7 @@ export async function fetchPlayerStats(
   let winRate: number | null = null;
   let matches: number | null = null;
   let hsPercent: number | null = null;
+  let adr: number | null = null;
   const parsePanelValue = (panel: Element): number | null => {
     const el = panel.querySelector("[style*='font-size:34px']");
     if (!el) return null;
@@ -114,6 +116,14 @@ export async function fetchPlayerStats(
       if (el) {
         const text = el.textContent?.trim().replace("%", "");
         hsPercent = text ? parseFloat(text) : null;
+      }
+    }
+
+    if (heading === "ADR") {
+      const el = panel.querySelector("[style*='font-size:34px']");
+      if (el) {
+        const text = el.textContent?.trim();
+        adr = text ? parseFloat(text) : null;
       }
     }
   });
@@ -166,6 +176,7 @@ export async function fetchPlayerStats(
       hsPercent,
       matches,
       winRate,
+      adr,
       trackingDisabled,
       trackingInactive,
     },
