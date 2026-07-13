@@ -458,15 +458,24 @@ export function appendLeetifyBlock(
     },
     {
       label: "Clutch",
-      value: stats.clutch != null ? (stats.clutch * 100).toFixed(2) : "-",
+      value:
+        stats.clutch != null
+          ? `${stats.clutch >= 0 ? "+" : ""}${(stats.clutch * 100).toFixed(2)}`
+          : "-",
     },
     {
       label: "Opening",
-      value: stats.opening != null ? (stats.opening * 100).toFixed(2) : "-",
+      value:
+        stats.opening != null
+          ? `${stats.opening >= 0 ? "+" : ""}${(stats.opening * 100).toFixed(2)}`
+          : "-",
     },
     {
       label: "Rating",
-      value: stats.leetifyRating != null ? stats.leetifyRating.toFixed(2) : "-",
+      value:
+        stats.leetifyRating != null
+          ? `${stats.leetifyRating >= 0 ? "+" : ""}${stats.leetifyRating.toFixed(2)}`
+          : "-",
     },
   ];
 
