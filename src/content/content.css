@@ -151,6 +151,15 @@
   align-items: center;
 }
 
+.csl-faceit-level-wrapper {
+  position: relative;
+  width: 100px;
+  height: 24px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .csl-svg-bg {
   position: absolute;
   top: 0;

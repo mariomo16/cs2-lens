@@ -260,7 +260,7 @@ export function appendFaceitBlock(
     badgeBlock.append(rankEl);
   } else {
     const ratingWrapper = document.createElement("div");
-    ratingWrapper.className = "csl-rating-wrapper";
+    ratingWrapper.className = "csl-faceit-level-wrapper";
 
     const svgBg = document.createElement("div");
     svgBg.className = "csl-svg-bg";
