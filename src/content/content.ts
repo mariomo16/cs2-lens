@@ -63,13 +63,25 @@ async function init() {
   await Promise.all([
     fetchFaceitStats(steamId64).then((faceit) => {
       bg2.innerHTML = "";
-      if (!faceit) return;
+      if (!faceit) {
+        const msg = document.createElement("p");
+        msg.className = "csl-stats-unavailable";
+        msg.textContent = "This player has no Faceit account linked";
+        bg2.append(msg);
+        return;
+      }
       appendFaceitBlock(bg2, faceit);
       updateFaceitHeader(el, faceit);
     }),
     fetchLeetifyStats(steamId64).then((leetify) => {
       bg3.innerHTML = "";
-      if (!leetify) return;
+      if (!leetify) {
+        const msg = document.createElement("p");
+        msg.className = "csl-stats-unavailable";
+        msg.textContent = "This player has no Leetify profile linked";
+        bg3.append(msg);
+        return;
+      }
       appendLeetifyBlock(bg3, leetify);
     }),
   ]);
