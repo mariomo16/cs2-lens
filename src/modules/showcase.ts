@@ -400,14 +400,30 @@ export function appendLeetifyBlock(
   block: HTMLElement,
   stats: LeetifyStats,
 ): void {
-  const header = createSectionHeader("LEETIFY");
-  const grid = createStatsGrid();
+  const header = document.createElement("div");
+  header.className = "csl-container-header";
 
   if (stats.name) {
     const nameEl = document.createElement("span");
     nameEl.textContent = stats.name;
-    header.prepend(nameEl);
+    header.append(nameEl);
   }
+
+  const leetifyLogoLink = document.createElement("a");
+  leetifyLogoLink.href = `https://leetify.com/`;
+  leetifyLogoLink.target = "_blank";
+  leetifyLogoLink.style.display = "inline-flex";
+  leetifyLogoLink.style.alignItems = "center";
+
+  const leetifyLogo = document.createElement("img");
+  leetifyLogo.src = chrome.runtime.getURL("public/assets/leetify/leetify.svg");
+  leetifyLogo.alt = "Leetify";
+  leetifyLogo.style.height = "13px";
+
+  leetifyLogoLink.append(leetifyLogo);
+  header.append(leetifyLogoLink);
+
+  const grid = createStatsGrid();
 
   const statsList = [
     {
