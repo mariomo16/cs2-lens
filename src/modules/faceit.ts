@@ -84,7 +84,9 @@ export async function fetchFaceitStats(
           winRate = lifetime?.["Win Rate %"] ?? null;
           matches = lifetime?.["Total Matches"] ?? null;
           adr = lifetime?.ADR ?? null;
-          last5 = lifetime?.["Recent Results"] ?? [];
+          last5 = (lifetime?.["Recent Results"] ?? []).map((r: unknown) =>
+            String(r) === "1" ? "W" : "L",
+          );
         } catch {}
       }
     }
