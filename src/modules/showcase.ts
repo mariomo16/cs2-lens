@@ -107,7 +107,9 @@ function createStatValue(value: string, label: string): HTMLDivElement {
 function createSectionHeader(title: string): HTMLDivElement {
   const header = document.createElement("div");
   header.className = "csl-container-header";
-  header.textContent = title;
+  const titleSpan = document.createElement("span");
+  titleSpan.textContent = title;
+  header.append(titleSpan);
   return header;
 }
 
@@ -295,10 +297,9 @@ export function appendLeetifyBlock(
   const grid = createStatsGrid();
 
   if (stats.name) {
-    const nameEl = document.createElement("div");
-    nameEl.className = "csl-leetify-name";
+    const nameEl = document.createElement("span");
     nameEl.textContent = stats.name;
-    block.append(nameEl);
+    header.prepend(nameEl);
   }
 
   const statsList = [
