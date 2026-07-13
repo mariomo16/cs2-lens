@@ -36,7 +36,7 @@ async function init() {
 
   insertSteamId(steamId64);
 
-  const { el, bg1, bg2, bg3 } = buildShowcaseShell(steamId64);
+  const { el, bg1, bg2, bg3 } = buildShowcaseShell();
   bg1.append(createLoadingSpinner());
   bg2.append(createLoadingSpinner());
   bg3.append(createLoadingSpinner());

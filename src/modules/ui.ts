@@ -45,7 +45,7 @@ export function insertElement(element: HTMLElement): boolean {
   return true;
 }
 
-export function buildShowcaseShell(steamId64: string): {
+export function buildShowcaseShell(): {
   el: HTMLElement;
   bg1: HTMLElement;
   bg2: HTMLElement;
@@ -66,36 +66,6 @@ export function buildShowcaseShell(steamId64: string): {
 
   header.append(titleSpan, faceitInfo);
 
-  const logoLink = document.createElement("a");
-  logoLink.href = `https://csstats.gg/player/${steamId64}`;
-  logoLink.target = "_blank";
-  logoLink.className = "csstats-logo-link";
-
-  const csText = document.createElement("span");
-  csText.textContent = "CS";
-  csText.className = "logo-cs";
-
-  const statsText = document.createElement("span");
-  statsText.textContent = "STATS";
-  statsText.className = "logo-stats";
-
-  const ggText = document.createElement("span");
-  ggText.textContent = ".GG";
-  ggText.className = "logo-gg";
-
-  logoLink.append(csText, statsText, ggText);
-
-  const logosWrapper = document.createElement("div");
-  logosWrapper.style.display = "inline-flex";
-  logosWrapper.style.alignItems = "center";
-  logosWrapper.append(logoLink);
-
-  const separator = document.createElement("span");
-  separator.textContent = "|";
-  separator.style.cssText =
-    "color: rgba(255,255,255,0.3); margin: 0 10px; font-size: 1rem; user-select: none;";
-  logosWrapper.append(separator);
-
   const fsggLink = document.createElement("a");
   fsggLink.href = `https://www.faceit.com`;
   fsggLink.target = "_blank";
@@ -107,8 +77,7 @@ export function buildShowcaseShell(steamId64: string): {
   faceitLogo.alt = "Faceit";
 
   fsggLink.append(faceitLogo);
-  logosWrapper.append(fsggLink);
-  header.append(logosWrapper);
+  header.append(fsggLink);
 
   // Create 3 separate showcase_content_bg containers
   const block1 = document.createElement("div");
@@ -145,7 +114,7 @@ export function createShowcaseElement(
   result: StatsResponse,
   steamId64: string,
 ): HTMLElement {
-  const { el, bg1 } = buildShowcaseShell(steamId64);
+  const { el, bg1 } = buildShowcaseShell();
 
   if (result.ok) {
     populateStatsBlock(bg1, result.data, undefined, steamId64);
