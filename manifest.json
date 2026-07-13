@@ -37,7 +37,7 @@
         "src/assets/fonts/*.woff2",
         "public/assets/premier/*.svg",
         "public/assets/faceit/*.svg",
-        "public/assets/leetify/*.svg",
+        "public/assets/leetify/leetify.svg",
         "public/assets/ui/clipboard-document.svg",
         "public/assets/ui/check.svg",
         "public/assets/ui/exclamation-triangle.svg"
