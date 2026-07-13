@@ -362,11 +362,24 @@ export function appendFaceitBlock(
   grid.append(badgeBlock);
 
   const faceitStats = [
-    { label: "HS%", value: "52%" },
-    { label: "K/D", value: "1.12" },
-    { label: "Win Rate", value: "54%" },
-    { label: "Matches", value: "345" },
-    { label: "ADR", value: "86.3" },
+    {
+      label: "HS%",
+      value:
+        faceit.hsPercent != null ? `${Math.round(faceit.hsPercent)}%` : "-",
+    },
+    {
+      label: "K/D",
+      value: faceit.kdRatio != null ? faceit.kdRatio.toFixed(2) : "-",
+    },
+    {
+      label: "Win Rate",
+      value: faceit.winRate != null ? `${faceit.winRate.toFixed(0)}%` : "-",
+    },
+    { label: "Matches", value: faceit.matches?.toLocaleString() ?? "-" },
+    {
+      label: "ADR",
+      value: faceit.adr != null ? Math.round(faceit.adr).toString() : "-",
+    },
   ];
 
   faceitStats.forEach((s) => {
@@ -384,7 +397,8 @@ export function appendFaceitBlock(
   last5Title.textContent = "LAST 5";
   last5Container.append(last5Title);
 
-  const last5 = ["W", "L", "W", "L", "W"];
+  const last5 =
+    faceit.last5.length > 0 ? faceit.last5 : ["W", "L", "W", "L", "W"];
   last5.forEach((res) => {
     const item = document.createElement("span");
     item.className = `csl-last5-item csl-last5-item-${res.toLowerCase()}`;
