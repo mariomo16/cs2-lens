@@ -39,7 +39,8 @@
         "public/assets/premier/*.svg",
         "public/assets/faceit/*.svg",
         "public/assets/ui/clipboard-document.svg",
-        "public/assets/ui/check.svg"
+        "public/assets/ui/check.svg",
+        "public/assets/ui/exclamation-triangle.svg"
       ],
       "matches": ["https://steamcommunity.com/*"]
     }
