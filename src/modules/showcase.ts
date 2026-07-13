@@ -38,7 +38,9 @@ const createTrackingNotice = (
 
   const icon = document.createElement("span");
   icon.className = "csl-tracking-icon";
-  const svgUrl = chrome.runtime.getURL("public/assets/ui/exclamation-triangle.svg");
+  const svgUrl = chrome.runtime.getURL(
+    "public/assets/ui/exclamation-triangle.svg",
+  );
   icon.style.maskImage = `url("${svgUrl}")`;
   icon.style.webkitMaskImage = `url("${svgUrl}")`;
 
@@ -161,9 +163,7 @@ export function populateStatsBlock(
       createRatingDisplay({ title: "Best", rating: bestPremier.bestRating }),
     );
   } else {
-    premierRow.append(
-      createRatingDisplay({ title: "Unranked", rating: null }),
-    );
+    premierRow.append(createRatingDisplay({ title: "Unranked", rating: null }));
   }
 
   grid.style.gridTemplateColumns = "repeat(4, 1fr)";
@@ -172,18 +172,12 @@ export function populateStatsBlock(
   premierRow.style.gridColumn = "1 / 3";
   grid.append(premierRow);
 
-  const kdEl = createStatValue(
-    csstats.kdRatio?.toFixed(2) ?? "-",
-    "K/D",
-  );
+  const kdEl = createStatValue(csstats.kdRatio?.toFixed(2) ?? "-", "K/D");
   kdEl.style.gridColumn = "3";
   kdEl.style.gridRow = "1";
   grid.append(kdEl);
 
-  const hltvEl = createStatValue(
-    csstats.hltvRating?.toFixed(2) ?? "-",
-    "HLTV",
-  );
+  const hltvEl = createStatValue(csstats.hltvRating?.toFixed(2) ?? "-", "HLTV");
   hltvEl.style.gridColumn = "4";
   hltvEl.style.gridRow = "1";
   grid.append(hltvEl);
@@ -256,7 +250,9 @@ export function appendFaceitBlock(
     if (faceit.verified) {
       const verifiedImg = document.createElement("img");
       verifiedImg.className = "csl-faceit-verified";
-      verifiedImg.src = chrome.runtime.getURL("public/assets/faceit/verified.svg");
+      verifiedImg.src = chrome.runtime.getURL(
+        "public/assets/faceit/verified.svg",
+      );
       verifiedImg.alt = "Verified";
       link.append(verifiedImg);
     }
@@ -409,8 +405,7 @@ export function appendLeetifyBlock(
 export function updateFaceitHeader(
   _container: HTMLElement,
   _faceit: FaceitStats,
-): void {
-}
+): void {}
 
 export function appendFaceitPlaceholder(block: HTMLElement): void {
   const header = createSectionHeader("FACEIT");

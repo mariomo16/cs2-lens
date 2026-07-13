@@ -43,7 +43,8 @@ async function init() {
   insertElement(el);
 
   const personaName =
-    document.querySelector(".actual_persona_name")?.textContent?.trim() ?? "Player";
+    document.querySelector(".actual_persona_name")?.textContent?.trim() ??
+    "Player";
 
   const result: StatsResponse = await fetchPlayerStats(steamId64);
 
