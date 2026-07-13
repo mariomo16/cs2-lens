@@ -259,6 +259,9 @@ export function appendFaceitBlock(
     grid.append(createStatValue(s.value, s.label));
   });
 
+  const faceitBody = document.createElement("div");
+  faceitBody.className = "csl-faceit-body";
+
   const last5Container = document.createElement("div");
   last5Container.className = "csl-last5-container";
 
@@ -267,21 +270,16 @@ export function appendFaceitBlock(
   last5Title.textContent = "LAST 5";
   last5Container.append(last5Title);
 
-  const row = document.createElement("div");
-  row.className = "csl-last5-row";
-
   const last5 = ["W", "L", "W", "L", "W"];
   last5.forEach((res) => {
-    const badge = document.createElement("span");
-    badge.className = `csl-last5-badge csl-last5-${res.toLowerCase()}`;
-    badge.textContent = res;
-    row.append(badge);
+    const item = document.createElement("span");
+    item.className = `csl-last5-item csl-last5-item-${res.toLowerCase()}`;
+    item.textContent = res;
+    last5Container.append(item);
   });
 
-  last5Container.append(row);
-  grid.append(last5Container);
-
-  block.append(header, grid);
+  faceitBody.append(grid, last5Container);
+  block.append(header, faceitBody);
 }
 
 export function appendLeetifyBlock(

@@ -360,36 +360,31 @@
   margin-bottom: 16px;
 }
 
+.csl-faceit-body {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 24px;
+}
+
 .csl-last5-container {
-  grid-column: 1 / -1;
-  margin-top: 16px;
-  padding-top: 12px;
-  border-top: 1px solid rgba(255, 255, 255, 0.04);
-}
-
-.csl-last5-row {
   display: flex;
-  justify-content: center;
-  gap: 8px;
-  margin-top: 8px;
-}
-
-.csl-last5-badge {
-  width: 28px;
-  height: 28px;
-  border-radius: 4px;
-  display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: center;
+  gap: 2px;
+  padding-right: 16px;
+  align-self: start;
+}
+
+.csl-last5-item {
   font-size: 12px;
   font-weight: 700;
-  color: #fff;
+  line-height: 1.2;
 }
 
-.csl-last5-badge.csl-last5-w {
-  background: #2e7d32;
+.csl-last5-item-w {
+  color: #4caf50;
 }
 
-.csl-last5-badge.csl-last5-l {
-  background: #c62828;
+.csl-last5-item-l {
+  color: #ef5350;
 }
