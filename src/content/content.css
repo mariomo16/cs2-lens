@@ -145,7 +145,7 @@
 .csl-rating-wrapper {
   position: relative;
   width: 100px;
-  height: 32px;
+  height: 24px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -250,17 +250,17 @@
   display: inline-flex;
   align-items: center;
   gap: 4px;
-  height: 28px;
+  height: 24px;
   border-radius: 99999px;
-  padding: 0 4px 0 12px;
-  font-size: 14px;
+  padding: 0 2px 0 8px;
+  font-size: 12px;
   font-weight: 700;
-  line-height: 28px;
+  line-height: 24px;
   overflow: hidden;
 }
 
 .csl-faceit-rank-svg {
-  height: 24px;
+  height: 20px;
   width: auto;
   border-radius: 99999px;
   flex-shrink: 0;

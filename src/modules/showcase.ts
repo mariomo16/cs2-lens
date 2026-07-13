@@ -200,12 +200,6 @@ export function appendFaceitBlock(
   const badgeBlock = document.createElement("div");
   badgeBlock.className = "csl-grid-stat";
 
-  const badgeValueWrapper = document.createElement("div");
-  badgeValueWrapper.style.display = "flex";
-  badgeValueWrapper.style.alignItems = "center";
-  badgeValueWrapper.style.justifyContent = "center";
-  badgeValueWrapper.style.minHeight = "24px";
-
   if (
     faceit.regional_rank != null &&
     faceit.regional_rank >= 1 &&
@@ -231,7 +225,7 @@ export function appendFaceitBlock(
     rankSvg.alt = `Challenger ${faceit.regional_rank}`;
     rankEl.append(rankSvg);
 
-    badgeValueWrapper.append(rankEl);
+    badgeBlock.append(rankEl);
   } else {
     const ratingWrapper = document.createElement("div");
     ratingWrapper.className = "csl-rating-wrapper";
@@ -241,10 +235,8 @@ export function appendFaceitBlock(
     svgBg.style.backgroundImage = `url("${chrome.runtime.getURL(`public/assets/faceit/${svgFile}`)}")`;
 
     ratingWrapper.append(svgBg);
-    badgeValueWrapper.append(ratingWrapper);
+    badgeBlock.append(ratingWrapper);
   }
-
-  badgeBlock.append(badgeValueWrapper);
 
   if (faceit.elo != null) {
     const lblEl = document.createElement("div");
