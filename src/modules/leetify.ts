@@ -1,4 +1,4 @@
-const LEETIFY_API_BASE = "https://api-public.cs-prod.leetify.com";
+const LEETIFY_API_BASE = "https://cs2-lens-proxy.vercel.app/api/leetify";
 
 function sendFetchMessage(url: string): Promise<string | null> {
   return new Promise((resolve) => {
@@ -28,7 +28,7 @@ export interface LeetifyStats {
 export async function fetchLeetifyStats(
   steamId64: string,
 ): Promise<LeetifyStats | null> {
-  const url = `${LEETIFY_API_BASE}/v3/profile?steam64_id=${steamId64}`;
+  const url = `${LEETIFY_API_BASE}/profile?steam64_id=${steamId64}`;
   const json = await sendFetchMessage(url);
   if (!json) return null;
 

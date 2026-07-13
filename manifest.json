@@ -18,8 +18,7 @@
   },
   "host_permissions": [
     "https://csstats.gg/*",
-    "https://cs2-lens-proxy.vercel.app/*",
-    "https://api-public.cs-prod.leetify.com/*"
+    "https://cs2-lens-proxy.vercel.app/*"
   ],
   "content_scripts": [
     {
