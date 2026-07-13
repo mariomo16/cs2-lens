@@ -51,7 +51,7 @@ async function init() {
   bg1.innerHTML = "";
 
   if (result.ok) {
-    populateStatsBlock(bg1, result.data, personaName);
+    populateStatsBlock(bg1, result.data, personaName, steamId64);
   } else {
     const msg = document.createElement("p");
     msg.className = "csl-stats-unavailable";

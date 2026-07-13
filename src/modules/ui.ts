@@ -148,7 +148,7 @@ export function createShowcaseElement(
   const { el, bg1 } = buildShowcaseShell(steamId64);
 
   if (result.ok) {
-    populateStatsBlock(bg1, result.data);
+    populateStatsBlock(bg1, result.data, undefined, steamId64);
   } else {
     const msg = document.createElement("p");
     msg.className = "csl-stats-unavailable";

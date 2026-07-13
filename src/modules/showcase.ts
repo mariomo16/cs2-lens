@@ -132,11 +132,35 @@ export function populateStatsBlock(
   block: HTMLElement,
   csstats: PlayerStats,
   playerName?: string,
+  steamId64?: string,
 ): void {
-  const header = createSectionHeader("CSSTATS");
+  const header = document.createElement("div");
+  header.className = "csl-container-header";
   const nameEl = document.createElement("span");
   nameEl.textContent = playerName ?? "Player";
-  header.prepend(nameEl);
+
+  const logoLink = document.createElement("a");
+  logoLink.href = `https://csstats.gg/`;
+  logoLink.target = "_blank";
+  logoLink.className = "csstats-logo-link";
+  logoLink.style.fontSize = "11px";
+  logoLink.style.letterSpacing = "normal";
+  logoLink.style.textTransform = "none";
+  logoLink.style.display = "inline";
+  logoLink.style.lineHeight = "11px";
+
+  const csText = document.createElement("span");
+  csText.textContent = "CS";
+  csText.className = "logo-cs";
+  const statsText = document.createElement("span");
+  statsText.textContent = "STATS";
+  statsText.className = "logo-stats";
+  const ggText = document.createElement("span");
+  ggText.textContent = ".GG";
+  ggText.className = "logo-gg";
+  logoLink.append(csText, statsText, ggText);
+
+  header.append(nameEl, logoLink);
   const grid = createStatsGrid();
 
   const premierRow = document.createElement("div");
