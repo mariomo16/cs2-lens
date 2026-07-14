@@ -65,19 +65,19 @@ export function buildShowcaseShell(): {
 
   // Create 3 separate showcase_content_bg containers
   const block1 = document.createElement("div");
-  block1.className = "profile_customization_block";
+  block1.className = "profile_customization_block csl-csstats-block";
   const statsPanel = document.createElement("div");
   statsPanel.className = "showcase_content_bg csl-showcase-content-bg";
   block1.append(statsPanel);
 
   const block2 = document.createElement("div");
-  block2.className = "profile_customization_block";
+  block2.className = "profile_customization_block csl-faceit-block";
   const faceitPanel = document.createElement("div");
   faceitPanel.className = "showcase_content_bg csl-showcase-content-bg";
   block2.append(faceitPanel);
 
   const block3 = document.createElement("div");
-  block3.className = "profile_customization_block";
+  block3.className = "profile_customization_block csl-leetify-block";
   const leetifyPanel = document.createElement("div");
   leetifyPanel.className = "showcase_content_bg csl-showcase-content-bg";
   block3.append(leetifyPanel);
@@ -154,9 +154,7 @@ export function insertSteamId(steamId64: string): void {
   copyBtn.title = "Copy SteamID64";
 
   const copyImg = document.createElement("img");
-  copyImg.src = chrome.runtime.getURL(
-    "assets/ui/clipboard-document.svg",
-  );
+  copyImg.src = chrome.runtime.getURL("assets/ui/clipboard-document.svg");
   copyImg.alt = "Copy";
   copyImg.className = "csl-steamid-copy-icon";
   copyBtn.append(copyImg);
@@ -169,9 +167,7 @@ export function insertSteamId(steamId64: string): void {
     copyBtn.classList.add("csl-steamid-copy--done");
     setTimeout(() => {
       copyBtn.disabled = false;
-      copyImg.src = chrome.runtime.getURL(
-        "assets/ui/clipboard-document.svg",
-      );
+      copyImg.src = chrome.runtime.getURL("assets/ui/clipboard-document.svg");
       copyImg.alt = "Copy";
       copyBtn.classList.remove("csl-steamid-copy--done");
     }, 1500);
