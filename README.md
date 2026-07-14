@@ -23,7 +23,7 @@ View CS2 stats on Steam: K/D, HLTV rating, matches, winrate. Includes integrated
 | Layer    | Choice                         |
 | -------- | ------------------------------ |
 | Runtime  | Chrome Extension (Manifest V3) |
-| Language | TypeScript 6                   |
+| Language | TypeScript 7                   |
 | Bundler  | esbuild                        |
 | Worker   | Service Worker (background.js) |
 | DOM      | Native APIs (no frameworks)    |

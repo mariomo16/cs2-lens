@@ -1,3 +1,5 @@
+import { sendFetchMessage } from "./chrome-message";
+
 const CSSTATS_BASE_URL = "https://csstats.gg/player";
 
 export interface PremierRating {
@@ -22,21 +24,6 @@ export interface PlayerStats {
 export type StatsResponse =
   | { ok: true; data: PlayerStats }
   | { ok: false; error: "private" | "not_found" | "fetch_failed" };
-
-function sendFetchMessage(url: string): Promise<string | null> {
-  return new Promise((resolve) => {
-    chrome.runtime.sendMessage(
-      { type: "FETCH", url },
-      (response: { ok: boolean; body?: string }) => {
-        if (chrome.runtime.lastError || !response?.ok) {
-          resolve(null);
-        } else {
-          resolve(response.body ?? null);
-        }
-      },
-    );
-  });
-}
 
 export async function fetchPlayerStats(
   steamId64: string,

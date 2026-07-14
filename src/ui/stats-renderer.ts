@@ -1,6 +1,6 @@
-import type { PlayerStats } from "./csstats";
-import type { FaceitStats } from "./faceit";
-import type { LeetifyStats } from "./leetify";
+import type { PlayerStats } from "../services/csstats";
+import type { FaceitStats } from "../services/faceit";
+import type { LeetifyStats } from "../services/leetify";
 
 interface PremierTier {
   color: string;
@@ -39,7 +39,7 @@ const createTrackingNotice = (
   const icon = document.createElement("span");
   icon.className = "csl-tracking-icon";
   const svgUrl = chrome.runtime.getURL(
-    "public/assets/ui/exclamation-triangle.svg",
+    "assets/ui/exclamation-triangle.svg",
   );
   icon.style.maskImage = `url("${svgUrl}")`;
   icon.style.webkitMaskImage = `url("${svgUrl}")`;
@@ -68,7 +68,7 @@ function createRatingDisplay(data: {
 
   const svgBg = document.createElement("div");
   svgBg.className = "csl-svg-bg";
-  svgBg.style.backgroundImage = `url("${chrome.runtime.getURL(`public/assets/premier/${tier.file}`)}")`;
+  svgBg.style.backgroundImage = `url("${chrome.runtime.getURL(`assets/premier/${tier.file}`)}")`;
 
   const ratingVal = document.createElement("div");
   ratingVal.className = "cs2-vision-premier-rating csl-premier-rating";
@@ -280,7 +280,7 @@ export function appendFaceitBlock(
       const verifiedImg = document.createElement("img");
       verifiedImg.className = "csl-faceit-verified";
       verifiedImg.src = chrome.runtime.getURL(
-        "public/assets/faceit/verified.svg",
+        "assets/faceit/verified.svg",
       );
       verifiedImg.alt = "Verified";
       link.append(verifiedImg);
@@ -295,7 +295,7 @@ export function appendFaceitBlock(
   faceitLogoLink.className = "csl-fsgg-logo";
 
   const faceitLogo = document.createElement("img");
-  faceitLogo.src = chrome.runtime.getURL("public/assets/faceit/faceit.svg");
+  faceitLogo.src = chrome.runtime.getURL("assets/faceit/faceit.svg");
   faceitLogo.className = "csl-faceit-logo";
   faceitLogo.alt = "Faceit";
   faceitLogo.style.height = "11px";
@@ -335,7 +335,7 @@ export function appendFaceitBlock(
 
     const rankSvg = document.createElement("img");
     rankSvg.className = "csl-faceit-rank-svg";
-    rankSvg.src = chrome.runtime.getURL(`public/assets/faceit/${svgFile}`);
+    rankSvg.src = chrome.runtime.getURL(`assets/faceit/${svgFile}`);
     rankSvg.alt = `Challenger ${faceit.regional_rank}`;
     rankEl.append(rankSvg);
 
@@ -346,7 +346,7 @@ export function appendFaceitBlock(
 
     const svgBg = document.createElement("div");
     svgBg.className = "csl-svg-bg";
-    svgBg.style.backgroundImage = `url("${chrome.runtime.getURL(`public/assets/faceit/${svgFile}`)}")`;
+    svgBg.style.backgroundImage = `url("${chrome.runtime.getURL(`assets/faceit/${svgFile}`)}")`;
 
     ratingWrapper.append(svgBg);
     badgeBlock.append(ratingWrapper);
@@ -481,7 +481,7 @@ export function appendLeetifyBlock(
 
   const leetifyLogo = document.createElement("img");
   leetifyLogo.src = chrome.runtime.getURL(
-    "public/assets/leetify/Leetify Badge White Small.png",
+    "assets/leetify/leetify-badge-white-small.png",
   );
   leetifyLogo.alt = "Leetify";
   leetifyLogo.style.height = "42px";
@@ -497,21 +497,4 @@ export function appendLeetifyBlock(
   body.style.gap = "12px";
   body.append(grid, leetifyLogoLink);
   block.append(body);
-}
-
-export function updateFaceitHeader(
-  _container: HTMLElement,
-  _faceit: FaceitStats,
-): void {}
-
-export function appendFaceitPlaceholder(block: HTMLElement): void {
-  const header = createSectionHeader("FACEIT");
-  header.classList.add("csl-faceit-placeholder-header");
-  const grid = createStatsGrid();
-  grid.classList.add("csl-faceit-placeholder");
-  const row = document.createElement("div");
-  row.className = "csl-loading-row";
-  row.textContent = "Loading...";
-  grid.append(row);
-  block.append(header, grid);
 }

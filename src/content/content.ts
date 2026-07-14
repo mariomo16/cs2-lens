@@ -1,18 +1,17 @@
-import { fetchPlayerStats, type StatsResponse } from "../modules/csstats";
-import { fetchFaceitStats } from "../modules/faceit";
-import { fetchLeetifyStats } from "../modules/leetify";
-import {
-  appendFaceitBlock,
-  appendLeetifyBlock,
-  populateStatsBlock,
-  updateFaceitHeader,
-} from "../modules/showcase";
+import { fetchPlayerStats, type StatsResponse } from "../services/csstats";
+import { fetchFaceitStats } from "../services/faceit";
+import { fetchLeetifyStats } from "../services/leetify";
 import {
   buildShowcaseShell,
   createLoadingSpinner,
   insertElement,
   insertSteamId,
-} from "../modules/ui";
+} from "../ui/dom";
+import {
+  appendFaceitBlock,
+  appendLeetifyBlock,
+  populateStatsBlock,
+} from "../ui/stats-renderer";
 
 function extractSteamId64(): string | null {
   const scripts = document.querySelectorAll("script");
@@ -36,11 +35,12 @@ async function init() {
 
   insertSteamId(steamId64);
 
-  const { el, bg1, bg2, bg3 } = buildShowcaseShell();
-  bg1.append(createLoadingSpinner());
-  bg2.append(createLoadingSpinner());
-  bg3.append(createLoadingSpinner());
-  insertElement(el);
+  const { container, statsPanel, faceitPanel, leetifyPanel } =
+    buildShowcaseShell();
+  statsPanel.append(createLoadingSpinner());
+  faceitPanel.append(createLoadingSpinner());
+  leetifyPanel.append(createLoadingSpinner());
+  insertElement(container);
 
   const personaName =
     document.querySelector(".actual_persona_name")?.textContent?.trim() ??
@@ -48,10 +48,10 @@ async function init() {
 
   const result: StatsResponse = await fetchPlayerStats(steamId64);
 
-  bg1.innerHTML = "";
+  statsPanel.innerHTML = "";
 
   if (result.ok) {
-    populateStatsBlock(bg1, result.data, personaName, steamId64);
+    populateStatsBlock(statsPanel, result.data, personaName, steamId64);
   } else {
     const msg = document.createElement("p");
     msg.className = "csl-stats-unavailable";
@@ -61,32 +61,31 @@ async function init() {
         : result.error === "not_found"
           ? "No matches have been added for this player"
           : "Couldn't load stats from csstats.gg right now. Try refreshing the page.";
-    bg1.append(msg);
+    statsPanel.append(msg);
   }
 
   await Promise.all([
     fetchFaceitStats(steamId64).then((faceit) => {
-      bg2.innerHTML = "";
+      faceitPanel.innerHTML = "";
       if (!faceit) {
         const msg = document.createElement("p");
         msg.className = "csl-stats-unavailable";
         msg.textContent = "This player has no Faceit account linked";
-        bg2.append(msg);
+        faceitPanel.append(msg);
         return;
       }
-      appendFaceitBlock(bg2, faceit);
-      updateFaceitHeader(el, faceit);
+      appendFaceitBlock(faceitPanel, faceit);
     }),
     fetchLeetifyStats(steamId64).then((leetify) => {
-      bg3.innerHTML = "";
+      leetifyPanel.innerHTML = "";
       if (!leetify) {
         const msg = document.createElement("p");
         msg.className = "csl-stats-unavailable";
         msg.textContent = "This player has no Leetify profile linked";
-        bg3.append(msg);
+        leetifyPanel.append(msg);
         return;
       }
-      appendLeetifyBlock(bg3, leetify);
+      appendLeetifyBlock(leetifyPanel, leetify);
     }),
   ]);
 }

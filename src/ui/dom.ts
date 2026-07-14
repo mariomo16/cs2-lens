@@ -1,6 +1,3 @@
-import type { StatsResponse } from "./csstats";
-import { populateStatsBlock } from "./showcase";
-
 type InsertMode = "prepend" | "append" | "after";
 
 interface InsertionCandidate {
@@ -46,13 +43,13 @@ export function insertElement(element: HTMLElement): boolean {
 }
 
 export function buildShowcaseShell(): {
-  el: HTMLElement;
-  bg1: HTMLElement;
-  bg2: HTMLElement;
-  bg3: HTMLElement;
+  container: HTMLElement;
+  statsPanel: HTMLElement;
+  faceitPanel: HTMLElement;
+  leetifyPanel: HTMLElement;
 } {
-  const el = document.createElement("div");
-  el.className = "profile_customization csl-showcase-container";
+  const container = document.createElement("div");
+  container.className = "profile_customization csl-showcase-container";
 
   const header = document.createElement("div");
   header.className = "profile_customization_header csl-showcase-header";
@@ -69,51 +66,25 @@ export function buildShowcaseShell(): {
   // Create 3 separate showcase_content_bg containers
   const block1 = document.createElement("div");
   block1.className = "profile_customization_block";
-  const bg1 = document.createElement("div");
-  bg1.className = "showcase_content_bg csl-showcase-content-bg";
-  block1.append(bg1);
+  const statsPanel = document.createElement("div");
+  statsPanel.className = "showcase_content_bg csl-showcase-content-bg";
+  block1.append(statsPanel);
 
   const block2 = document.createElement("div");
   block2.className = "profile_customization_block";
-  const bg2 = document.createElement("div");
-  bg2.className = "showcase_content_bg csl-showcase-content-bg";
-  block2.append(bg2);
+  const faceitPanel = document.createElement("div");
+  faceitPanel.className = "showcase_content_bg csl-showcase-content-bg";
+  block2.append(faceitPanel);
 
   const block3 = document.createElement("div");
   block3.className = "profile_customization_block";
-  const bg3 = document.createElement("div");
-  bg3.className = "showcase_content_bg csl-showcase-content-bg";
-  block3.append(bg3);
+  const leetifyPanel = document.createElement("div");
+  leetifyPanel.className = "showcase_content_bg csl-showcase-content-bg";
+  block3.append(leetifyPanel);
 
-  el.append(header, block1, block2, block3);
+  container.append(header, block1, block2, block3);
 
-  return { el, bg1, bg2, bg3 };
-}
-
-const ERROR_MESSAGES: Record<string, string> = {
-  private: "This profile has been set to private",
-  not_found: "No matches have been added for this player",
-  fetch_failed:
-    "Couldn't load stats from csstats.gg right now. Try refreshing the page.",
-};
-
-export function createShowcaseElement(
-  result: StatsResponse,
-  steamId64: string,
-): HTMLElement {
-  const { el, bg1 } = buildShowcaseShell();
-
-  if (result.ok) {
-    populateStatsBlock(bg1, result.data, undefined, steamId64);
-  } else {
-    const msg = document.createElement("p");
-    msg.className = "csl-stats-unavailable";
-    msg.textContent =
-      ERROR_MESSAGES[result.error] ?? "Stats are currently unavailable.";
-    bg1.append(msg);
-  }
-
-  return el;
+  return { container, statsPanel, faceitPanel, leetifyPanel };
 }
 
 export function createLoadingSpinner(): HTMLElement {
@@ -184,7 +155,7 @@ export function insertSteamId(steamId64: string): void {
 
   const copyImg = document.createElement("img");
   copyImg.src = chrome.runtime.getURL(
-    "public/assets/ui/clipboard-document.svg",
+    "assets/ui/clipboard-document.svg",
   );
   copyImg.alt = "Copy";
   copyImg.className = "csl-steamid-copy-icon";
@@ -193,13 +164,13 @@ export function insertSteamId(steamId64: string): void {
   copyBtn.addEventListener("click", () => {
     navigator.clipboard.writeText(steamId64).catch(() => {});
     copyBtn.disabled = true;
-    copyImg.src = chrome.runtime.getURL("public/assets/ui/check.svg");
+    copyImg.src = chrome.runtime.getURL("assets/ui/check.svg");
     copyImg.alt = "Copied";
     copyBtn.classList.add("csl-steamid-copy--done");
     setTimeout(() => {
       copyBtn.disabled = false;
       copyImg.src = chrome.runtime.getURL(
-        "public/assets/ui/clipboard-document.svg",
+        "assets/ui/clipboard-document.svg",
       );
       copyImg.alt = "Copy";
       copyBtn.classList.remove("csl-steamid-copy--done");

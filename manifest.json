@@ -4,14 +4,13 @@
   "description": "View CS2 stats on Steam: K/D, HLTV rating, winrate, total matches and much more. Includes Faceit and Leetify data.",
   "version": "0.4.0",
   "icons": {
-    "16": "public/assets/icons/icon512.png",
-    "48": "public/assets/icons/icon512.png",
-    "128": "public/assets/icons/icon512.png"
+    "16": "assets/icons/icon512.png",
+    "48": "assets/icons/icon512.png",
+    "128": "assets/icons/icon512.png"
   },
   "action": {
     "default_popup": "src/popup/popup.html"
   },
-  "permissions": [],
   "background": {
     "service_worker": "dist/background.js",
     "type": "module"
@@ -34,13 +33,13 @@
   "web_accessible_resources": [
     {
       "resources": [
-        "src/assets/fonts/*.woff2",
-        "public/assets/premier/*.svg",
-        "public/assets/faceit/*.svg",
-        "public/assets/leetify/*.png",
-        "public/assets/ui/clipboard-document.svg",
-        "public/assets/ui/check.svg",
-        "public/assets/ui/exclamation-triangle.svg"
+        "assets/fonts/*.woff2",
+        "assets/premier/*.svg",
+        "assets/faceit/*.svg",
+        "assets/leetify/*.png",
+        "assets/ui/clipboard-document.svg",
+        "assets/ui/check.svg",
+        "assets/ui/exclamation-triangle.svg"
       ],
       "matches": ["https://steamcommunity.com/*"]
     }
