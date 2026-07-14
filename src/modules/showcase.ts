@@ -417,7 +417,20 @@ export function appendLeetifyBlock(
 ): void {
   const grid = createStatsGrid();
 
-  const statsList = [
+  const signedStats: {
+    label: string;
+    num: number | null;
+    fmt: (v: number) => string;
+  }[] = [
+    { label: "Clutch", num: stats.clutch, fmt: (v) => (v * 100).toFixed(2) },
+    { label: "Opening", num: stats.opening, fmt: (v) => (v * 100).toFixed(2) },
+    {
+      label: "Leetify Rating",
+      num: stats.leetifyRating,
+      fmt: (v) => v.toFixed(2),
+    },
+  ];
+  const plainStats: { label: string; value: string }[] = [
     {
       label: "Aim",
       value: stats.aim != null ? Math.round(stats.aim).toString() : "-",
@@ -433,31 +446,29 @@ export function appendLeetifyBlock(
           ? Math.round(stats.positioning).toString()
           : "-",
     },
-    {
-      label: "Clutch",
-      value:
-        stats.clutch != null
-          ? `${stats.clutch >= 0 ? "+" : ""}${(stats.clutch * 100).toFixed(2)}`
-          : "-",
-    },
-    {
-      label: "Opening",
-      value:
-        stats.opening != null
-          ? `${stats.opening >= 0 ? "+" : ""}${(stats.opening * 100).toFixed(2)}`
-          : "-",
-    },
-    {
-      label: "Leetify Rating",
-      value:
-        stats.leetifyRating != null
-          ? `${stats.leetifyRating >= 0 ? "+" : ""}${stats.leetifyRating.toFixed(2)}`
-          : "-",
-    },
   ];
 
-  statsList.forEach((s) => {
-    grid.append(createStatValue(s.value, s.label));
+  plainStats.forEach((s) => grid.append(createStatValue(s.value, s.label)));
+
+  signedStats.forEach((s) => {
+    if (s.num == null) {
+      grid.append(createStatValue("-", s.label));
+      return;
+    }
+    const block = document.createElement("div");
+    block.className = "csl-grid-stat";
+
+    const valEl = document.createElement("div");
+    valEl.className = "csl-grid-stat-value";
+    if (s.num >= 0) valEl.dataset.sign = "+";
+    valEl.textContent = s.fmt(s.num);
+
+    const lblEl = document.createElement("div");
+    lblEl.className = "csl-stat-label";
+    lblEl.textContent = s.label;
+
+    block.append(valEl, lblEl);
+    grid.append(block);
   });
 
   const leetifyLogoLink = document.createElement("a");

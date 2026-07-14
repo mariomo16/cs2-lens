@@ -378,6 +378,16 @@
   line-height: 1.2;
 }
 
+.csl-grid-stat-value[data-sign] {
+  position: relative;
+}
+
+.csl-grid-stat-value[data-sign]::before {
+  content: attr(data-sign);
+  position: absolute;
+  right: 100%;
+}
+
 .csl-premier-row {
   display: flex;
   justify-content: center;
