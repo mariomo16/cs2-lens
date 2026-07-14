@@ -1,7 +1,7 @@
 {
   "name": "cs2-vision",
-  "version": "0.3.0",
-  "description": "Inject real-time CS2 stats and Faceit data into Steam profiles",
+  "version": "0.4.0",
+  "description": "Inject real-time csstats, Faceit and Leetify data into Steam profiles",
   "scripts": {
     "build": "node build.js"
   },
@@ -12,12 +12,12 @@
   ],
   "author": "Mario Ortega",
   "license": "MIT",
-  "packageManager": "pnpm@11.9.0",
+  "packageManager": "pnpm@11.13.0",
   "devDependencies": {
-    "@biomejs/biome": "2.5.2",
+    "@biomejs/biome": "2.5.3",
     "@types/chrome": "^0.2.2",
     "esbuild": "^0.28.1",
-    "typescript": "^6.0.3"
+    "typescript": "^7.0.2"
   },
   "type": "module"
 }
