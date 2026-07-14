@@ -415,32 +415,6 @@ export function appendLeetifyBlock(
   block: HTMLElement,
   stats: LeetifyStats,
 ): void {
-  const header = document.createElement("div");
-  header.className = "csl-container-header";
-
-  if (stats.name) {
-    const nameEl = document.createElement("span");
-    nameEl.textContent = stats.name;
-    header.append(nameEl);
-  }
-
-  const leetifyLogoLink = document.createElement("a");
-  leetifyLogoLink.href = `https://leetify.com/`;
-  leetifyLogoLink.target = "_blank";
-  leetifyLogoLink.style.display = "inline-flex";
-  leetifyLogoLink.style.alignItems = "center";
-
-  const leetifyLogo = document.createElement("img");
-  leetifyLogo.src = chrome.runtime.getURL(
-    "public/assets/leetify/Leetify Badge White Small.png",
-  );
-  leetifyLogo.alt = "Leetify";
-  leetifyLogo.style.height = "40px";
-  leetifyLogo.style.display = "block";
-
-  leetifyLogoLink.append(leetifyLogo);
-  header.append(leetifyLogoLink);
-
   const grid = createStatsGrid();
 
   const statsList = [
@@ -486,7 +460,30 @@ export function appendLeetifyBlock(
     grid.append(createStatValue(s.value, s.label));
   });
 
-  block.append(header, grid);
+  const leetifyLogoLink = document.createElement("a");
+  leetifyLogoLink.href = "https://leetify.com/";
+  leetifyLogoLink.target = "_blank";
+  leetifyLogoLink.style.display = "flex";
+  leetifyLogoLink.style.alignItems = "center";
+
+  const leetifyLogo = document.createElement("img");
+  leetifyLogo.src = chrome.runtime.getURL(
+    "public/assets/leetify/Leetify Badge White Small.png",
+  );
+  leetifyLogo.alt = "Leetify";
+  leetifyLogo.style.height = "42px";
+  leetifyLogo.style.display = "block";
+
+  leetifyLogoLink.append(leetifyLogo);
+
+  grid.style.flex = "1";
+
+  const body = document.createElement("div");
+  body.style.display = "flex";
+  body.style.alignItems = "center";
+  body.style.gap = "12px";
+  body.append(grid, leetifyLogoLink);
+  block.append(body);
 }
 
 export function updateFaceitHeader(
