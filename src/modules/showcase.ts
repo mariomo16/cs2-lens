@@ -448,7 +448,9 @@ export function appendLeetifyBlock(
     },
   ];
 
-  plainStats.forEach((s) => grid.append(createStatValue(s.value, s.label)));
+  plainStats.forEach((s) => {
+    grid.append(createStatValue(s.value, s.label));
+  });
 
   signedStats.forEach((s) => {
     if (s.num == null) {
